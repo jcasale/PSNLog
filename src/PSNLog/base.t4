@@ -1,0 +1,151 @@
+<#@ assembly name="%USERPROFILE%\.nuget\packages\nlog\5.0.4\lib\net46\NLog.dll" #>
+<#@ assembly name="%USERPROFILE%\.nuget\packages\nlog.database\5.0.4\lib\net46\NLog.Database.dll" #>
+<#@ assembly name="System.Xml.dll" #>
+<#@ import namespace="System" #>
+<#@ import namespace="System.CodeDom" #>
+<#@ import namespace="System.Collections" #>
+<#@ import namespace="System.Collections.Generic" #>
+<#@ import namespace="System.IO" #>
+<#@ import namespace="System.Linq" #>
+<#@ import namespace="System.Reflection" #>
+<#@ import namespace="System.Text" #>
+<#@ import namespace="System.Text.RegularExpressions" #>
+<#@ import namespace="System.Xml" #>
+<#@ import namespace="Microsoft.CSharp" #>
+<#+
+public static string UserProfile { get; } = Environment.GetEnvironmentVariable("USERPROFILE") ?? throw new InvalidOperationException();
+
+public static string[] XmlPaths { get; } =
+    {
+        Path.Combine(UserProfile, @".nuget\packages\nlog\5.0.4\lib\net46\NLog.xml"),
+        Path.Combine(UserProfile, @".nuget\packages\nlog.database\5.0.4\lib\net46\NLog.Database.xml")
+    };
+
+public static Type[] NLogTypes { get; } = Assembly.GetAssembly(typeof(NLog.Targets.Target)).GetTypes()
+    .Concat(Assembly.GetAssembly(typeof(NLog.Targets.DatabaseTarget)).GetTypes())
+    .ToArray();
+
+public static Lazy<IDictionary<string, string>> SummaryMap = new(
+    () =>
+    {
+        var map = new Dictionary<string, string>(StringComparer.Ordinal);
+
+        foreach (var path in XmlPaths)
+        {
+            foreach (var kvp in GetXmlMembers(path))
+            {
+                map[kvp.Key] = kvp.Value;
+            }
+        }
+
+        return map;
+    });
+
+public static IEnumerable<PropertyData> GetProperties<T>()
+    where T : class
+{
+    var bindingFlags = BindingFlags.Public | BindingFlags.Instance;
+    var properties = typeof(T).GetProperties(bindingFlags)
+        .Where(p => p.CanWrite)
+        .OrderBy(p => p.Name);
+
+    using var provider = new CSharpCodeProvider();
+
+    foreach (var property in properties)
+    {
+        if (property.GetCustomAttribute<ObsoleteAttribute>() is not null)
+        {
+            continue;
+        }
+
+        var isCollection = property.PropertyType.GetInterfaces().Any(p => p.IsGenericType && p.GetGenericTypeDefinition() == typeof(ICollection<>));
+        var isNullable = property.PropertyType.IsGenericType && property.PropertyType.GetGenericTypeDefinition() == typeof(Nullable<>);
+        var type = isCollection || isNullable ? property.PropertyType.GetGenericArguments().Single() : property.PropertyType;
+
+        var typeReference = new CodeTypeReference(type);
+        var alias = provider.GetTypeOutput(typeReference);
+
+        var classes = NLogTypes
+            .Where(p => typeof(T).IsSubclassOf(p) || typeof(T) == p)
+            .OrderBy(p => typeof(T) == p);
+
+        string summary = default;
+
+        foreach (var cls in classes)
+        {
+            var key = $"P:{cls.FullName}.{property.Name}";
+            SummaryMap.Value.TryGetValue(key, out summary);
+
+            if (!string.IsNullOrWhiteSpace(summary))
+            {
+                break;
+            }
+        }
+
+        yield return new PropertyData
+        {
+            Name = property.Name,
+            Type = type,
+            Alias = alias,
+            Summary = string.IsNullOrEmpty(summary) ? " " : summary,
+            HasGetMethod = property.GetGetMethod() is not null,
+            HasSetMethod = property.GetSetMethod() is not null,
+            IsCollection = isCollection,
+            IsNullable = isNullable
+        };
+    }
+}
+
+private static IEnumerable<KeyValuePair<string, string>> GetXmlMembers(string path)
+{
+    if (string.IsNullOrWhiteSpace(path))
+    {
+        throw new ArgumentException("Value cannot be null or whitespace.", nameof(path));
+    }
+
+    var document = new XmlDocument();
+    document.Load(path);
+    var root = document.DocumentElement ?? throw new InvalidOperationException();
+    var elements = root.SelectNodes("//member[@name]") ?? throw new InvalidOperationException();
+
+    foreach (XmlElement element in elements)
+    {
+        var name = element.GetAttribute("name");
+        if (string.IsNullOrWhiteSpace(name))
+        {
+            throw new InvalidOperationException();
+        }
+
+        string summary = null;
+
+        foreach (XmlElement child in element.GetElementsByTagName("summary"))
+        {
+            if (!string.IsNullOrWhiteSpace(name))
+            {
+                summary = Regex.Replace(child.InnerText, @"\s+", " ", RegexOptions.Multiline, TimeSpan.FromSeconds(1)).Replace('"', '\'').Trim();
+
+                break;
+            }
+        }
+
+        if (string.IsNullOrWhiteSpace(summary))
+        {
+            continue;
+        }
+
+        yield return new KeyValuePair<string, string>(name, summary);
+    }
+}
+
+public class PropertyData
+{
+    public string Name { get; set; }
+    public Type Type { get; set; }
+    public string Alias { get; set; }
+    public string Summary { get; set; }
+    public bool HasGetMethod { get; set; }
+    public bool HasSetMethod { get; set; }
+    public bool IsCollection { get; set; }
+    public bool IsNullable { get; set; }
+}
+#>

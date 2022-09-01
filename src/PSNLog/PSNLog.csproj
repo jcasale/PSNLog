@@ -1,0 +1,207 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net462</TargetFramework>
+    <LangVersion>preview</LangVersion>
+    <AnalysisLevel>preview-All</AnalysisLevel>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Meziantou.Analyzer" Version="1.0.722">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.PowerShell.5.1.ReferenceAssemblies" Version="1.0.0" PrivateAssets="All" />
+    <PackageReference Include="NLog" Version="5.0.4" />
+    <PackageReference Include="NLog.Database" Version="5.0.4" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="NewAsyncTargetWrapperCommand.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>NewAsyncTargetWrapperCommand.tt</DependentUpon>
+    </None>
+    <None Include="NewBufferingTargetWrapperCommand.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>NewBufferingTargetWrapperCommand.tt</DependentUpon>
+    </None>
+    <None Include="NewColoredConsoleTargetCommand.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>NewColoredConsoleTargetCommand.tt</DependentUpon>
+    </None>
+    <None Include="NewConsoleRowHighlightingRuleCommand.cs">
+      <DependentUpon>NewConsoleRowHighlightingRuleCommand.tt</DependentUpon>
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+    </None>
+    <None Include="NewConsoleTargetCommand.cs">
+      <DependentUpon>NewConsoleTargetCommand.tt</DependentUpon>
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+    </None>
+    <None Include="NewConsoleWordHighlightingRuleCommand.cs">
+      <DependentUpon>NewConsoleWordHighlightingRuleCommand.tt</DependentUpon>
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+    </None>
+    <None Include="NewDatabaseCommandInfoCommand.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>NewDatabaseCommandInfoCommand.tt</DependentUpon>
+    </None>
+    <None Include="NewDatabaseParameterInfoCommand.cs">
+      <DependentUpon>NewDatabaseParameterInfoCommand.tt</DependentUpon>
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+    </None>
+    <None Include="NewDatabaseTargetCommand.cs">
+      <DependentUpon>NewDatabaseTargetCommand.tt</DependentUpon>
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+    </None>
+    <None Include="NewEventLogTargetCommand.cs">
+      <DependentUpon>NewEventLogTargetCommand.tt</DependentUpon>
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+    </None>
+    <None Include="NewFileTargetCommand.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>NewFileTargetCommand.tt</DependentUpon>
+    </None>
+    <None Include="NewMailTargetCommand.cs">
+      <DependentUpon>NewMailTargetCommand.tt</DependentUpon>
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+    </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="NewAsyncTargetWrapperCommand.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>NewAsyncTargetWrapperCommand.cs</LastGenOutput>
+    </None>
+    <None Update="NewBufferingTargetWrapperCommand.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>NewBufferingTargetWrapperCommand.cs</LastGenOutput>
+    </None>
+    <None Update="NewColoredConsoleTargetCommand.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>NewColoredConsoleTargetCommand.cs</LastGenOutput>
+    </None>
+    <None Update="NewConsoleRowHighlightingRuleCommand.tt">
+      <LastGenOutput>NewConsoleRowHighlightingRuleCommand.cs</LastGenOutput>
+      <Generator>TextTemplatingFileGenerator</Generator>
+    </None>
+    <None Update="NewConsoleTargetCommand.tt">
+      <LastGenOutput>NewConsoleTargetCommand.cs</LastGenOutput>
+      <Generator>TextTemplatingFileGenerator</Generator>
+    </None>
+    <None Update="NewConsoleWordHighlightingRuleCommand.tt">
+      <LastGenOutput>NewConsoleWordHighlightingRuleCommand.cs</LastGenOutput>
+      <Generator>TextTemplatingFileGenerator</Generator>
+    </None>
+    <None Update="NewDatabaseCommandInfoCommand.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>NewDatabaseCommandInfoCommand.cs</LastGenOutput>
+    </None>
+    <None Update="NewDatabaseParameterInfoCommand.tt">
+      <LastGenOutput>NewDatabaseParameterInfoCommand.cs</LastGenOutput>
+      <Generator>TextTemplatingFileGenerator</Generator>
+    </None>
+    <None Update="NewDatabaseTargetCommand.tt">
+      <LastGenOutput>NewDatabaseTargetCommand.cs</LastGenOutput>
+      <Generator>TextTemplatingFileGenerator</Generator>
+    </None>
+    <None Update="NewEventLogTargetCommand.tt">
+      <LastGenOutput>NewEventLogTargetCommand.cs</LastGenOutput>
+      <Generator>TextTemplatingFileGenerator</Generator>
+    </None>
+    <None Update="NewFileTargetCommand.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>NewFileTargetCommand.cs</LastGenOutput>
+    </None>
+    <None Update="NewMailTargetCommand.tt">
+      <LastGenOutput>NewMailTargetCommand.cs</LastGenOutput>
+      <Generator>TextTemplatingFileGenerator</Generator>
+    </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Service Include="{508349b6-6b84-4df5-91f0-309beebad82d}" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="NewAsyncTargetWrapperCommand.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>NewAsyncTargetWrapperCommand.tt</DependentUpon>
+    </Compile>
+    <Compile Update="NewBufferingTargetWrapperCommand.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>NewBufferingTargetWrapperCommand.tt</DependentUpon>
+    </Compile>
+    <Compile Update="NewColoredConsoleTargetCommand.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>NewColoredConsoleTargetCommand.tt</DependentUpon>
+    </Compile>
+    <Compile Update="NewConsoleRowHighlightingRuleCommand.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>NewConsoleRowHighlightingRuleCommand.tt</DependentUpon>
+    </Compile>
+    <Compile Update="NewConsoleTargetCommand.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>NewConsoleTargetCommand.tt</DependentUpon>
+    </Compile>
+    <Compile Update="NewConsoleWordHighlightingRuleCommand.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>NewConsoleWordHighlightingRuleCommand.tt</DependentUpon>
+    </Compile>
+    <Compile Update="NewDatabaseCommandInfoCommand.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>NewDatabaseCommandInfoCommand.tt</DependentUpon>
+    </Compile>
+    <Compile Update="NewDatabaseParameterInfoCommand.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>NewDatabaseParameterInfoCommand.tt</DependentUpon>
+    </Compile>
+    <Compile Update="NewDatabaseTargetCommand.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>NewDatabaseTargetCommand.tt</DependentUpon>
+    </Compile>
+    <Compile Update="NewEventLogTargetCommand.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>NewEventLogTargetCommand.tt</DependentUpon>
+    </Compile>
+    <Compile Update="NewFileTargetCommand.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>NewFileTargetCommand.tt</DependentUpon>
+    </Compile>
+    <Compile Update="NewMailTargetCommand.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>NewMailTargetCommand.tt</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="Debug.ps1">
+      <CopyToOutputDirectory Condition="'$(Configuration)'=='DEBUG'">PreserveNewest</CopyToOutputDirectory>
+      <CopyToOutputDirectory Condition="'$(Configuration)'!='DEBUG'">Never</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
+</Project>

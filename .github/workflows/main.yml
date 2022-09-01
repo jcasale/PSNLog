@@ -1,0 +1,86 @@
+name: CI
+on:
+  push:
+    tags:
+      - 'v*'
+
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: windows-latest
+
+    steps:
+      - uses: actions/checkout@v3.0.2
+        with:
+          fetch-depth: 0
+
+      - name: Setup wix
+        run: echo "C:\Program Files (x86)\WiX Toolset v3.11\bin" |Out-File -FilePath $env:GITHUB_PATH -Encoding utf8 -Append
+
+      - name: Generate module manifest and version properties
+        id: version
+        run: |
+            New-Item ./publish -ItemType Directory -ErrorAction Stop |Out-Null
+
+            if ('${{ github.ref_type }}' -eq 'tag')
+            {
+                $tag = "${{ github.ref_name }}".TrimStart("v")
+                ./src/ModuleManifest.ps1 -Path ./publish/PSNLog.psd1 -Verbose -ErrorAction Stop
+                ./src/VersionInfo.ps1 -Verbose -ErrorAction Stop
+            }
+            else
+            {
+                $tag = '0.0.1'
+                ./src/ModuleManifest.ps1 -Version $tag -Path ./publish/PSNLog.psd1 -Verbose -ErrorAction Stop
+                ./src/VersionInfo.ps1 -Version $tag -Verbose -ErrorAction Stop
+            }
+
+            $version = [version]::new($tag)
+            echo "::set-output name=version::$($version.ToString())"
+
+      - name: Restore packages
+        run: dotnet.exe restore .\src\PSNLog.sln
+
+      - name: Clean solution
+        run: dotnet.exe clean .\src\PSNLog.sln --configuration Release
+
+      - name: Build project
+        run: dotnet.exe publish .\src\PSNLog\PSNLog.csproj --configuration Release --runtime win-x64 --output .\publish
+
+      - name: Prepare release
+        run: |
+          Remove-Item ./publish/* -Include *.pdb,*.xml
+          New-Item ./package -ItemType Directory -ErrorAction Stop |Out-Null
+
+      - name: Generate PowerShell help
+        run: |
+            Install-Module -Name platyPS -Force -Confirm:$false -ErrorAction Stop
+            Import-Module ./publish/PSNLog.psd1 -ErrorAction Stop
+            Update-MarkdownHelp ./docs -UpdateInputOutput -Force -ErrorAction Stop
+            New-ExternalHelp ./docs -OutputPath ./publish -ErrorAction Stop
+
+      - name: Harvest installer
+        shell: cmd
+        run: heat.exe dir .\publish -nologo -cg ProductComponents -dr INSTALLDIR -var var.ProductSource -g1 -ag -ke -srd -sfrag -sreg -o .\package\Fragment.wxs
+
+      - name: Compile installer
+        shell: cmd
+        run: candle.exe -nologo -dProductSource=publish -dProductVersion="${{ steps.version.outputs.version }}" -out package\ -arch x64 -ext WixUIExtension.dll package\Fragment.wxs src\Product.wxs
+
+      - name: Link installer
+        shell: cmd
+        run: light.exe -nologo -out ps-nlog.msi -ext WixUIExtension.dll -spdb package\Fragment.wixobj package\Product.wixobj
+
+      - name: Test installer
+        run: |
+            Start-Process msiexec.exe -ArgumentList '/i','ps-nlog.msi','/qn' -Wait -NoNewWindow -ErrorAction Stop
+            $logger = New-NLogBasicLogger -Name foo -Path foo.log -ErrorAction Stop
+            $logger.Info('Hello World!')
+            Stop-NLogLogging
+
+      - name: Publish release
+        if: github.ref_type == 'tag'
+        uses: ncipollo/release-action@v1.10.0
+        with:
+          artifacts: ps-nlog.msi

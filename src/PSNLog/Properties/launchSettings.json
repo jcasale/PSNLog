@@ -1,0 +1,19 @@
+{
+  "profiles": {
+    "PowerShell (dll)": {
+      "commandName": "Executable",
+      "executablePath": "c:\\windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe",
+      "commandLineArgs": "-NoExit -Command \"Import-Module '$(TargetPath)' -Verbose"
+    },
+    "PowerShell (manifest)": {
+      "commandName": "Executable",
+      "executablePath": "c:\\windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe",
+      "commandLineArgs": "-NoExit -Command \"& {& '$(SolutionDir)ModuleManifest.ps1' -Path '$(TargetDir)PSNLog.psd1' -Verbose; Import-Module '$(TargetDir)PSNLog.psd1';}\""
+    },
+    "PowerShell ISE": {
+      "commandName": "Executable",
+      "executablePath": "c:\\windows\\System32\\WindowsPowerShell\\v1.0\\powershell_ise.exe",
+      "commandLineArgs": "-File Debug.ps1"
+    }
+  }
+}

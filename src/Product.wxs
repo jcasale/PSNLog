@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi" xmlns:util="http://schemas.microsoft.com/wix/UtilExtension">
+<Product Id="*"
+         Name="PowerShell NLog Module"
+         Language="1033"
+         Version="$(var.ProductVersion)"
+         Manufacturer="Joseph L. Casale"
+         UpgradeCode="12db3470-bdf5-4dfe-a454-dfd2081aff72">
+    <Package InstallerVersion="200"
+             Compressed="yes"
+             InstallScope="perMachine"
+             Platform="x64"
+             InstallPrivileges="elevated"
+             Description="A PowerShell module for logging based on the NLog library."
+             Comments="PowerShell NLog Module v$(var.ProductVersion)" />
+
+    <MajorUpgrade DowngradeErrorMessage="A newer version of [ProductName] is already installed." />
+    <Media Id="1" Cabinet="Data.cab" EmbedCab="yes" CompressionLevel="high" />
+
+    <Feature Id="Product"
+             Absent="disallow"
+             Description="PowerShell NLog Module"
+             Title="PSNLog">
+      <ComponentGroupRef Id="ProductComponents" />
+    </Feature>
+
+    <UI>
+      <UIRef Id="WixUI_InstallDir" />
+
+      <!-- Remove LicenseAgreementDlg. -->
+      <Publish Dialog="WelcomeDlg"
+               Control="Next"
+               Event="NewDialog"
+               Value="InstallDirDlg"
+               Order="2">1</Publish>
+      <Publish Dialog="InstallDirDlg"
+               Control="Back"
+               Event="NewDialog"
+               Value="WelcomeDlg"
+               Order="2">1</Publish>
+    </UI>
+
+    <Property Id="WIXUI_INSTALLDIR" Value="INSTALLDIR" />
+  </Product>
+
+  <Fragment>
+    <Directory Id="TARGETDIR" Name="SourceDir">
+      <Directory Id="ProgramFiles64Folder">
+        <Directory Id="WindowsPowerShell" Name="WindowsPowerShell">
+          <Directory Id="Modules" Name="Modules">
+            <Directory Id="PSNLog" Name="PSNLog">
+              <Directory Id="INSTALLDIR" Name="$(var.ProductVersion)" />
+            </Directory>
+          </Directory>
+        </Directory>
+      </Directory>
+    </Directory>
+  </Fragment>
+</Wix>

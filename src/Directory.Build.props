@@ -1,0 +1,12 @@
+<Project>
+
+  <PropertyGroup>
+    <Product>PowerShell NLog Module</Product>
+    <Description>A PowerShell module for logging based on the NLog library.</Description>
+    <Company>Joseph L. Casale</Company>
+    <Copyright>Copyright (c) Joseph L. Casale. All rights reserved.</Copyright>
+  </PropertyGroup>
+
+  <Import Project=".\version.props" Condition="Exists('.\version.props')" />
+
+</Project>

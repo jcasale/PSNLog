@@ -1,0 +1,91 @@
+<#@ template debug="true" hostSpecific="false" language="C#" #>
+<#@ output extension=".cs" #>
+<#@ assembly name="System.Core" #>
+<#
+    var properties = GetProperties<NLog.Targets.Wrappers.BufferingTargetWrapper>().ToArray();
+#>
+namespace PSNLog;
+
+using System.Management.Automation;
+
+[Cmdlet(VerbsCommon.New, "NLogBufferingTargetWrapper")]
+[OutputType(typeof(NLog.Targets.Wrappers.BufferingTargetWrapper))]
+public class NewBufferingTargetWrapperCommand : PSCmdlet
+{
+<#
+    for (var i = 0; i < properties.Length; i++)
+    {
+        var property = properties[i];
+
+        string suffix;
+        if (property.IsCollection)
+        {
+            suffix = "[]";
+        }
+        else if (property.Type.IsValueType)
+        {
+            suffix = "?";
+        }
+        else
+        {
+            suffix = string.Empty;
+        }
+
+        WriteLine("    [Parameter(");
+        WriteLine("        ValueFromPipelineByPropertyName = true,");
+        WriteLine("        HelpMessage = \"{0}\")]", property.Summary);
+        Write("    public {0}", property.Alias);
+
+        if (property.IsCollection)
+        {
+            Write("[]");
+        }
+        else if (property.Type.IsValueType)
+        {
+            Write("?");
+        }
+
+        WriteLine(" {0} {{ get; set; }}", property.Name);
+        WriteLine(string.Empty);
+    }
+#>
+    protected override void ProcessRecord()
+    {
+        var instance = new NLog.Targets.Wrappers.BufferingTargetWrapper();
+
+<#
+        for (var i = 0; i < properties.Length; i++)
+        {
+            var property = properties[i];
+            if (property.IsCollection)
+            {
+                WriteLine("        if (this.{0} is {{Length: > 0}})", property.Name);
+                WriteLine("        {");
+                WriteLine("            foreach (var item in this.{0})", property.Name);
+                WriteLine("            {");
+                WriteLine("                instance.{0}.Add(item);", property.Name);
+                WriteLine("            }");
+                WriteLine("        }");
+            }
+            else if (property.Type.IsValueType)
+            {
+                WriteLine("        if (this.{0}.HasValue)", property.Name);
+                WriteLine("        {");
+                WriteLine("            instance.{0} = this.{0}.Value;", property.Name);
+                WriteLine("        }");
+            }
+            else
+            {
+                WriteLine("        if (this.{0} is not null)", property.Name);
+                WriteLine("        {");
+                WriteLine("            instance.{0} = this.{0};", property.Name);
+                WriteLine("        }");
+            }
+
+            WriteLine(string.Empty);
+        }
+#>
+        this.WriteObject(instance);
+    }
+}
+<#@ include file="base.t4" #>

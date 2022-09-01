@@ -1,0 +1,8 @@
+.package/
+.publish/
+.vs/
+**/bin/
+**/obj/
+*.user
+PSNlog.psd1
+version.props
