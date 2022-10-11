@@ -73,8 +73,8 @@ finally
 }
 ```
 
-    > **Warning**
-    > Don't call `New-NLogBasicLogger` more than once without shutting down logging by calling `Stop-NLogLogging`.
+> **Warning**
+> Don't call `New-NLogBasicLogger` more than once without shutting down logging by calling `Stop-NLogLogging`.
 
 - Create a logger from XML configuration:
 
