@@ -72,6 +72,15 @@ jobs:
         shell: cmd
         run: light.exe -nologo -out ps-nlog.msi -ext WixUIExtension.dll -spdb package\Fragment.wixobj package\Product.wixobj
 
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v3
+        with:
+            name: ps-nlog
+            path: |
+                ./docs/
+                ./ps-nlog.msi
+            if-no-files-found: error
+
       - name: Test installer
         run: |
             Start-Process msiexec.exe -ArgumentList '/i','ps-nlog.msi','/qn' -Wait -NoNewWindow -ErrorAction Stop
