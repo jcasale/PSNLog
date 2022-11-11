@@ -43,7 +43,6 @@ public class NewBasicLoggerCommand : PSCmdlet
             FileName = this.Path,
             Layout = layout,
             OpenFileCacheTimeout = 30
-
         };
 
         var console = new ConsoleTarget(nameof(ConsoleTarget))
