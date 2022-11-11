@@ -43,7 +43,7 @@ jobs:
             }
 
             $version = [version]::new($tag)
-            echo "::set-output name=version::$($version.ToString())"
+            echo "version=$version" >> $env:GITHUB_OUTPUT
 
       - name: Restore packages
         run: dotnet.exe restore .\src\PSNLog.sln
