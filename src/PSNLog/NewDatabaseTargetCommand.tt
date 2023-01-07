@@ -13,24 +13,8 @@ using System.Management.Automation;
 public class NewDatabaseTargetCommand : PSCmdlet
 {
 <#
-    for (var i = 0; i < properties.Length; i++)
+    foreach (var property in properties)
     {
-        var property = properties[i];
-
-        string suffix;
-        if (property.IsCollection)
-        {
-            suffix = "[]";
-        }
-        else if (property.Type.IsValueType)
-        {
-            suffix = "?";
-        }
-        else
-        {
-            suffix = string.Empty;
-        }
-
         WriteLine("    [Parameter(");
         WriteLine("        ValueFromPipelineByPropertyName = true,");
         WriteLine("        HelpMessage = \"{0}\")]", property.Summary);
@@ -54,9 +38,8 @@ public class NewDatabaseTargetCommand : PSCmdlet
         var instance = new NLog.Targets.DatabaseTarget();
 
 <#
-        for (var i = 0; i < properties.Length; i++)
+        foreach (var property in properties)
         {
-            var property = properties[i];
             if (property.IsCollection)
             {
                 WriteLine("        if (this.{0} is {{Length: > 0}})", property.Name);

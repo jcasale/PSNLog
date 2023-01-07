@@ -3,12 +3,10 @@
 <#@ assembly name="System.Xml.dll" #>
 <#@ import namespace="System" #>
 <#@ import namespace="System.CodeDom" #>
-<#@ import namespace="System.Collections" #>
 <#@ import namespace="System.Collections.Generic" #>
 <#@ import namespace="System.IO" #>
 <#@ import namespace="System.Linq" #>
 <#@ import namespace="System.Reflection" #>
-<#@ import namespace="System.Text" #>
 <#@ import namespace="System.Text.RegularExpressions" #>
 <#@ import namespace="System.Xml" #>
 <#@ import namespace="Microsoft.CSharp" #>
@@ -44,7 +42,7 @@ public static Lazy<IDictionary<string, string>> SummaryMap = new(
 public static IEnumerable<PropertyData> GetProperties<T>()
     where T : class
 {
-    var bindingFlags = BindingFlags.Public | BindingFlags.Instance;
+    const BindingFlags bindingFlags = BindingFlags.Public | BindingFlags.Instance;
     var properties = typeof(T).GetProperties(bindingFlags)
         .Where(p => p.CanWrite)
         .OrderBy(p => p.Name);
@@ -120,12 +118,14 @@ private static IEnumerable<KeyValuePair<string, string>> GetXmlMembers(string pa
 
         foreach (XmlElement child in element.GetElementsByTagName("summary"))
         {
-            if (!string.IsNullOrWhiteSpace(name))
+            if (string.IsNullOrWhiteSpace(name))
             {
-                summary = Regex.Replace(child.InnerText, @"\s+", " ", RegexOptions.Multiline, TimeSpan.FromSeconds(1)).Replace('"', '\'').Trim();
-
-                break;
+                continue;
             }
+
+            summary = Regex.Replace(child.InnerText, @"\s+", " ", RegexOptions.Multiline, TimeSpan.FromSeconds(1)).Replace('"', '\'').Trim();
+
+            break;
         }
 
         if (string.IsNullOrWhiteSpace(summary))
