@@ -13,7 +13,7 @@ public class NewDatabaseParameterInfoCommand : PSCmdlet
 
     [Parameter(
         ValueFromPipelineByPropertyName = true,
-        HelpMessage = "Gets or sets the culture used for parsing parameter string-value for type-conversion")]
+        HelpMessage = "Gets or sets the culture used for parsing parameter string-value for type-conversion.")]
     public System.Globalization.CultureInfo Culture { get; set; }
 
     [Parameter(
@@ -23,7 +23,7 @@ public class NewDatabaseParameterInfoCommand : PSCmdlet
 
     [Parameter(
         ValueFromPipelineByPropertyName = true,
-        HelpMessage = "Gets or sets the fallback value when result value is not available")]
+        HelpMessage = "Gets or sets the fallback value when result value is not available.")]
     public NLog.Layouts.Layout DefaultValue { get; set; }
 
     [Parameter(

@@ -13,7 +13,7 @@ public class NewEventLogTargetCommand : PSCmdlet
 
     [Parameter(
         ValueFromPipelineByPropertyName = true,
-        HelpMessage = "Optional entry type. When not set, or when not convertible to then determined by")]
+        HelpMessage = "Optional entry type. When not set, or when not convertible to T:System.Diagnostics.EventLogEntryType then determined by T:NLog.LogLevel.")]
     public NLog.Layouts.Layout<System.Diagnostics.EventLogEntryType> EntryType { get; set; }
 
     [Parameter(
@@ -53,7 +53,7 @@ public class NewEventLogTargetCommand : PSCmdlet
 
     [Parameter(
         ValueFromPipelineByPropertyName = true,
-        HelpMessage = "Gets or sets the action to take if the message is larger than the option.")]
+        HelpMessage = "Gets or sets the action to take if the message is larger than the P:NLog.Targets.EventLogTarget.MaxMessageLength option.")]
     public NLog.Targets.EventLogTargetOverflowAction? OnOverflow { get; set; }
 
     [Parameter(

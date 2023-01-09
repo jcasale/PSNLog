@@ -23,7 +23,7 @@ public class NewFileTargetCommand : PSCmdlet
 
     [Parameter(
         ValueFromPipelineByPropertyName = true,
-        HelpMessage = "Is the an absolute or relative path?")]
+        HelpMessage = "Is the P:NLog.Targets.FileTarget.ArchiveFileName an absolute or relative path?")]
     public NLog.Targets.FilePathKind? ArchiveFileKind { get; set; }
 
     [Parameter(
@@ -88,7 +88,7 @@ public class NewFileTargetCommand : PSCmdlet
 
     [Parameter(
         ValueFromPipelineByPropertyName = true,
-        HelpMessage = "Gets or sets whether or not this target should just discard all data that its asked to write. Mostly used for when testing NLog Stack except final write")]
+        HelpMessage = "Gets or sets whether or not this target should just discard all data that its asked to write. Mostly used for when testing NLog Stack except final write.")]
     public bool? DiscardAll { get; set; }
 
     [Parameter(
@@ -118,7 +118,7 @@ public class NewFileTargetCommand : PSCmdlet
 
     [Parameter(
         ValueFromPipelineByPropertyName = true,
-        HelpMessage = "Is the an absolute or relative path?")]
+        HelpMessage = "Is the P:NLog.Targets.FileTarget.FileName an absolute or relative path?")]
     public NLog.Targets.FilePathKind? FileNameKind { get; set; }
 
     [Parameter(
@@ -198,7 +198,7 @@ public class NewFileTargetCommand : PSCmdlet
 
     [Parameter(
         ValueFromPipelineByPropertyName = true,
-        HelpMessage = "Gets or sets a value indicating whether to write BOM (byte order mark) in created files. Defaults to true for UTF-16 and UTF-32")]
+        HelpMessage = "Gets or sets a value indicating whether to write BOM (byte order mark) in created files. Defaults to true for UTF-16 and UTF-32.")]
     public bool? WriteBom { get; set; }
 
     [Parameter(

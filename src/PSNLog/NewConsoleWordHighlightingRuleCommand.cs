@@ -13,12 +13,12 @@ public class NewConsoleWordHighlightingRuleCommand : PSCmdlet
 
     [Parameter(
         ValueFromPipelineByPropertyName = true,
-        HelpMessage = "Compile the ? This can improve the performance, but at the costs of more memory usage. If false, the Regex Cache is used.")]
+        HelpMessage = "Compile the P:NLog.Targets.ConsoleWordHighlightingRule.Regex? This can improve the performance, but at the costs of more memory usage. If false, the Regex Cache is used.")]
     public bool? CompileRegex { get; set; }
 
     [Parameter(
         ValueFromPipelineByPropertyName = true,
-        HelpMessage = "Gets or sets the condition that must be met before scanning the row for highlight of words")]
+        HelpMessage = "Gets or sets the condition that must be met before scanning the row for highlight of words.")]
     public NLog.Conditions.ConditionExpression Condition { get; set; }
 
     [Parameter(

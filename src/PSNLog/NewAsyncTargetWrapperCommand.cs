@@ -13,12 +13,12 @@ public class NewAsyncTargetWrapperCommand : PSCmdlet
 
     [Parameter(
         ValueFromPipelineByPropertyName = true,
-        HelpMessage = "Gets or sets whether to use the locking queue, instead of a lock-free concurrent queue")]
+        HelpMessage = "Gets or sets whether to use the locking queue, instead of a lock-free concurrent queue.")]
     public bool? ForceLockingQueue { get; set; }
 
     [Parameter(
         ValueFromPipelineByPropertyName = true,
-        HelpMessage = "Gets or sets the number of batches of to write before yielding into")]
+        HelpMessage = "Gets or sets the number of batches of P:NLog.Targets.Wrappers.AsyncTargetWrapper.BatchSize to write before yielding into P:NLog.Targets.Wrappers.AsyncTargetWrapper.TimeToSleepBetweenBatches.")]
     public int? FullBatchSizeWriteLimit { get; set; }
 
     [Parameter(
@@ -38,7 +38,7 @@ public class NewAsyncTargetWrapperCommand : PSCmdlet
 
     [Parameter(
         ValueFromPipelineByPropertyName = true,
-        HelpMessage = "Gets or sets the time in milliseconds to sleep between batches. (1 or less means trigger on new activity)")]
+        HelpMessage = "Gets or sets the time in milliseconds to sleep between batches. (1 or less means trigger on new activity).")]
     public int? TimeToSleepBetweenBatches { get; set; }
 
     [Parameter(

@@ -8,17 +8,17 @@ public class NewConsoleTargetCommand : PSCmdlet
 {
     [Parameter(
         ValueFromPipelineByPropertyName = true,
-        HelpMessage = "Gets or sets a value indicating whether to auto-flush after")]
+        HelpMessage = "Gets or sets a value indicating whether to auto-flush after M:System.Console.WriteLine.")]
     public bool? AutoFlush { get; set; }
 
     [Parameter(
         ValueFromPipelineByPropertyName = true,
-        HelpMessage = "Gets or sets a value indicating whether to auto-check if the console is available - Disables console writing if Environment.UserInteractive = False (Windows Service) - Disables console writing if Console Standard Input is not available (Non-Console-App)")]
+        HelpMessage = "Gets or sets a value indicating whether to auto-check if the console is available - Disables console writing if Environment.UserInteractive = False (Windows Service) - Disables console writing if Console Standard Input is not available (Non-Console-App).")]
     public bool? DetectConsoleAvailable { get; set; }
 
     [Parameter(
         ValueFromPipelineByPropertyName = true,
-        HelpMessage = "The encoding for writing messages to the .")]
+        HelpMessage = "The encoding for writing messages to the T:System.Console.")]
     public System.Text.Encoding Encoding { get; set; }
 
     [Parameter(
@@ -48,7 +48,7 @@ public class NewConsoleTargetCommand : PSCmdlet
 
     [Parameter(
         ValueFromPipelineByPropertyName = true,
-        HelpMessage = "Gets or sets whether to activate internal buffering to allow batch writing, instead of using")]
+        HelpMessage = "Gets or sets whether to activate internal buffering to allow batch writing, instead of using M:System.Console.WriteLine.")]
     public bool? WriteBuffer { get; set; }
 
     protected override void ProcessRecord()
