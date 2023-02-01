@@ -24,21 +24,11 @@ public static Type[] NLogTypes { get; } = Assembly.GetAssembly(typeof(NLog.Targe
     .Concat(Assembly.GetAssembly(typeof(NLog.Targets.DatabaseTarget)).GetTypes())
     .ToArray();
 
-public static Lazy<IDictionary<string, string>> SummaryMap = new(
-    () =>
-    {
-        var map = new Dictionary<string, string>(StringComparer.Ordinal);
-
-        foreach (var path in XmlPaths)
-        {
-            foreach (var kvp in GetXmlMembers(path))
-            {
-                map[kvp.Key] = kvp.Value;
-            }
-        }
-
-        return map;
-    });
+public static IDictionary<string, string> SummaryMap { get; } = XmlPaths
+    .SelectMany(GetXmlMembers)
+    .GroupBy(p => p.Key)
+    .Select(p => p.First())
+    .ToDictionary(k => k.Key, v => v.Value, StringComparer.Ordinal);
 
 public static IEnumerable<PropertyData> GetProperties<T>()
     where T : class
@@ -73,7 +63,7 @@ public static IEnumerable<PropertyData> GetProperties<T>()
         foreach (var cls in classes)
         {
             var key = $"P:{cls.FullName}.{property.Name}";
-            SummaryMap.Value.TryGetValue(key, out summary);
+            SummaryMap.TryGetValue(key, out summary);
 
             if (!string.IsNullOrWhiteSpace(summary))
             {
