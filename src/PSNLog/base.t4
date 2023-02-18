@@ -35,7 +35,6 @@ public static IEnumerable<PropertyData> GetProperties<T>()
 {
     const BindingFlags bindingFlags = BindingFlags.Public | BindingFlags.Instance;
     var properties = typeof(T).GetProperties(bindingFlags)
-        .Where(p => p.CanWrite)
         .OrderBy(p => p.Name);
 
     using var provider = new CSharpCodeProvider();
@@ -51,6 +50,11 @@ public static IEnumerable<PropertyData> GetProperties<T>()
         var isNullable = property.PropertyType.IsGenericType && property.PropertyType.GetGenericTypeDefinition() == typeof(Nullable<>);
         var type = isCollection || isNullable ? property.PropertyType.GetGenericArguments().Single() : property.PropertyType;
 
+        if (!property.CanWrite && !isCollection)
+        {
+            continue;
+        }
+        
         var typeReference = new CodeTypeReference(type);
         var alias = provider.GetTypeOutput(typeReference);
 

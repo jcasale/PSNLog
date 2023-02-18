@@ -8,6 +8,11 @@ public class NewDatabaseTargetCommand : PSCmdlet
 {
     [Parameter(
         ValueFromPipelineByPropertyName = true,
+        HelpMessage = "Gets the collection of properties. Each item contains a mapping between NLog layout and a property on the DbCommand instance.")]
+    public NLog.Targets.DatabaseObjectPropertyInfo[] CommandProperties { get; set; }
+
+    [Parameter(
+        ValueFromPipelineByPropertyName = true,
         HelpMessage = "Gets or sets the text of the SQL command to be run on each log level.")]
     public NLog.Layouts.Layout CommandText { get; set; }
 
@@ -15,6 +20,11 @@ public class NewDatabaseTargetCommand : PSCmdlet
         ValueFromPipelineByPropertyName = true,
         HelpMessage = "Gets or sets the type of the SQL command to be run on each log level.")]
     public System.Data.CommandType? CommandType { get; set; }
+
+    [Parameter(
+        ValueFromPipelineByPropertyName = true,
+        HelpMessage = "Gets the collection of properties. Each item contains a mapping between NLog layout and a property on the DbConnection instance.")]
+    public NLog.Targets.DatabaseObjectPropertyInfo[] ConnectionProperties { get; set; }
 
     [Parameter(
         ValueFromPipelineByPropertyName = true,
@@ -78,12 +88,25 @@ public class NewDatabaseTargetCommand : PSCmdlet
 
     [Parameter(
         ValueFromPipelineByPropertyName = true,
+        HelpMessage = "Gets the collection of parameters. Each item contains a mapping between NLog layout and a database named or positional parameter.")]
+    public NLog.Targets.DatabaseParameterInfo[] Parameters { get; set; }
+
+    [Parameter(
+        ValueFromPipelineByPropertyName = true,
         HelpMessage = "Gets the uninstallation DDL commands.")]
     public NLog.Targets.DatabaseCommandInfo[] UninstallDdlCommands { get; set; }
 
     protected override void ProcessRecord()
     {
         var instance = new NLog.Targets.DatabaseTarget();
+
+        if (this.CommandProperties is {Length: > 0})
+        {
+            foreach (var item in this.CommandProperties)
+            {
+                instance.CommandProperties.Add(item);
+            }
+        }
 
         if (this.CommandText is not null)
         {
@@ -93,6 +116,14 @@ public class NewDatabaseTargetCommand : PSCmdlet
         if (this.CommandType.HasValue)
         {
             instance.CommandType = this.CommandType.Value;
+        }
+
+        if (this.ConnectionProperties is {Length: > 0})
+        {
+            foreach (var item in this.ConnectionProperties)
+            {
+                instance.ConnectionProperties.Add(item);
+            }
         }
 
         if (this.ConnectionString is not null)
@@ -156,6 +187,14 @@ public class NewDatabaseTargetCommand : PSCmdlet
         if (this.Name is not null)
         {
             instance.Name = this.Name;
+        }
+
+        if (this.Parameters is {Length: > 0})
+        {
+            foreach (var item in this.Parameters)
+            {
+                instance.Parameters.Add(item);
+            }
         }
 
         if (this.UninstallDdlCommands is {Length: > 0})
