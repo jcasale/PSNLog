@@ -68,6 +68,11 @@ public class NewMailTargetCommand : PSCmdlet
 
     [Parameter(
         ValueFromPipelineByPropertyName = true,
+        HelpMessage = "Gets the array of email headers that are transmitted with this email message.")]
+    public NLog.Targets.MethodCallParameter[] MailHeaders { get; set; }
+
+    [Parameter(
+        ValueFromPipelineByPropertyName = true,
         HelpMessage = "Gets or sets the name of the target.")]
     public string Name { get; set; }
 
@@ -193,6 +198,14 @@ public class NewMailTargetCommand : PSCmdlet
         if (this.Layout is not null)
         {
             instance.Layout = this.Layout;
+        }
+
+        if (this.MailHeaders is {Length: > 0})
+        {
+            foreach (var item in this.MailHeaders)
+            {
+                instance.MailHeaders.Add(item);
+            }
         }
 
         if (this.Name is not null)
