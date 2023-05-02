@@ -1,5 +1,5 @@
-<#@ assembly name="%USERPROFILE%\.nuget\packages\nlog\5.1.3\lib\net46\NLog.dll" #>
-<#@ assembly name="%USERPROFILE%\.nuget\packages\nlog.database\5.1.3\lib\net46\NLog.Database.dll" #>
+<#@ assembly name="%USERPROFILE%\.nuget\packages\nlog\5.1.4\lib\net46\NLog.dll" #>
+<#@ assembly name="%USERPROFILE%\.nuget\packages\nlog.database\5.1.4\lib\net46\NLog.Database.dll" #>
 <#@ assembly name="System.Xml.dll" #>
 <#@ import namespace="System" #>
 <#@ import namespace="System.CodeDom" #>
@@ -16,8 +16,8 @@ public static string UserProfile { get; } = Environment.GetEnvironmentVariable("
 
 public static string[] XmlPaths { get; } =
     {
-        Path.Combine(UserProfile, @".nuget\packages\nlog\5.1.3\lib\net46\NLog.xml"),
-        Path.Combine(UserProfile, @".nuget\packages\nlog.database\5.1.3\lib\net46\NLog.Database.xml")
+        Path.Combine(UserProfile, @".nuget\packages\nlog\5.1.4\lib\net46\NLog.xml"),
+        Path.Combine(UserProfile, @".nuget\packages\nlog.database\5.1.4\lib\net46\NLog.Database.xml")
     };
 
 public static Type[] NLogTypes { get; } = Assembly.GetAssembly(typeof(NLog.Targets.Target)).GetTypes()
