@@ -1,16 +1,17 @@
 name: CI
+
 on:
   push:
     tags:
-      - 'v*'
+      - "v*"
 
   workflow_dispatch:
 
 env:
-    DOTNET_CLI_TELEMETRY_OPTOUT: true
-    DOTNET_GENERATE_ASPNET_CERTIFICATE: false
-    DOTNET_NOLOGO: true
-    DOTNET_SKIP_FIRST_TIME_EXPERIENCE: true
+  DOTNET_CLI_TELEMETRY_OPTOUT: true
+  DOTNET_GENERATE_ASPNET_CERTIFICATE: false
+  DOTNET_NOLOGO: true
+  DOTNET_SKIP_FIRST_TIME_EXPERIENCE: true
 
 jobs:
   build:
@@ -22,31 +23,38 @@ jobs:
           fetch-depth: 0
 
       - name: Setup wix
-        run: echo "C:\Program Files (x86)\WiX Toolset v3.11\bin" |Out-File -FilePath $env:GITHUB_PATH -Encoding utf8 -Append
+        run: |
+          dotnet.exe tool install --global wix
+
+          wix.exe extension add WixToolset.UI.wixext --global
+
+          Invoke-RestMethod -Uri https://www.nuget.org/api/v2/package/WixToolset.Heat -OutFile .\WixToolset.Heat.nupkg -ErrorAction Stop
+          Expand-Archive .\WixToolset.Heat.nupkg -DestinationPath .\heat -ErrorAction Stop
+          Get-ChildItem -Path .\heat -Recurse |
+            Where-Object { $_.FullName.EndsWith('x64\heat.exe') } |
+            Select-Object -ExpandProperty DirectoryName |
+            Out-File -FilePath $env:GITHUB_PATH -Encoding utf8 -Append
 
       - name: Generate module manifest and version properties
         id: version
         run: |
-            New-Item ./publish -ItemType Directory -ErrorAction Stop |Out-Null
+          New-Item ./publish -ItemType Directory -ErrorAction Stop |Out-Null
 
-            if ('${{ github.ref_type }}' -eq 'tag')
-            {
-                $tag = "${{ github.ref_name }}".TrimStart("v")
-                ./src/ModuleManifest.ps1 -Path ./publish/PSNLog.psd1 -Verbose -ErrorAction Stop
-                ./src/VersionInfo.ps1 -Verbose -ErrorAction Stop
-            }
-            else
-            {
-                $tag = '0.0.1'
-                ./src/ModuleManifest.ps1 -Version $tag -Path ./publish/PSNLog.psd1 -Verbose -ErrorAction Stop
-                ./src/VersionInfo.ps1 -Version $tag -Verbose -ErrorAction Stop
-            }
+          if ('${{ github.ref_type }}' -eq 'tag')
+          {
+              $tag = "${{ github.ref_name }}".TrimStart("v")
+              ./src/ModuleManifest.ps1 -Path ./publish/PSNLog.psd1 -Verbose -ErrorAction Stop
+              ./src/VersionInfo.ps1 -Verbose -ErrorAction Stop
+          }
+          else
+          {
+              $tag = '0.0.1'
+              ./src/ModuleManifest.ps1 -Version $tag -Path ./publish/PSNLog.psd1 -Verbose -ErrorAction Stop
+              ./src/VersionInfo.ps1 -Version $tag -Verbose -ErrorAction Stop
+          }
 
-            $version = [version]::new($tag)
-            echo "version=$version" >> $env:GITHUB_OUTPUT
-
-      - name: Restore packages
-        run: dotnet.exe restore .\src\PSNLog.sln
+          $version = [version]::new($tag)
+          echo "version=$version" >> $env:GITHUB_OUTPUT
 
       - name: Clean solution
         run: dotnet.exe clean .\src\PSNLog.sln --configuration Release
@@ -55,44 +63,72 @@ jobs:
         run: dotnet.exe publish .\src\PSNLog\PSNLog.csproj --configuration Release --runtime win-x64 --output .\publish
 
       - name: Prepare release
-        run: |
-          Remove-Item ./publish/* -Include *.pdb,*.xml
-          New-Item ./package -ItemType Directory -ErrorAction Stop |Out-Null
+        run: Remove-Item ./publish/* -Include *.pdb,*.xml -ErrorAction Stop
 
       - name: Generate PowerShell help
         run: |
-            Install-Module -Name platyPS -Force -Confirm:$false -ErrorAction Stop
-            Import-Module ./publish/PSNLog.psd1 -ErrorAction Stop
-            Update-MarkdownHelp ./docs -UpdateInputOutput -Force -ErrorAction Stop
-            New-ExternalHelp ./docs -OutputPath ./publish -ErrorAction Stop
+          Install-Module -Name platyPS -Force -Confirm:$false -ErrorAction Stop
+          Import-Module ./publish/PSNLog.psd1 -ErrorAction Stop
+          Update-MarkdownHelp ./docs -UpdateInputOutput -Force -ErrorAction Stop
+          New-ExternalHelp ./docs -OutputPath ./publish -ErrorAction Stop
 
       - name: Harvest installer
-        shell: cmd
-        run: heat.exe dir .\publish -nologo -cg ProductComponents -dr INSTALLDIR -var var.ProductSource -g1 -ag -ke -srd -sfrag -sreg -o .\package\Fragment.wxs
+        run: |
+          heat.exe `
+            dir `
+            .\publish `
+            -nologo `
+            -cg ProductComponents `
+            -dr INSTALLDIR `
+            -var var.ProductSource `
+            -g1 `
+            -ag `
+            -ke `
+            -srd `
+            -sfrag `
+            -sreg `
+            -o Fragment.wxs
 
-      - name: Compile installer
-        shell: cmd
-        run: candle.exe -nologo -dProductSource=publish -dProductVersion="${{ steps.version.outputs.version }}" -out package\ -arch x64 -ext WixUIExtension.dll package\Fragment.wxs src\Product.wxs
+      - name: Build installer
+        run: |
+          wix.exe `
+            build `
+            -arch x64 `
+            -src Fragment.wxs src\Product.wxs `
+            -d ProductSource=publish `
+            -d ProductVersion="${{ steps.version.outputs.version }}" `
+            -ext WixToolset.UI.wixext `
+            -out ps-nlog.msi
 
-      - name: Link installer
-        shell: cmd
-        run: light.exe -nologo -out ps-nlog.msi -ext WixUIExtension.dll -spdb package\Fragment.wixobj package\Product.wixobj
+      - name: Update installer
+        run: |
+          $path = Resolve-Path 'C:\Program Files (x86)\Windows Kits\10\bin\10.0.22621.0\x86\msiinfo.exe' -ErrorAction Stop
+
+          & $path ps-nlog.msi -t "PowerShell NLog Module" -o "PSNLog v${{ steps.version.outputs.version }}"
+
+      - name: Validate installer
+        run: wix.exe msi validate ps-nlog.msi
 
       - name: Upload artifacts
         uses: actions/upload-artifact@v3
         with:
-            name: ps-nlog
-            path: |
-                ./docs/
-                ./ps-nlog.msi
-            if-no-files-found: error
+          name: ps-nlog
+          path: |
+            ./docs/
+            ./ps-nlog.msi
+          if-no-files-found: error
 
       - name: Test installer
         run: |
-            Start-Process msiexec.exe -ArgumentList '/i','ps-nlog.msi','/qn' -Wait -NoNewWindow -ErrorAction Stop
-            $logger = New-NLogBasicLogger -Name foo -Path foo.log -ErrorAction Stop
-            $logger.Info('Hello World!')
-            Stop-NLogLogging
+          $process = Start-Process msiexec.exe -ArgumentList '/i','ps-nlog.msi','/qn' -Wait -NoNewWindow -PassThru -ErrorAction Stop
+          if ($process.ExitCode -ne 0)
+          {
+              throw 'Non zero exit code: "{0}".' -f $process.ExitCode
+          }
+
+          $logger = New-NLogBasicLogger -Name foo -Path foo.log -ErrorAction Stop
+          $logger.Info('Hello World!')
+          Stop-NLogLogging
 
       - name: Publish release
         if: github.ref_type == 'tag'
