@@ -18,7 +18,7 @@ jobs:
     runs-on: windows-latest
 
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
@@ -28,9 +28,8 @@ jobs:
 
           wix.exe extension add WixToolset.UI.wixext --global
 
-          Invoke-RestMethod -Uri https://www.nuget.org/api/v2/package/WixToolset.Heat -OutFile .\WixToolset.Heat.nupkg -ErrorAction Stop
-          Expand-Archive .\WixToolset.Heat.nupkg -DestinationPath .\heat -ErrorAction Stop
-          Get-ChildItem -Path .\heat -Recurse |
+          nuget.exe install WixToolset.Heat -NonInteractive
+          Get-ChildItem -Path .\WixToolset.Heat* -Recurse |
             Where-Object { $_.FullName.EndsWith('x64\heat.exe') } |
             Select-Object -ExpandProperty DirectoryName |
             Out-File -FilePath $env:GITHUB_PATH -Encoding utf8 -Append
@@ -118,13 +117,18 @@ jobs:
             ./ps-nlog.msi
           if-no-files-found: error
 
-      - name: Test installer
+      - name: Install msi
         run: |
           $process = Start-Process msiexec.exe -ArgumentList '/i','ps-nlog.msi','/qn' -Wait -NoNewWindow -PassThru -ErrorAction Stop
           if ($process.ExitCode -ne 0)
           {
               throw 'Non zero exit code: "{0}".' -f $process.ExitCode
           }
+
+      - name: Test module
+        shell: powershell
+        run: |
+          $PSVersionTable
 
           $logger = New-NLogBasicLogger -Name foo -Path foo.log -ErrorAction Stop
           $logger.Info('Hello World!')
