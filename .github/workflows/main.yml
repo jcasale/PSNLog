@@ -34,25 +34,12 @@ jobs:
             Select-Object -ExpandProperty DirectoryName |
             Out-File -FilePath $env:GITHUB_PATH -Encoding utf8 -Append
 
-      - name: Generate module manifest and version properties
+      - name: Generate version property
         id: version
         run: |
-          New-Item ./publish -ItemType Directory -ErrorAction Stop |Out-Null
+          $tag = git.exe describe --tags --long
+          $version = [version]::new($tag.Split('-')[0].TrimStart('v'))
 
-          if ('${{ github.ref_type }}' -eq 'tag')
-          {
-              $tag = "${{ github.ref_name }}".TrimStart("v")
-              ./src/ModuleManifest.ps1 -Path ./publish/PSNLog.psd1 -Verbose -ErrorAction Stop
-              ./src/VersionInfo.ps1 -Verbose -ErrorAction Stop
-          }
-          else
-          {
-              $tag = '0.0.1'
-              ./src/ModuleManifest.ps1 -Version $tag -Path ./publish/PSNLog.psd1 -Verbose -ErrorAction Stop
-              ./src/VersionInfo.ps1 -Version $tag -Verbose -ErrorAction Stop
-          }
-
-          $version = [version]::new($tag)
           echo "version=$version" >> $env:GITHUB_OUTPUT
 
       - name: Clean solution

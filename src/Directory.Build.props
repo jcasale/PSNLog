@@ -7,6 +7,4 @@
     <Copyright>Copyright (c) Joseph L. Casale. All rights reserved.</Copyright>
   </PropertyGroup>
 
-  <Import Project=".\version.props" Condition="Exists('.\version.props')" />
-
 </Project>

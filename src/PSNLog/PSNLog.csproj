@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+<Project InitialTargets="GetVersionFromGit" Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>net462</TargetFramework>
@@ -197,11 +197,38 @@
     </Compile>
   </ItemGroup>
 
+  <PropertyGroup>
+    <NameModuleManifest>PSNLog.psd1</NameModuleManifest>
+  </PropertyGroup>
+
   <ItemGroup>
     <None Update="Debug.ps1">
       <CopyToOutputDirectory Condition="'$(Configuration)'=='DEBUG'">PreserveNewest</CopyToOutputDirectory>
       <CopyToOutputDirectory Condition="'$(Configuration)'!='DEBUG'">Never</CopyToOutputDirectory>
     </None>
+    <None Update="$(NameModuleManifest)" CopyToOutputDirectory="Always" />
+    <Content Update="$(NameModuleManifest)" CopyToPublishDirectory="Always" />
   </ItemGroup>
+
+  <Target Name="GetVersionFromGit">
+    <Exec Command="git.exe describe --tags --long" WorkingDirectory="$(MSBuildProjectDirectory)" ConsoleToMSBuild="true" StandardOutputImportance="Low">
+        <Output TaskParameter="ConsoleOutput" PropertyName="GitTag" />
+    </Exec>
+
+    <PropertyGroup>
+        <PatternGitTag>^v((.+)-(\d+)-g(.+))</PatternGitTag>
+        <AssemblyVersion>$([System.Text.RegularExpressions.Regex]::Match($(GitTag), $(PatternGitTag)).Groups[2].Value)</AssemblyVersion>
+        <FileVersion>$([System.Text.RegularExpressions.Regex]::Match($(GitTag), $(PatternGitTag)).Groups[2].Value)</FileVersion>
+        <Version>$([System.Text.RegularExpressions.Regex]::Match($(GitTag), $(PatternGitTag)).Groups[2].Value)</Version>
+        <InformationalVersion>$([System.Text.RegularExpressions.Regex]::Match($(GitTag), $(PatternGitTag)).Groups[1].Value)</InformationalVersion>
+    </PropertyGroup>
+
+    <Message Text="*** InformationalVersion $(InformationalVersion)" Importance="high" />
+  </Target>
+
+  <Target Name="CreateModuleManifest" AfterTargets="GetVersionFromGit">
+    <Message Text="*** Writing PowerShell module manifest to $(NameModuleManifest)." Importance="high" />
+    <WriteLinesToFile File="$(NameModuleManifest)" Overwrite="true" Lines="&#xD;&#xA;@{&#xD;&#xA;  RootModule = 'PSNLog.dll'&#xD;&#xA;  ModuleVersion = '$(Version)'&#xD;&#xA;  GUID = '4b3dd496-905f-4932-a876-4c92bb4918c1'&#xD;&#xA;  Author = 'Joseph L. Casale'&#xD;&#xA;  CompanyName = 'Joseph L. Casale'&#xD;&#xA;  Copyright = '(c) Joseph L. Casale. All rights reserved.'&#xD;&#xA;  Description = 'A PowerShell module for logging based on the NLog library.'&#xD;&#xA;  RequiredAssemblies = @('NLog.dll', 'NLog.Database.dll')&#xD;&#xA;  NestedModules = @()&#xD;&#xA;  FunctionsToExport = @()&#xD;&#xA;  CmdletsToExport = @(&#xD;&#xA;    'Add-NLogLoggingConfiguration',&#xD;&#xA;    'Add-NLogLoggingRule',&#xD;&#xA;    'Add-NLogTarget',&#xD;&#xA;    'Get-NLogLogger',&#xD;&#xA;    'Get-NLogLoggingConfiguration',&#xD;&#xA;    'New-AsyncTargetWrapper',&#xD;&#xA;    'New-BufferingTargetWrapper',&#xD;&#xA;    'New-NLogBasicLogger',&#xD;&#xA;    'New-NLogColoredConsoleTarget',&#xD;&#xA;    'New-NLogConsoleRowHighlightingRule',&#xD;&#xA;    'New-NLogConsoleTarget',&#xD;&#xA;    'New-NLogConsoleWordHighlightingRule',&#xD;&#xA;    'New-NLogDatabaseCommandInfo',&#xD;&#xA;    'New-NLogDatabaseParameterInfo',&#xD;&#xA;    'New-NLogDatabaseTarget',&#xD;&#xA;    'New-NLogEventLogTarget',&#xD;&#xA;    'New-NLogFileTarget',&#xD;&#xA;    'New-NLogLoggingConfiguration',&#xD;&#xA;    'New-NLogLoggingRule',&#xD;&#xA;    'New-NLogMailTarget',&#xD;&#xA;    'Remove-NLogLoggingRule',&#xD;&#xA;    'Remove-NLogTarget',&#xD;&#xA;    'Stop-NLogLogging'&#xD;&#xA;  )&#xD;&#xA;  VariablesToExport = @()&#xD;&#xA;  AliasesToExport = @()&#xD;&#xA;  PrivateData = @{ PSData = @{} }&#xD;&#xA;}" />
+  </Target>
 
 </Project>
