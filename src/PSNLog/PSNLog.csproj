@@ -4,6 +4,7 @@
     <TargetFramework>net462</TargetFramework>
     <LangVersion>preview</LangVersion>
     <AnalysisLevel>preview-All</AnalysisLevel>
+    <NoWarn>CA1031</NoWarn>
   </PropertyGroup>
 
   <ItemGroup>
