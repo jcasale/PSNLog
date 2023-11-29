@@ -1,5 +1,5 @@
-<#@ assembly name="%USERPROFILE%\.nuget\packages\nlog\5.2.6\lib\net46\NLog.dll" #>
-<#@ assembly name="%USERPROFILE%\.nuget\packages\nlog.database\5.2.6\lib\net46\NLog.Database.dll" #>
+<#@ assembly name="%USERPROFILE%\.nuget\packages\nlog\5.2.7\lib\net46\NLog.dll" #>
+<#@ assembly name="%USERPROFILE%\.nuget\packages\nlog.database\5.2.7\lib\net46\NLog.Database.dll" #>
 <#@ assembly name="System.Xml.dll" #>
 <#@ import namespace="System" #>
 <#@ import namespace="System.CodeDom" #>
@@ -16,8 +16,8 @@ public static string UserProfile { get; } = Environment.GetEnvironmentVariable("
 
 public static string[] XmlPaths { get; } =
     {
-        Path.Combine(UserProfile, @".nuget\packages\nlog\5.2.6\lib\net46\NLog.xml"),
-        Path.Combine(UserProfile, @".nuget\packages\nlog.database\5.2.6\lib\net46\NLog.Database.xml")
+        Path.Combine(UserProfile, @".nuget\packages\nlog\5.2.7\lib\net46\NLog.xml"),
+        Path.Combine(UserProfile, @".nuget\packages\nlog.database\5.2.7\lib\net46\NLog.Database.xml")
     };
 
 public static Type[] NLogTypes { get; } = Assembly.GetAssembly(typeof(NLog.Targets.Target)).GetTypes()
@@ -54,7 +54,7 @@ public static IEnumerable<PropertyData> GetProperties<T>()
         {
             continue;
         }
-        
+
         var typeReference = new CodeTypeReference(type);
         var alias = provider.GetTypeOutput(typeReference);
 
