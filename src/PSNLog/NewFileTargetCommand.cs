@@ -206,6 +206,11 @@ public class NewFileTargetCommand : PSCmdlet
         HelpMessage = "Gets or sets a value indicating whether the footer should be written only when the file is archived.")]
     public bool? WriteFooterOnArchivingOnly { get; set; }
 
+    [Parameter(
+        ValueFromPipelineByPropertyName = true,
+        HelpMessage = "Gets or sets whether to write the Header on initial creation of file appender, even if the file is not empty. Default value is , which means only write header when initial file is empty (Ex. ensures valid CSV files).")]
+    public bool? WriteHeaderWhenInitialFileNotEmpty { get; set; }
+
     protected override void ProcessRecord()
     {
         var instance = new NLog.Targets.FileTarget();
@@ -408,6 +413,11 @@ public class NewFileTargetCommand : PSCmdlet
         if (this.WriteFooterOnArchivingOnly.HasValue)
         {
             instance.WriteFooterOnArchivingOnly = this.WriteFooterOnArchivingOnly.Value;
+        }
+
+        if (this.WriteHeaderWhenInitialFileNotEmpty.HasValue)
+        {
+            instance.WriteHeaderWhenInitialFileNotEmpty = this.WriteHeaderWhenInitialFileNotEmpty.Value;
         }
 
         this.WriteObject(instance);
