@@ -15,10 +15,10 @@
 public static string UserProfile { get; } = Environment.GetEnvironmentVariable("USERPROFILE") ?? throw new InvalidOperationException();
 
 public static string[] XmlPaths { get; } =
-    {
+    [
         Path.Combine(UserProfile, @".nuget\packages\nlog\5.2.8\lib\net46\NLog.xml"),
         Path.Combine(UserProfile, @".nuget\packages\nlog.database\5.2.8\lib\net46\NLog.Database.xml")
-    };
+    ];
 
 public static Type[] NLogTypes { get; } = Assembly.GetAssembly(typeof(NLog.Targets.Target)).GetTypes()
     .Concat(Assembly.GetAssembly(typeof(NLog.Targets.DatabaseTarget)).GetTypes())
