@@ -7,4 +7,8 @@
     <Copyright>Copyright (c) Joseph L. Casale. All rights reserved.</Copyright>
   </PropertyGroup>
 
+  <PropertyGroup>
+    <CodeAnalysisRuleSet>$(MSBuildThisFileDirectory)StyleCop.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+
 </Project>

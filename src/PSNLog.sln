@@ -6,6 +6,7 @@ MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{115779DE-3503-4410-BDE6-86260FBF23AD}"
 	ProjectSection(SolutionItems) = preProject
 		..\.editorconfig = ..\.editorconfig
+		StyleCop.ruleset = StyleCop.ruleset
 	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PSNLog", "PSNLog\PSNLog.csproj", "{067A2F2E-0750-4296-B47E-029F3ECD76AF}"
