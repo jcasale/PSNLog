@@ -120,7 +120,7 @@ public class NewColoredConsoleTargetCommand : PSCmdlet
             instance.Name = this.Name;
         }
 
-        if (this.RowHighlightingRules is {Length: > 0})
+        if (this.RowHighlightingRules is { Length: > 0 })
         {
             foreach (var item in this.RowHighlightingRules)
             {
@@ -138,7 +138,7 @@ public class NewColoredConsoleTargetCommand : PSCmdlet
             instance.UseDefaultRowHighlightingRules = this.UseDefaultRowHighlightingRules.Value;
         }
 
-        if (this.WordHighlightingRules is {Length: > 0})
+        if (this.WordHighlightingRules is { Length: > 0 })
         {
             foreach (var item in this.WordHighlightingRules)
             {

@@ -42,7 +42,7 @@ public class NewColoredConsoleTargetCommand : PSCmdlet
         {
             if (property.IsCollection)
             {
-                WriteLine("        if (this.{0} is {{Length: > 0}})", property.Name);
+                WriteLine("        if (this.{0} is {{ Length: > 0 }})", property.Name);
                 WriteLine("        {");
                 WriteLine("            foreach (var item in this.{0})", property.Name);
                 WriteLine("            {");

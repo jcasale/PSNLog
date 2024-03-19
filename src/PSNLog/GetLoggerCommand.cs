@@ -14,7 +14,7 @@ public class GetLoggerCommand : PSCmdlet
         ValueFromPipelineByPropertyName = true,
         HelpMessage = "Specifies the name of the logger.")]
     [ValidateNotNullOrEmpty]
-    public string Name{ get; set; }
+    public string Name { get; set; }
 
     protected override void ProcessRecord()
     {

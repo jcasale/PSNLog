@@ -50,7 +50,7 @@ public class NewDatabaseCommandInfoCommand : PSCmdlet
             instance.IgnoreFailures = this.IgnoreFailures.Value;
         }
 
-        if (this.Parameters is {Length: > 0})
+        if (this.Parameters is { Length: > 0 })
         {
             foreach (var item in this.Parameters)
             {
