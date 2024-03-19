@@ -123,6 +123,7 @@ jobs:
 
       - name: Publish release
         if: github.ref_type == 'tag'
-        uses: ncipollo/release-action@v1
-        with:
-          artifacts: ps-nlog.msi
+        run: gh.exe release create v${{ steps.version.outputs.version }} --title v${{ steps.version.outputs.version }} --notes 'PowerShell NLog logging module.' ps-nlog.msi
+        env:
+            # Requires a personal access token with a fine-grained permission of contents:read/write.
+            GH_TOKEN: ${{ secrets.MY_GITHUB_TOKEN }}
