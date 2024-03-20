@@ -47,6 +47,17 @@ public class RemoveTargetCommand : PSCmdlet
         {
             case nameof(this.Target):
 
+                if (string.IsNullOrWhiteSpace(this.Target.Name))
+                {
+                    this.ThrowTerminatingError(new ErrorRecord(
+                        new ItemNotFoundException("The target is unnamed."),
+                        "TargetNameMissing",
+                        ErrorCategory.InvalidOperation,
+                        null));
+
+                    return;
+                }
+
                 this.Configuration.RemoveTarget(this.Target.Name);
 
                 break;
