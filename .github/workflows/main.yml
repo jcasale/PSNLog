@@ -42,6 +42,9 @@ jobs:
 
           echo "version=$version" >> $env:GITHUB_OUTPUT
 
+      - name: Run tests
+        run: dotnet.exe test .\src\PSNLog.sln
+
       - name: Clean solution
         run: dotnet.exe clean .\src\PSNLog.sln --configuration Release
 
