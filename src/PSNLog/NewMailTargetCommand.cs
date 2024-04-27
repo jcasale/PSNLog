@@ -200,7 +200,7 @@ public class NewMailTargetCommand : PSCmdlet
             instance.Layout = this.Layout;
         }
 
-        if (this.MailHeaders is {Length: > 0})
+        if (this.MailHeaders is { Length: > 0 })
         {
             foreach (var item in this.MailHeaders)
             {

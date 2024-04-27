@@ -100,7 +100,7 @@ public class NewDatabaseTargetCommand : PSCmdlet
     {
         var instance = new NLog.Targets.DatabaseTarget();
 
-        if (this.CommandProperties is {Length: > 0})
+        if (this.CommandProperties is { Length: > 0 })
         {
             foreach (var item in this.CommandProperties)
             {
@@ -118,7 +118,7 @@ public class NewDatabaseTargetCommand : PSCmdlet
             instance.CommandType = this.CommandType.Value;
         }
 
-        if (this.ConnectionProperties is {Length: > 0})
+        if (this.ConnectionProperties is { Length: > 0 })
         {
             foreach (var item in this.ConnectionProperties)
             {
@@ -166,7 +166,7 @@ public class NewDatabaseTargetCommand : PSCmdlet
             instance.InstallConnectionString = this.InstallConnectionString;
         }
 
-        if (this.InstallDdlCommands is {Length: > 0})
+        if (this.InstallDdlCommands is { Length: > 0 })
         {
             foreach (var item in this.InstallDdlCommands)
             {
@@ -189,7 +189,7 @@ public class NewDatabaseTargetCommand : PSCmdlet
             instance.Name = this.Name;
         }
 
-        if (this.Parameters is {Length: > 0})
+        if (this.Parameters is { Length: > 0 })
         {
             foreach (var item in this.Parameters)
             {
@@ -197,7 +197,7 @@ public class NewDatabaseTargetCommand : PSCmdlet
             }
         }
 
-        if (this.UninstallDdlCommands is {Length: > 0})
+        if (this.UninstallDdlCommands is { Length: > 0 })
         {
             foreach (var item in this.UninstallDdlCommands)
             {

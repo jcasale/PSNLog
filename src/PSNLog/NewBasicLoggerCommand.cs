@@ -10,7 +10,7 @@ using NLog.Targets;
 [OutputType(typeof(LoggingConfiguration))]
 public class NewBasicLoggerCommand : PSCmdlet
 {
-    private const string layout = "[${longDate}] " +
+    private const string Layout = "[${longDate}] " +
         "[${logger:shortName=false}] " +
         "[${uppercase:${level}}] " +
         "${message}" +
@@ -41,13 +41,13 @@ public class NewBasicLoggerCommand : PSCmdlet
         var file = new FileTarget(nameof(FileTarget))
         {
             FileName = this.Path,
-            Layout = layout,
+            Layout = Layout,
             OpenFileCacheTimeout = 30
         };
 
         var console = new ConsoleTarget(nameof(ConsoleTarget))
         {
-            Layout = layout
+            Layout = Layout
         };
 
         configuration.AddRule(LogLevel.Trace, LogLevel.Fatal, console);

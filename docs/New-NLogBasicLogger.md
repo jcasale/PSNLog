@@ -24,7 +24,7 @@ This cmdlet performs the following functions:
 
 ## EXAMPLES
 
-### ----------- Example 1: Create a basic logger -----------
+### Example 1: Create a basic logger.
 
 ```powershell
 $logger = New-NLogBasicLogger -Name MyLogger -Path x:/path/application.log
