@@ -173,11 +173,6 @@ public class NewFileTargetCommand : PSCmdlet
 
     [Parameter(
         ValueFromPipelineByPropertyName = true,
-        HelpMessage = "Gets or sets a value indicating whether concurrent writes to the log file by multiple processes on different network hosts.")]
-    public bool? NetworkWrites { get; set; }
-
-    [Parameter(
-        ValueFromPipelineByPropertyName = true,
         HelpMessage = "Gets or sets the number of files to be kept open. Setting this to a higher value may improve performance in a situation where a single File target is writing to many files (such as splitting by level or by logger).")]
     public int? OpenFileCacheSize { get; set; }
 
@@ -378,11 +373,6 @@ public class NewFileTargetCommand : PSCmdlet
         if (this.Name is not null)
         {
             instance.Name = this.Name;
-        }
-
-        if (this.NetworkWrites.HasValue)
-        {
-            instance.NetworkWrites = this.NetworkWrites.Value;
         }
 
         if (this.OpenFileCacheSize.HasValue)
