@@ -53,6 +53,11 @@ public class NewColoredConsoleTargetCommand : PSCmdlet
 
     [Parameter(
         ValueFromPipelineByPropertyName = true,
+        HelpMessage = "Support NO_COLOR=1 environment variable. See also.")]
+    public NLog.Layouts.Layout<bool> NoColor { get; set; }
+
+    [Parameter(
+        ValueFromPipelineByPropertyName = true,
         HelpMessage = "Gets the row highlighting rules.")]
     public NLog.Targets.ConsoleRowHighlightingRule[] RowHighlightingRules { get; set; }
 
@@ -118,6 +123,11 @@ public class NewColoredConsoleTargetCommand : PSCmdlet
         if (this.Name is not null)
         {
             instance.Name = this.Name;
+        }
+
+        if (this.NoColor is not null)
+        {
+            instance.NoColor = this.NoColor;
         }
 
         if (this.RowHighlightingRules is { Length: > 0 })
