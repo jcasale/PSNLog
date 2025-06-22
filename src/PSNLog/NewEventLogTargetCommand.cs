@@ -29,22 +29,22 @@ public class NewEventLogTargetCommand : PSCmdlet
     [Parameter(
         ValueFromPipelineByPropertyName = true,
         HelpMessage = "Gets or sets the name of the Event Log to write to. This can be System, Application or any user-defined name.")]
-    public string Log { get; set; }
+    public NLog.Layouts.Layout Log { get; set; }
 
     [Parameter(
         ValueFromPipelineByPropertyName = true,
         HelpMessage = "Gets or sets the name of the machine on which Event Log service is running.")]
-    public string MachineName { get; set; }
+    public NLog.Layouts.Layout MachineName { get; set; }
 
     [Parameter(
         ValueFromPipelineByPropertyName = true,
         HelpMessage = "Gets or sets the maximum Event log size in kilobytes.")]
-    public long? MaxKilobytes { get; set; }
+    public NLog.Layouts.Layout<long> MaxKilobytes { get; set; }
 
     [Parameter(
         ValueFromPipelineByPropertyName = true,
         HelpMessage = "Gets or sets the message length limit to write to the Event Log.")]
-    public int? MaxMessageLength { get; set; }
+    public NLog.Layouts.Layout<int> MaxMessageLength { get; set; }
 
     [Parameter(
         ValueFromPipelineByPropertyName = true,
@@ -95,14 +95,14 @@ public class NewEventLogTargetCommand : PSCmdlet
             instance.MachineName = this.MachineName;
         }
 
-        if (this.MaxKilobytes.HasValue)
+        if (this.MaxKilobytes is not null)
         {
-            instance.MaxKilobytes = this.MaxKilobytes.Value;
+            instance.MaxKilobytes = this.MaxKilobytes;
         }
 
-        if (this.MaxMessageLength.HasValue)
+        if (this.MaxMessageLength is not null)
         {
-            instance.MaxMessageLength = this.MaxMessageLength.Value;
+            instance.MaxMessageLength = this.MaxMessageLength;
         }
 
         if (this.Name is not null)

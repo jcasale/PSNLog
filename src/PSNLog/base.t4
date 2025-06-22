@@ -1,5 +1,6 @@
-<#@ assembly name="%USERPROFILE%\.nuget\packages\nlog\5.4.0\lib\net46\NLog.dll" #>
-<#@ assembly name="%USERPROFILE%\.nuget\packages\nlog.database\5.4.0\lib\net46\NLog.Database.dll" #>
+<#@ assembly name="%USERPROFILE%\.nuget\packages\nlog\6.0.0\lib\net46\NLog.dll" #>
+<#@ assembly name="%USERPROFILE%\.nuget\packages\nlog.database\6.0.0\lib\net46\NLog.Database.dll" #>
+<#@ assembly name="%USERPROFILE%\.nuget\packages\nlog.targets.mail\6.0.0\lib\net46\NLog.Targets.Mail.dll" #>
 <#@ assembly name="System.Xml.dll" #>
 <#@ import namespace="System" #>
 <#@ import namespace="System.CodeDom" #>
@@ -16,13 +17,17 @@ public static string UserProfile { get; } = Environment.GetEnvironmentVariable("
 
 public static string[] XmlPaths { get; } =
     [
-        Path.Combine(UserProfile, @".nuget\packages\nlog\5.4.0\lib\net46\NLog.xml"),
-        Path.Combine(UserProfile, @".nuget\packages\nlog.database\5.4.0\lib\net46\NLog.Database.xml")
+        Path.Combine(UserProfile, @".nuget\packages\nlog\6.0.0\lib\net46\NLog.xml"),
+        Path.Combine(UserProfile, @".nuget\packages\nlog.database\6.0.0\lib\net46\NLog.Database.xml"),
+        Path.Combine(UserProfile, @".nuget\packages\nlog.targets.mail\6.0.0\lib\net46\NLog.Targets.Mail.xml")
     ];
 
-public static Type[] NLogTypes { get; } = Assembly.GetAssembly(typeof(NLog.Targets.Target)).GetTypes()
-    .Concat(Assembly.GetAssembly(typeof(NLog.Targets.DatabaseTarget)).GetTypes())
-    .ToArray();
+public static Type[] NLogTypes { get; } = new []
+    {
+        Assembly.GetAssembly(typeof(NLog.Targets.Target)).GetTypes(),
+        Assembly.GetAssembly(typeof(NLog.Targets.DatabaseTarget)).GetTypes(),
+        Assembly.GetAssembly(typeof(NLog.Targets.MailTarget)).GetTypes()
+    }.SelectMany(x => x).ToArray();
 
 public static IDictionary<string, string> SummaryMap { get; } = XmlPaths
     .SelectMany(GetXmlMembers)
@@ -75,12 +80,17 @@ public static IEnumerable<PropertyData> GetProperties<T>()
             }
         }
 
+        if (string.IsNullOrWhiteSpace(summary))
+        {
+            throw new InvalidOperationException($"Summary not found for {property.Name} in {typeof(T).Name}.");
+        }
+
         yield return new PropertyData
         {
             Name = property.Name,
             Type = type,
             Alias = alias,
-            Summary = string.IsNullOrEmpty(summary) ? " " : summary,
+            Summary = summary,
             HasGetMethod = property.GetGetMethod() is not null,
             HasSetMethod = property.GetSetMethod() is not null,
             IsCollection = isCollection,
