@@ -23,6 +23,11 @@ public class NewDatabaseParameterInfoCommand : PSCmdlet
 
     [Parameter(
         ValueFromPipelineByPropertyName = true,
+        HelpMessage = "Gets or sets the database parameter DbType (without reflection logic).")]
+    public System.Data.DbType? DbTypeEnum { get; set; }
+
+    [Parameter(
+        ValueFromPipelineByPropertyName = true,
         HelpMessage = "Gets or sets the fallback value when result value is not available.")]
     public NLog.Layouts.Layout DefaultValue { get; set; }
 
@@ -33,7 +38,7 @@ public class NewDatabaseParameterInfoCommand : PSCmdlet
 
     [Parameter(
         ValueFromPipelineByPropertyName = true,
-        HelpMessage = "Gets or sets the layout that should be use to calculate the value for the parameter.")]
+        HelpMessage = "Gets or sets the layout used for rendering the database-parameter value.")]
     public NLog.Layouts.Layout Layout { get; set; }
 
     [Parameter(
@@ -78,6 +83,11 @@ public class NewDatabaseParameterInfoCommand : PSCmdlet
         if (this.DbType is not null)
         {
             instance.DbType = this.DbType;
+        }
+
+        if (this.DbTypeEnum.HasValue)
+        {
+            instance.DbTypeEnum = this.DbTypeEnum.Value;
         }
 
         if (this.DefaultValue is not null)

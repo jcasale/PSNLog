@@ -28,6 +28,11 @@ public class NewConsoleTargetCommand : PSCmdlet
 
     [Parameter(
         ValueFromPipelineByPropertyName = true,
+        HelpMessage = "Gets or sets whether to force M:System.Console.WriteLine (slower) instead of the faster internal buffering.")]
+    public bool? ForceWriteLine { get; set; }
+
+    [Parameter(
+        ValueFromPipelineByPropertyName = true,
         HelpMessage = "Gets or sets the header.")]
     public NLog.Layouts.Layout Header { get; set; }
 
@@ -44,12 +49,7 @@ public class NewConsoleTargetCommand : PSCmdlet
     [Parameter(
         ValueFromPipelineByPropertyName = true,
         HelpMessage = "Gets or sets a value indicating whether to send the log messages to the standard error instead of the standard output.")]
-    public bool? StdErr { get; set; }
-
-    [Parameter(
-        ValueFromPipelineByPropertyName = true,
-        HelpMessage = "Gets or sets whether to activate internal buffering to allow batch writing, instead of using M:System.Console.WriteLine.")]
-    public bool? WriteBuffer { get; set; }
+    public NLog.Layouts.Layout<bool> StdErr { get; set; }
 
     protected override void ProcessRecord()
     {
@@ -75,6 +75,11 @@ public class NewConsoleTargetCommand : PSCmdlet
             instance.Footer = this.Footer;
         }
 
+        if (this.ForceWriteLine.HasValue)
+        {
+            instance.ForceWriteLine = this.ForceWriteLine.Value;
+        }
+
         if (this.Header is not null)
         {
             instance.Header = this.Header;
@@ -90,14 +95,9 @@ public class NewConsoleTargetCommand : PSCmdlet
             instance.Name = this.Name;
         }
 
-        if (this.StdErr.HasValue)
+        if (this.StdErr is not null)
         {
-            instance.StdErr = this.StdErr.Value;
-        }
-
-        if (this.WriteBuffer.HasValue)
-        {
-            instance.WriteBuffer = this.WriteBuffer.Value;
+            instance.StdErr = this.StdErr;
         }
 
         this.WriteObject(instance);

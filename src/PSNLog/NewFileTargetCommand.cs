@@ -13,28 +13,13 @@ public class NewFileTargetCommand : PSCmdlet
 
     [Parameter(
         ValueFromPipelineByPropertyName = true,
-        HelpMessage = "Gets or sets a value specifying the date format to use when archiving files.")]
-    public string ArchiveDateFormat { get; set; }
-
-    [Parameter(
-        ValueFromPipelineByPropertyName = true,
-        HelpMessage = "Gets or sets a value indicating whether to automatically archive log files every time the specified time passes.")]
+        HelpMessage = "Gets or sets a value indicating whether to trigger archive operation based on time-period, by moving active-file to file-path specified by P:NLog.Targets.FileTarget.ArchiveFileName.")]
     public NLog.Targets.FileArchivePeriod? ArchiveEvery { get; set; }
 
     [Parameter(
         ValueFromPipelineByPropertyName = true,
-        HelpMessage = "Is the P:NLog.Targets.FileTarget.ArchiveFileName an absolute or relative path?")]
-    public NLog.Targets.FilePathKind? ArchiveFileKind { get; set; }
-
-    [Parameter(
-        ValueFromPipelineByPropertyName = true,
-        HelpMessage = "Gets or sets the name of the file to be used for an archive.")]
+        HelpMessage = "Legacy archive logic where file-archive-logic moves active file to path specified by P:NLog.Targets.FileTarget.ArchiveFileName, and then recreates the active file. Use P:NLog.Targets.FileTarget.ArchiveSuffixFormat to control suffix format, instead of now obsolete token {#}.")]
     public NLog.Layouts.Layout ArchiveFileName { get; set; }
-
-    [Parameter(
-        ValueFromPipelineByPropertyName = true,
-        HelpMessage = "Gets or sets the way file archives are numbered.")]
-    public NLog.Targets.ArchiveNumberingMode? ArchiveNumbering { get; set; }
 
     [Parameter(
         ValueFromPipelineByPropertyName = true,
@@ -43,8 +28,8 @@ public class NewFileTargetCommand : PSCmdlet
 
     [Parameter(
         ValueFromPipelineByPropertyName = true,
-        HelpMessage = "Gets or sets a value of the file size threshold to archive old log file on startup.")]
-    public long? ArchiveOldFileOnStartupAboveSize { get; set; }
+        HelpMessage = "Gets or sets the format-string to convert archive sequence-number by using string.Format.")]
+    public string ArchiveSuffixFormat { get; set; }
 
     [Parameter(
         ValueFromPipelineByPropertyName = true,
@@ -55,26 +40,6 @@ public class NewFileTargetCommand : PSCmdlet
         ValueFromPipelineByPropertyName = true,
         HelpMessage = "Gets or sets the log file buffer size in bytes.")]
     public int? BufferSize { get; set; }
-
-    [Parameter(
-        ValueFromPipelineByPropertyName = true,
-        HelpMessage = "Cleanup invalid values in a filename, e.g. slashes in a filename. If set to true, this can impact the performance of massive writes. If set to false, nothing gets written when the filename is wrong.")]
-    public bool? CleanupFileName { get; set; }
-
-    [Parameter(
-        ValueFromPipelineByPropertyName = true,
-        HelpMessage = "Gets or sets the delay in milliseconds to wait before attempting to write to the file again.")]
-    public int? ConcurrentWriteAttemptDelay { get; set; }
-
-    [Parameter(
-        ValueFromPipelineByPropertyName = true,
-        HelpMessage = "Gets or sets the number of times the write is appended on the file before NLog discards the log message.")]
-    public int? ConcurrentWriteAttempts { get; set; }
-
-    [Parameter(
-        ValueFromPipelineByPropertyName = true,
-        HelpMessage = "Gets or sets a value indicating whether concurrent writes to the log file by multiple processes on the same host.")]
-    public bool? ConcurrentWrites { get; set; }
 
     [Parameter(
         ValueFromPipelineByPropertyName = true,
@@ -93,11 +58,6 @@ public class NewFileTargetCommand : PSCmdlet
 
     [Parameter(
         ValueFromPipelineByPropertyName = true,
-        HelpMessage = "Gets or sets a value indicating whether to compress archive files into the zip archive format.")]
-    public bool? EnableArchiveFileCompression { get; set; }
-
-    [Parameter(
-        ValueFromPipelineByPropertyName = true,
         HelpMessage = "Gets or sets a value indicating whether to enable log file(s) to be deleted.")]
     public bool? EnableFileDelete { get; set; }
 
@@ -108,33 +68,13 @@ public class NewFileTargetCommand : PSCmdlet
 
     [Parameter(
         ValueFromPipelineByPropertyName = true,
-        HelpMessage = "Gets or sets the file attributes (Windows only).")]
-    public NLog.Targets.Win32FileAttributes? FileAttributes { get; set; }
-
-    [Parameter(
-        ValueFromPipelineByPropertyName = true,
         HelpMessage = "Gets or sets the name of the file to write to.")]
     public NLog.Layouts.Layout FileName { get; set; }
 
     [Parameter(
         ValueFromPipelineByPropertyName = true,
-        HelpMessage = "Is the P:NLog.Targets.FileTarget.FileName an absolute or relative path?")]
-    public NLog.Targets.FilePathKind? FileNameKind { get; set; }
-
-    [Parameter(
-        ValueFromPipelineByPropertyName = true,
         HelpMessage = "Gets or sets the footer.")]
     public NLog.Layouts.Layout Footer { get; set; }
-
-    [Parameter(
-        ValueFromPipelineByPropertyName = true,
-        HelpMessage = "Gets or set a value indicating whether a managed file stream is forced, instead of using the native implementation.")]
-    public bool? ForceManaged { get; set; }
-
-    [Parameter(
-        ValueFromPipelineByPropertyName = true,
-        HelpMessage = "Gets or sets a value indicating whether file creation calls should be synchronized by a system global mutex.")]
-    public bool? ForceMutexConcurrentWrites { get; set; }
 
     [Parameter(
         ValueFromPipelineByPropertyName = true,
@@ -215,19 +155,9 @@ public class NewFileTargetCommand : PSCmdlet
             instance.ArchiveAboveSize = this.ArchiveAboveSize.Value;
         }
 
-        if (this.ArchiveDateFormat is not null)
-        {
-            instance.ArchiveDateFormat = this.ArchiveDateFormat;
-        }
-
         if (this.ArchiveEvery.HasValue)
         {
             instance.ArchiveEvery = this.ArchiveEvery.Value;
-        }
-
-        if (this.ArchiveFileKind.HasValue)
-        {
-            instance.ArchiveFileKind = this.ArchiveFileKind.Value;
         }
 
         if (this.ArchiveFileName is not null)
@@ -235,19 +165,14 @@ public class NewFileTargetCommand : PSCmdlet
             instance.ArchiveFileName = this.ArchiveFileName;
         }
 
-        if (this.ArchiveNumbering.HasValue)
-        {
-            instance.ArchiveNumbering = this.ArchiveNumbering.Value;
-        }
-
         if (this.ArchiveOldFileOnStartup.HasValue)
         {
             instance.ArchiveOldFileOnStartup = this.ArchiveOldFileOnStartup.Value;
         }
 
-        if (this.ArchiveOldFileOnStartupAboveSize.HasValue)
+        if (this.ArchiveSuffixFormat is not null)
         {
-            instance.ArchiveOldFileOnStartupAboveSize = this.ArchiveOldFileOnStartupAboveSize.Value;
+            instance.ArchiveSuffixFormat = this.ArchiveSuffixFormat;
         }
 
         if (this.AutoFlush.HasValue)
@@ -258,26 +183,6 @@ public class NewFileTargetCommand : PSCmdlet
         if (this.BufferSize.HasValue)
         {
             instance.BufferSize = this.BufferSize.Value;
-        }
-
-        if (this.CleanupFileName.HasValue)
-        {
-            instance.CleanupFileName = this.CleanupFileName.Value;
-        }
-
-        if (this.ConcurrentWriteAttemptDelay.HasValue)
-        {
-            instance.ConcurrentWriteAttemptDelay = this.ConcurrentWriteAttemptDelay.Value;
-        }
-
-        if (this.ConcurrentWriteAttempts.HasValue)
-        {
-            instance.ConcurrentWriteAttempts = this.ConcurrentWriteAttempts.Value;
-        }
-
-        if (this.ConcurrentWrites.HasValue)
-        {
-            instance.ConcurrentWrites = this.ConcurrentWrites.Value;
         }
 
         if (this.CreateDirs.HasValue)
@@ -295,11 +200,6 @@ public class NewFileTargetCommand : PSCmdlet
             instance.DiscardAll = this.DiscardAll.Value;
         }
 
-        if (this.EnableArchiveFileCompression.HasValue)
-        {
-            instance.EnableArchiveFileCompression = this.EnableArchiveFileCompression.Value;
-        }
-
         if (this.EnableFileDelete.HasValue)
         {
             instance.EnableFileDelete = this.EnableFileDelete.Value;
@@ -310,34 +210,14 @@ public class NewFileTargetCommand : PSCmdlet
             instance.Encoding = this.Encoding;
         }
 
-        if (this.FileAttributes.HasValue)
-        {
-            instance.FileAttributes = this.FileAttributes.Value;
-        }
-
         if (this.FileName is not null)
         {
             instance.FileName = this.FileName;
         }
 
-        if (this.FileNameKind.HasValue)
-        {
-            instance.FileNameKind = this.FileNameKind.Value;
-        }
-
         if (this.Footer is not null)
         {
             instance.Footer = this.Footer;
-        }
-
-        if (this.ForceManaged.HasValue)
-        {
-            instance.ForceManaged = this.ForceManaged.Value;
-        }
-
-        if (this.ForceMutexConcurrentWrites.HasValue)
-        {
-            instance.ForceMutexConcurrentWrites = this.ForceMutexConcurrentWrites.Value;
         }
 
         if (this.Header is not null)

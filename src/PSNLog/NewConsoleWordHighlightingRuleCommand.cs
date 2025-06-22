@@ -13,11 +13,6 @@ public class NewConsoleWordHighlightingRuleCommand : PSCmdlet
 
     [Parameter(
         ValueFromPipelineByPropertyName = true,
-        HelpMessage = "Compile the P:NLog.Targets.ConsoleWordHighlightingRule.Regex? This can improve the performance, but at the costs of more memory usage. If false, the Regex Cache is used.")]
-    public bool? CompileRegex { get; set; }
-
-    [Parameter(
-        ValueFromPipelineByPropertyName = true,
         HelpMessage = "Gets or sets the condition that must be met before scanning the row for highlight of words.")]
     public NLog.Conditions.ConditionExpression Condition { get; set; }
 
@@ -30,11 +25,6 @@ public class NewConsoleWordHighlightingRuleCommand : PSCmdlet
         ValueFromPipelineByPropertyName = true,
         HelpMessage = "Gets or sets a value indicating whether to ignore case when comparing texts.")]
     public bool? IgnoreCase { get; set; }
-
-    [Parameter(
-        ValueFromPipelineByPropertyName = true,
-        HelpMessage = "Gets or sets the regular expression to be matched. You must specify either text or regex.")]
-    public string Regex { get; set; }
 
     [Parameter(
         ValueFromPipelineByPropertyName = true,
@@ -55,11 +45,6 @@ public class NewConsoleWordHighlightingRuleCommand : PSCmdlet
             instance.BackgroundColor = this.BackgroundColor.Value;
         }
 
-        if (this.CompileRegex.HasValue)
-        {
-            instance.CompileRegex = this.CompileRegex.Value;
-        }
-
         if (this.Condition is not null)
         {
             instance.Condition = this.Condition;
@@ -73,11 +58,6 @@ public class NewConsoleWordHighlightingRuleCommand : PSCmdlet
         if (this.IgnoreCase.HasValue)
         {
             instance.IgnoreCase = this.IgnoreCase.Value;
-        }
-
-        if (this.Regex is not null)
-        {
-            instance.Regex = this.Regex;
         }
 
         if (this.Text is not null)

@@ -64,7 +64,7 @@ public class NewColoredConsoleTargetCommand : PSCmdlet
     [Parameter(
         ValueFromPipelineByPropertyName = true,
         HelpMessage = "Gets or sets a value indicating whether to send the log messages to the standard error instead of the standard output.")]
-    public bool? StdErr { get; set; }
+    public NLog.Layouts.Layout<bool> StdErr { get; set; }
 
     [Parameter(
         ValueFromPipelineByPropertyName = true,
@@ -138,9 +138,9 @@ public class NewColoredConsoleTargetCommand : PSCmdlet
             }
         }
 
-        if (this.StdErr.HasValue)
+        if (this.StdErr is not null)
         {
-            instance.StdErr = this.StdErr.Value;
+            instance.StdErr = this.StdErr;
         }
 
         if (this.UseDefaultRowHighlightingRules.HasValue)
