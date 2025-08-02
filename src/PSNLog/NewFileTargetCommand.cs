@@ -8,7 +8,7 @@ public class NewFileTargetCommand : PSCmdlet
 {
     [Parameter(
         ValueFromPipelineByPropertyName = true,
-        HelpMessage = "Gets or sets the size in bytes above which log files will be automatically archived.")]
+        HelpMessage = "Gets or sets the size in bytes above which log files will be automatically archived. Zero or negative means disabled.")]
     public long? ArchiveAboveSize { get; set; }
 
     [Parameter(
@@ -23,7 +23,7 @@ public class NewFileTargetCommand : PSCmdlet
 
     [Parameter(
         ValueFromPipelineByPropertyName = true,
-        HelpMessage = "Gets or sets a value indicating whether to archive old log file on startup.")]
+        HelpMessage = "Gets or sets a value indicating whether any existing log-file should be archived on startup.")]
     public bool? ArchiveOldFileOnStartup { get; set; }
 
     [Parameter(
@@ -98,12 +98,12 @@ public class NewFileTargetCommand : PSCmdlet
 
     [Parameter(
         ValueFromPipelineByPropertyName = true,
-        HelpMessage = "Gets or sets the maximum days of archive files that should be kept.")]
+        HelpMessage = "Gets or sets the maximum days of archive files that should be kept. Zero or negative means disabled.")]
     public int? MaxArchiveDays { get; set; }
 
     [Parameter(
         ValueFromPipelineByPropertyName = true,
-        HelpMessage = "Gets or sets the maximum number of archive files that should be kept.")]
+        HelpMessage = "Gets or sets the maximum number of archive files that should be kept. Negative means disabled.")]
     public int? MaxArchiveFiles { get; set; }
 
     [Parameter(
@@ -113,7 +113,7 @@ public class NewFileTargetCommand : PSCmdlet
 
     [Parameter(
         ValueFromPipelineByPropertyName = true,
-        HelpMessage = "Gets or sets the number of files to be kept open. Setting this to a higher value may improve performance in a situation where a single File target is writing to many files (such as splitting by level or by logger).")]
+        HelpMessage = "Gets or sets the maximum number of files to be kept open.")]
     public int? OpenFileCacheSize { get; set; }
 
     [Parameter(
@@ -133,7 +133,7 @@ public class NewFileTargetCommand : PSCmdlet
 
     [Parameter(
         ValueFromPipelineByPropertyName = true,
-        HelpMessage = "Gets or sets a value indicating whether to write BOM (byte order mark) in created files. Defaults to true for UTF-16 and UTF-32.")]
+        HelpMessage = "Gets or sets a value indicating whether to write BOM (byte order mark) in created files.")]
     public bool? WriteBom { get; set; }
 
     [Parameter(
@@ -143,7 +143,7 @@ public class NewFileTargetCommand : PSCmdlet
 
     [Parameter(
         ValueFromPipelineByPropertyName = true,
-        HelpMessage = "Gets or sets whether to write the Header on initial creation of file appender, even if the file is not empty. Default value is , which means only write header when initial file is empty (Ex. ensures valid CSV files).")]
+        HelpMessage = "Gets or sets whether to write the Header on initial creation of file appender, even if the file is not empty. Default value is false, which means only write header when initial file is empty (Ex. ensures valid CSV files).")]
     public bool? WriteHeaderWhenInitialFileNotEmpty { get; set; }
 
     protected override void ProcessRecord()

@@ -1,6 +1,6 @@
-<#@ assembly name="%USERPROFILE%\.nuget\packages\nlog\6.0.1\lib\net46\NLog.dll" #>
-<#@ assembly name="%USERPROFILE%\.nuget\packages\nlog.database\6.0.1\lib\net46\NLog.Database.dll" #>
-<#@ assembly name="%USERPROFILE%\.nuget\packages\nlog.targets.mail\6.0.1\lib\net46\NLog.Targets.Mail.dll" #>
+<#@ assembly name="%USERPROFILE%\.nuget\packages\nlog\6.0.2\lib\net46\NLog.dll" #>
+<#@ assembly name="%USERPROFILE%\.nuget\packages\nlog.database\6.0.2\lib\net46\NLog.Database.dll" #>
+<#@ assembly name="%USERPROFILE%\.nuget\packages\nlog.targets.mail\6.0.2\lib\net46\NLog.Targets.Mail.dll" #>
 <#@ assembly name="System.Xml.dll" #>
 <#@ import namespace="System" #>
 <#@ import namespace="System.CodeDom" #>
@@ -17,9 +17,9 @@ public static string UserProfile { get; } = Environment.GetEnvironmentVariable("
 
 public static string[] XmlPaths { get; } =
     [
-        Path.Combine(UserProfile, @".nuget\packages\nlog\6.0.1\lib\net46\NLog.xml"),
-        Path.Combine(UserProfile, @".nuget\packages\nlog.database\6.0.1\lib\net46\NLog.Database.xml"),
-        Path.Combine(UserProfile, @".nuget\packages\nlog.targets.mail\6.0.1\lib\net46\NLog.Targets.Mail.xml")
+        Path.Combine(UserProfile, @".nuget\packages\nlog\6.0.2\lib\net46\NLog.xml"),
+        Path.Combine(UserProfile, @".nuget\packages\nlog.database\6.0.2\lib\net46\NLog.Database.xml"),
+        Path.Combine(UserProfile, @".nuget\packages\nlog.targets.mail\6.0.2\lib\net46\NLog.Targets.Mail.xml")
     ];
 
 public static Type[] NLogTypes { get; } = new []
@@ -99,6 +99,53 @@ public static IEnumerable<PropertyData> GetProperties<T>()
     }
 }
 
+private static void ExtractText(StringBuilder stringBuilder, XmlNode node)
+{
+    if (stringBuilder is null)
+    {
+        throw new ArgumentNullException(nameof(stringBuilder));
+    }
+
+    if (node is null)
+    {
+        throw new ArgumentNullException(nameof(node));
+    }
+
+    foreach (var child in node.ChildNodes)
+    {
+        switch (child)
+        {
+            case XmlText xmlText:
+                stringBuilder.Append(xmlText.Value);
+
+                break;
+
+            case XmlElement xmlElement:
+                string text;
+                if (xmlElement.HasAttribute("cref"))
+                {
+                    text = xmlElement.GetAttribute("cref");
+                    stringBuilder.Append(text);
+                }
+                else if  (xmlElement.HasAttribute("langword"))
+                {
+                    text = xmlElement.GetAttribute("langword");
+                    stringBuilder.Append(text);
+                }
+                else if  (xmlElement.HasAttribute("href"))
+                {
+                    text = xmlElement.GetAttribute("href");
+                    stringBuilder.Append(text);
+                    stringBuilder.Append(" ");
+                }
+
+                ExtractText(stringBuilder, xmlElement);
+
+                break;
+        }
+    }
+}
+
 private static IEnumerable<KeyValuePair<string, string>> GetXmlMembers(string path)
 {
     if (string.IsNullOrWhiteSpace(path))
@@ -127,25 +174,7 @@ private static IEnumerable<KeyValuePair<string, string>> GetXmlMembers(string pa
 
         var stringBuilder = new StringBuilder();
 
-        foreach (var childNode in summary.ChildNodes)
-        {
-            switch (childNode)
-            {
-                case XmlText xmlText:
-                    stringBuilder.Append(xmlText.Value);
-
-                    break;
-
-                case XmlElement xmlElement:
-                    var text = xmlElement.HasAttribute("cref")
-                        ? xmlElement.GetAttribute("cref")
-                        : xmlElement.InnerText;
-
-                    stringBuilder.Append(text);
-
-                    break;
-            }
-        }
+        ExtractText(stringBuilder, summary);
 
         var value = Regex.Replace(stringBuilder.ToString(), @"[\r\n\s]+", " ", RegexOptions.Multiline, TimeSpan.FromSeconds(1))
             .Replace('"', '\'')
