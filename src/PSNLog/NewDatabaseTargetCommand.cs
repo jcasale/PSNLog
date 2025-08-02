@@ -33,7 +33,7 @@ public class NewDatabaseTargetCommand : PSCmdlet
 
     [Parameter(
         ValueFromPipelineByPropertyName = true,
-        HelpMessage = "Gets or sets the name of the connection string (as specified in <connectionStrings> configuration section.")]
+        HelpMessage = "Gets or sets the name of the connection string (as specified in https://msdn.microsoft.com/en-us/library/bf7sd233.aspx <connectionStrings> configuration section.")]
     public string ConnectionStringName { get; set; }
 
     [Parameter(

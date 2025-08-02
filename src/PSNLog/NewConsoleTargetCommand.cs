@@ -13,7 +13,7 @@ public class NewConsoleTargetCommand : PSCmdlet
 
     [Parameter(
         ValueFromPipelineByPropertyName = true,
-        HelpMessage = "Gets or sets a value indicating whether to auto-check if the console is available - Disables console writing if Environment.UserInteractive = (Windows Service) - Disables console writing if Console Standard Input is not available (Non-Console-App).")]
+        HelpMessage = "Gets or sets a value indicating whether to auto-check if the console is available - Disables console writing if Environment.UserInteractive = false (Windows Service) - Disables console writing if Console Standard Input is not available (Non-Console-App).")]
     public bool? DetectConsoleAvailable { get; set; }
 
     [Parameter(

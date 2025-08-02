@@ -13,12 +13,12 @@ public class NewColoredConsoleTargetCommand : PSCmdlet
 
     [Parameter(
         ValueFromPipelineByPropertyName = true,
-        HelpMessage = "Gets or sets a value indicating whether to auto-check if the console is available. - Disables console writing if Environment.UserInteractive = (Windows Service) - Disables console writing if Console Standard Input is not available (Non-Console-App).")]
+        HelpMessage = "Gets or sets a value indicating whether to auto-check if the console is available. - Disables console writing if Environment.UserInteractive = false (Windows Service) - Disables console writing if Console Standard Input is not available (Non-Console-App).")]
     public bool? DetectConsoleAvailable { get; set; }
 
     [Parameter(
         ValueFromPipelineByPropertyName = true,
-        HelpMessage = "Gets or sets a value indicating whether to auto-check if the console has been redirected to file - Disables coloring logic when System.Console.IsOutputRedirected =.")]
+        HelpMessage = "Gets or sets a value indicating whether to auto-check if the console has been redirected to file - Disables coloring logic when System.Console.IsOutputRedirected = true.")]
     public bool? DetectOutputRedirected { get; set; }
 
     [Parameter(
@@ -53,7 +53,7 @@ public class NewColoredConsoleTargetCommand : PSCmdlet
 
     [Parameter(
         ValueFromPipelineByPropertyName = true,
-        HelpMessage = "Support NO_COLOR=1 environment variable. See also.")]
+        HelpMessage = "Support NO_COLOR=1 environment variable. See also https://no-color.org/.")]
     public NLog.Layouts.Layout<bool> NoColor { get; set; }
 
     [Parameter(

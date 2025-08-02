@@ -143,7 +143,7 @@ public class NewFileTargetCommand : PSCmdlet
 
     [Parameter(
         ValueFromPipelineByPropertyName = true,
-        HelpMessage = "Gets or sets whether to write the Header on initial creation of file appender, even if the file is not empty. Default value is , which means only write header when initial file is empty (Ex. ensures valid CSV files).")]
+        HelpMessage = "Gets or sets whether to write the Header on initial creation of file appender, even if the file is not empty. Default value is false, which means only write header when initial file is empty (Ex. ensures valid CSV files).")]
     public bool? WriteHeaderWhenInitialFileNotEmpty { get; set; }
 
     protected override void ProcessRecord()
