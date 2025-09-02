@@ -8,9 +8,9 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.PowerShell.5.1.ReferenceAssemblies" Version="1.0.0" PrivateAssets="All" />
-    <PackageReference Include="NLog" Version="6.0.2" />
-    <PackageReference Include="NLog.Database" Version="6.0.2" />
-    <PackageReference Include="NLog.Targets.Mail" Version="6.0.2" />
+    <PackageReference Include="NLog" Version="6.0.3" />
+    <PackageReference Include="NLog.Database" Version="6.0.3" />
+    <PackageReference Include="NLog.Targets.Mail" Version="6.0.3" />
   </ItemGroup>
 
   <ItemGroup>

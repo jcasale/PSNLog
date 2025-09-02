@@ -28,13 +28,18 @@ public class NewConsoleWordHighlightingRuleCommand : PSCmdlet
 
     [Parameter(
         ValueFromPipelineByPropertyName = true,
-        HelpMessage = "Gets or sets the text to be matched. You must specify either text or regex.")]
+        HelpMessage = "Gets or sets the text to be matched for Highlighting.")]
     public string Text { get; set; }
 
     [Parameter(
         ValueFromPipelineByPropertyName = true,
         HelpMessage = "Gets or sets a value indicating whether to match whole words only.")]
     public bool? WholeWords { get; set; }
+
+    [Parameter(
+        ValueFromPipelineByPropertyName = true,
+        HelpMessage = "Gets or sets the list of words to be matched for Highlighting.")]
+    public string[] Words { get; set; }
 
     protected override void ProcessRecord()
     {
@@ -68,6 +73,14 @@ public class NewConsoleWordHighlightingRuleCommand : PSCmdlet
         if (this.WholeWords.HasValue)
         {
             instance.WholeWords = this.WholeWords.Value;
+        }
+
+        if (this.Words is { Length: > 0 })
+        {
+            foreach (var item in this.Words)
+            {
+                instance.Words.Add(item);
+            }
         }
 
         this.WriteObject(instance);
