@@ -42,7 +42,7 @@ public class RemoveLoggingRuleCommand : PSCmdlet
     {
         var removed = ParameterSetName switch
         {
-            nameof(Rule) => Configuration.RemoveRuleByName(Rule.RuleName),
+            nameof(Rule) => Configuration.RemoveRuleByName(Rule?.RuleName ?? throw new InvalidOperationException("Cannot remove unnamed rule.")),
             nameof(Name) => Configuration.RemoveRuleByName(Name),
             _ => throw new InvalidOperationException("Unknown parameter set.")
         };
