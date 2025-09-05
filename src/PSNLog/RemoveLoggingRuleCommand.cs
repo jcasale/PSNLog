@@ -49,11 +49,7 @@ public class RemoveLoggingRuleCommand : PSCmdlet
 
         if (!removed)
         {
-            ThrowTerminatingError(new ErrorRecord(
-                new ItemNotFoundException("The logging rule was not found."),
-                "LoggingRuleNotFound",
-                ErrorCategory.ObjectNotFound,
-                null));
+            ThrowTerminatingError(new(new ItemNotFoundException("The logging rule was not found."), "LoggingRuleNotFound", ErrorCategory.ObjectNotFound, null));
 
             return;
         }

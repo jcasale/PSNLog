@@ -38,11 +38,7 @@ public class NewLoggingConfigurationCommand : PSCmdlet
                 }
                 catch (Exception e)
                 {
-                    ThrowTerminatingError(new ErrorRecord(
-                        e,
-                        nameof(XmlLoggingConfiguration),
-                        ErrorCategory.NotSpecified,
-                        Path));
+                    ThrowTerminatingError(new(e, nameof(XmlLoggingConfiguration), ErrorCategory.NotSpecified, Path));
 
                     return;
                 }

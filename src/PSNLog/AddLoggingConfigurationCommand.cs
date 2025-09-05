@@ -26,11 +26,7 @@ public class AddLoggingConfigurationCommand : PSCmdlet
     {
         if (LogManager.Configuration is not null)
         {
-            ThrowTerminatingError(new ErrorRecord(
-                new InvalidOperationException("A logging configuration already exists."),
-                "LoggingConfigurationAlreadyExists",
-                ErrorCategory.InvalidOperation,
-                null));
+            ThrowTerminatingError(new(new InvalidOperationException("A logging configuration already exists."), "LoggingConfigurationAlreadyExists", ErrorCategory.InvalidOperation, null));
 
             return;
         }

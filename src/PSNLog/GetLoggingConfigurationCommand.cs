@@ -15,11 +15,7 @@ public class GetLoggingConfigurationCommand : PSCmdlet
 
         if (configuration is null)
         {
-            ThrowTerminatingError(new ErrorRecord(
-                new ItemNotFoundException("A logging configuration was not found."),
-                "LoggingConfigurationNotFound",
-                ErrorCategory.ObjectNotFound,
-                null));
+            ThrowTerminatingError(new(new ItemNotFoundException("A logging configuration was not found."), "LoggingConfigurationNotFound", ErrorCategory.ObjectNotFound, null));
 
             return;
         }
