@@ -15,8 +15,10 @@ using System.Threading.Tasks;
 using Microsoft.Extensions.DependencyInjection;
 
 using MimeKit;
+
 using NLog.Config;
 using NLog.Targets;
+
 using PSNLog;
 
 using SmtpServer;

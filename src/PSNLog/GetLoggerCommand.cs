@@ -1,6 +1,7 @@
 namespace PSNLog;
 
 using System.Management.Automation;
+
 using NLog;
 
 [Cmdlet(VerbsCommon.Get, "NLogLogger")]

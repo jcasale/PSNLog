@@ -1,6 +1,7 @@
 namespace PSNLog;
 
 using System.Management.Automation;
+
 using NLog;
 using NLog.Config;
 

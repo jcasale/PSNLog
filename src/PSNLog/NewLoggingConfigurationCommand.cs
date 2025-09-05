@@ -2,6 +2,7 @@ namespace PSNLog;
 
 using System;
 using System.Management.Automation;
+
 using NLog.Config;
 
 [Cmdlet(VerbsCommon.New, "NLogLoggingConfiguration")]
