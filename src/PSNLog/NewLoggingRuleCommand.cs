@@ -118,17 +118,17 @@ public class NewLoggingRuleCommand : PSCmdlet
 
     protected override void ProcessRecord()
     {
-        var rule = this.ParameterSetName switch
+        var rule = ParameterSetName switch
         {
-            "default" => new LoggingRule(this.LoggerNamePattern, this.Target),
-            nameof(this.MinLevel) => new LoggingRule(this.LoggerNamePattern, this.MinLevel, this.Target),
-            nameof(this.MaxLevel) => new LoggingRule(this.LoggerNamePattern, this.MinLevel, this.MaxLevel, this.Target),
+            "default" => new LoggingRule(LoggerNamePattern, Target),
+            nameof(MinLevel) => new LoggingRule(LoggerNamePattern, MinLevel, Target),
+            nameof(MaxLevel) => new LoggingRule(LoggerNamePattern, MinLevel, MaxLevel, Target),
             _ => throw new InvalidOperationException("Unknown parameter set.")
         };
 
-        rule.RuleName = this.Name;
-        rule.Final = this.Final.IsPresent;
+        rule.RuleName = Name;
+        rule.Final = Final.IsPresent;
 
-        this.WriteObject(rule);
+        WriteObject(rule);
     }
 }

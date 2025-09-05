@@ -22,7 +22,7 @@ public class NewLoggingConfigurationCommand : PSCmdlet
     {
         LoggingConfiguration configuration;
 
-        switch (this.ParameterSetName)
+        switch (ParameterSetName)
         {
             case ParameterAttribute.AllParameterSets:
 
@@ -34,15 +34,15 @@ public class NewLoggingConfigurationCommand : PSCmdlet
 
                 try
                 {
-                    configuration = new XmlLoggingConfiguration(this.Path);
+                    configuration = new XmlLoggingConfiguration(Path);
                 }
                 catch (Exception e)
                 {
-                    this.ThrowTerminatingError(new ErrorRecord(
+                    ThrowTerminatingError(new ErrorRecord(
                         e,
                         nameof(XmlLoggingConfiguration),
                         ErrorCategory.NotSpecified,
-                        this.Path));
+                        Path));
 
                     return;
                 }
@@ -54,6 +54,6 @@ public class NewLoggingConfigurationCommand : PSCmdlet
                 throw new InvalidOperationException("Unknown parameter set.");
         }
 
-        this.WriteObject(configuration);
+        WriteObject(configuration);
     }
 }

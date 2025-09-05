@@ -100,111 +100,111 @@ public class NewDatabaseTargetCommand : PSCmdlet
     {
         var instance = new NLog.Targets.DatabaseTarget();
 
-        if (this.CommandProperties is { Length: > 0 })
+        if (CommandProperties is { Length: > 0 })
         {
-            foreach (var item in this.CommandProperties)
+            foreach (var item in CommandProperties)
             {
                 instance.CommandProperties.Add(item);
             }
         }
 
-        if (this.CommandText is not null)
+        if (CommandText is not null)
         {
-            instance.CommandText = this.CommandText;
+            instance.CommandText = CommandText;
         }
 
-        if (this.CommandType.HasValue)
+        if (CommandType.HasValue)
         {
-            instance.CommandType = this.CommandType.Value;
+            instance.CommandType = CommandType.Value;
         }
 
-        if (this.ConnectionProperties is { Length: > 0 })
+        if (ConnectionProperties is { Length: > 0 })
         {
-            foreach (var item in this.ConnectionProperties)
+            foreach (var item in ConnectionProperties)
             {
                 instance.ConnectionProperties.Add(item);
             }
         }
 
-        if (this.ConnectionString is not null)
+        if (ConnectionString is not null)
         {
-            instance.ConnectionString = this.ConnectionString;
+            instance.ConnectionString = ConnectionString;
         }
 
-        if (this.ConnectionStringName is not null)
+        if (ConnectionStringName is not null)
         {
-            instance.ConnectionStringName = this.ConnectionStringName;
+            instance.ConnectionStringName = ConnectionStringName;
         }
 
-        if (this.DBDatabase is not null)
+        if (DBDatabase is not null)
         {
-            instance.DBDatabase = this.DBDatabase;
+            instance.DBDatabase = DBDatabase;
         }
 
-        if (this.DBHost is not null)
+        if (DBHost is not null)
         {
-            instance.DBHost = this.DBHost;
+            instance.DBHost = DBHost;
         }
 
-        if (this.DBPassword is not null)
+        if (DBPassword is not null)
         {
-            instance.DBPassword = this.DBPassword;
+            instance.DBPassword = DBPassword;
         }
 
-        if (this.DBProvider is not null)
+        if (DBProvider is not null)
         {
-            instance.DBProvider = this.DBProvider;
+            instance.DBProvider = DBProvider;
         }
 
-        if (this.DBUserName is not null)
+        if (DBUserName is not null)
         {
-            instance.DBUserName = this.DBUserName;
+            instance.DBUserName = DBUserName;
         }
 
-        if (this.InstallConnectionString is not null)
+        if (InstallConnectionString is not null)
         {
-            instance.InstallConnectionString = this.InstallConnectionString;
+            instance.InstallConnectionString = InstallConnectionString;
         }
 
-        if (this.InstallDdlCommands is { Length: > 0 })
+        if (InstallDdlCommands is { Length: > 0 })
         {
-            foreach (var item in this.InstallDdlCommands)
+            foreach (var item in InstallDdlCommands)
             {
                 instance.InstallDdlCommands.Add(item);
             }
         }
 
-        if (this.IsolationLevel.HasValue)
+        if (IsolationLevel.HasValue)
         {
-            instance.IsolationLevel = this.IsolationLevel.Value;
+            instance.IsolationLevel = IsolationLevel.Value;
         }
 
-        if (this.KeepConnection.HasValue)
+        if (KeepConnection.HasValue)
         {
-            instance.KeepConnection = this.KeepConnection.Value;
+            instance.KeepConnection = KeepConnection.Value;
         }
 
-        if (this.Name is not null)
+        if (Name is not null)
         {
-            instance.Name = this.Name;
+            instance.Name = Name;
         }
 
-        if (this.Parameters is { Length: > 0 })
+        if (Parameters is { Length: > 0 })
         {
-            foreach (var item in this.Parameters)
+            foreach (var item in Parameters)
             {
                 instance.Parameters.Add(item);
             }
         }
 
-        if (this.UninstallDdlCommands is { Length: > 0 })
+        if (UninstallDdlCommands is { Length: > 0 })
         {
-            foreach (var item in this.UninstallDdlCommands)
+            foreach (var item in UninstallDdlCommands)
             {
                 instance.UninstallDdlCommands.Add(item);
             }
         }
 
-        this.WriteObject(instance);
+        WriteObject(instance);
     }
 }

@@ -19,8 +19,8 @@ public class GetLoggerCommand : PSCmdlet
 
     protected override void ProcessRecord()
     {
-        var logger = LogManager.GetLogger(this.Name);
+        var logger = LogManager.GetLogger(Name);
 
-        this.WriteObject(logger);
+        WriteObject(logger);
     }
 }

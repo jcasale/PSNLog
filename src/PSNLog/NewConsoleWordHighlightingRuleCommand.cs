@@ -45,44 +45,44 @@ public class NewConsoleWordHighlightingRuleCommand : PSCmdlet
     {
         var instance = new NLog.Targets.ConsoleWordHighlightingRule();
 
-        if (this.BackgroundColor.HasValue)
+        if (BackgroundColor.HasValue)
         {
-            instance.BackgroundColor = this.BackgroundColor.Value;
+            instance.BackgroundColor = BackgroundColor.Value;
         }
 
-        if (this.Condition is not null)
+        if (Condition is not null)
         {
-            instance.Condition = this.Condition;
+            instance.Condition = Condition;
         }
 
-        if (this.ForegroundColor.HasValue)
+        if (ForegroundColor.HasValue)
         {
-            instance.ForegroundColor = this.ForegroundColor.Value;
+            instance.ForegroundColor = ForegroundColor.Value;
         }
 
-        if (this.IgnoreCase.HasValue)
+        if (IgnoreCase.HasValue)
         {
-            instance.IgnoreCase = this.IgnoreCase.Value;
+            instance.IgnoreCase = IgnoreCase.Value;
         }
 
-        if (this.Text is not null)
+        if (Text is not null)
         {
-            instance.Text = this.Text;
+            instance.Text = Text;
         }
 
-        if (this.WholeWords.HasValue)
+        if (WholeWords.HasValue)
         {
-            instance.WholeWords = this.WholeWords.Value;
+            instance.WholeWords = WholeWords.Value;
         }
 
-        if (this.Words is { Length: > 0 })
+        if (Words is { Length: > 0 })
         {
-            foreach (var item in this.Words)
+            foreach (var item in Words)
             {
                 instance.Words.Add(item);
             }
         }
 
-        this.WriteObject(instance);
+        WriteObject(instance);
     }
 }

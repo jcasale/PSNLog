@@ -32,11 +32,11 @@ public class AddTargetCommand : PSCmdlet
 
     protected override void ProcessRecord()
     {
-        this.Configuration.AddTarget(this.Target);
+        Configuration.AddTarget(Target);
 
-        if (this.PassThru.IsPresent)
+        if (PassThru.IsPresent)
         {
-            this.WriteObject(this.Configuration);
+            WriteObject(Configuration);
         }
     }
 }

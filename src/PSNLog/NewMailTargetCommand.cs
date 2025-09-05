@@ -140,139 +140,139 @@ public class NewMailTargetCommand : PSCmdlet
     {
         var instance = new NLog.Targets.MailTarget();
 
-        if (this.AddNewLines.HasValue)
+        if (AddNewLines.HasValue)
         {
-            instance.AddNewLines = this.AddNewLines.Value;
+            instance.AddNewLines = AddNewLines.Value;
         }
 
-        if (this.Bcc is not null)
+        if (Bcc is not null)
         {
-            instance.Bcc = this.Bcc;
+            instance.Bcc = Bcc;
         }
 
-        if (this.Body is not null)
+        if (Body is not null)
         {
-            instance.Body = this.Body;
+            instance.Body = Body;
         }
 
-        if (this.CC is not null)
+        if (CC is not null)
         {
-            instance.CC = this.CC;
+            instance.CC = CC;
         }
 
-        if (this.DeliveryMethod.HasValue)
+        if (DeliveryMethod.HasValue)
         {
-            instance.DeliveryMethod = this.DeliveryMethod.Value;
+            instance.DeliveryMethod = DeliveryMethod.Value;
         }
 
-        if (this.EnableSsl.HasValue)
+        if (EnableSsl.HasValue)
         {
-            instance.EnableSsl = this.EnableSsl.Value;
+            instance.EnableSsl = EnableSsl.Value;
         }
 
-        if (this.Encoding is not null)
+        if (Encoding is not null)
         {
-            instance.Encoding = this.Encoding;
+            instance.Encoding = Encoding;
         }
 
-        if (this.Footer is not null)
+        if (Footer is not null)
         {
-            instance.Footer = this.Footer;
+            instance.Footer = Footer;
         }
 
-        if (this.From is not null)
+        if (From is not null)
         {
-            instance.From = this.From;
+            instance.From = From;
         }
 
-        if (this.Header is not null)
+        if (Header is not null)
         {
-            instance.Header = this.Header;
+            instance.Header = Header;
         }
 
-        if (this.Html.HasValue)
+        if (Html.HasValue)
         {
-            instance.Html = this.Html.Value;
+            instance.Html = Html.Value;
         }
 
-        if (this.Layout is not null)
+        if (Layout is not null)
         {
-            instance.Layout = this.Layout;
+            instance.Layout = Layout;
         }
 
-        if (this.MailHeaders is { Length: > 0 })
+        if (MailHeaders is { Length: > 0 })
         {
-            foreach (var item in this.MailHeaders)
+            foreach (var item in MailHeaders)
             {
                 instance.MailHeaders.Add(item);
             }
         }
 
-        if (this.Name is not null)
+        if (Name is not null)
         {
-            instance.Name = this.Name;
+            instance.Name = Name;
         }
 
-        if (this.PickupDirectoryLocation is not null)
+        if (PickupDirectoryLocation is not null)
         {
-            instance.PickupDirectoryLocation = this.PickupDirectoryLocation;
+            instance.PickupDirectoryLocation = PickupDirectoryLocation;
         }
 
-        if (this.Priority is not null)
+        if (Priority is not null)
         {
-            instance.Priority = this.Priority;
+            instance.Priority = Priority;
         }
 
-        if (this.ReplaceNewlineWithBrTagInHtml.HasValue)
+        if (ReplaceNewlineWithBrTagInHtml.HasValue)
         {
-            instance.ReplaceNewlineWithBrTagInHtml = this.ReplaceNewlineWithBrTagInHtml.Value;
+            instance.ReplaceNewlineWithBrTagInHtml = ReplaceNewlineWithBrTagInHtml.Value;
         }
 
-        if (this.SmtpAuthentication.HasValue)
+        if (SmtpAuthentication.HasValue)
         {
-            instance.SmtpAuthentication = this.SmtpAuthentication.Value;
+            instance.SmtpAuthentication = SmtpAuthentication.Value;
         }
 
-        if (this.SmtpPassword is not null)
+        if (SmtpPassword is not null)
         {
-            instance.SmtpPassword = this.SmtpPassword;
+            instance.SmtpPassword = SmtpPassword;
         }
 
-        if (this.SmtpPort is not null)
+        if (SmtpPort is not null)
         {
-            instance.SmtpPort = this.SmtpPort;
+            instance.SmtpPort = SmtpPort;
         }
 
-        if (this.SmtpServer is not null)
+        if (SmtpServer is not null)
         {
-            instance.SmtpServer = this.SmtpServer;
+            instance.SmtpServer = SmtpServer;
         }
 
-        if (this.SmtpUserName is not null)
+        if (SmtpUserName is not null)
         {
-            instance.SmtpUserName = this.SmtpUserName;
+            instance.SmtpUserName = SmtpUserName;
         }
 
-        if (this.Subject is not null)
+        if (Subject is not null)
         {
-            instance.Subject = this.Subject;
+            instance.Subject = Subject;
         }
 
-        if (this.Timeout is not null)
+        if (Timeout is not null)
         {
-            instance.Timeout = this.Timeout;
+            instance.Timeout = Timeout;
         }
 
-        if (this.To is not null)
+        if (To is not null)
         {
-            instance.To = this.To;
+            instance.To = To;
         }
 
-        if (this.UseSystemNetMailSettings.HasValue)
+        if (UseSystemNetMailSettings.HasValue)
         {
-            instance.UseSystemNetMailSettings = this.UseSystemNetMailSettings.Value;
+            instance.UseSystemNetMailSettings = UseSystemNetMailSettings.Value;
         }
 
-        this.WriteObject(instance);
+        WriteObject(instance);
     }
 }

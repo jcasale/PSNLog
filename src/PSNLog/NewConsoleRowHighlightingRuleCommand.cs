@@ -1,4 +1,4 @@
-namespace PSNLog;
+﻿namespace PSNLog;
 
 using System.Management.Automation;
 
@@ -25,21 +25,21 @@ public class NewConsoleRowHighlightingRuleCommand : PSCmdlet
     {
         var instance = new NLog.Targets.ConsoleRowHighlightingRule();
 
-        if (this.BackgroundColor.HasValue)
+        if (BackgroundColor.HasValue)
         {
-            instance.BackgroundColor = this.BackgroundColor.Value;
+            instance.BackgroundColor = BackgroundColor.Value;
         }
 
-        if (this.Condition is not null)
+        if (Condition is not null)
         {
-            instance.Condition = this.Condition;
+            instance.Condition = Condition;
         }
 
-        if (this.ForegroundColor.HasValue)
+        if (ForegroundColor.HasValue)
         {
-            instance.ForegroundColor = this.ForegroundColor.Value;
+            instance.ForegroundColor = ForegroundColor.Value;
         }
 
-        this.WriteObject(instance);
+        WriteObject(instance);
     }
 }

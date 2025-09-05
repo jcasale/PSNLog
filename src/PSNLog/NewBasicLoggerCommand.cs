@@ -41,7 +41,7 @@ public class NewBasicLoggerCommand : PSCmdlet
 
         var file = new FileTarget(nameof(FileTarget))
         {
-            FileName = this.Path,
+            FileName = Path,
             Layout = Layout,
             OpenFileCacheTimeout = 30
         };
@@ -56,7 +56,7 @@ public class NewBasicLoggerCommand : PSCmdlet
 
         if (LogManager.Configuration is not null)
         {
-            this.ThrowTerminatingError(new ErrorRecord(
+            ThrowTerminatingError(new ErrorRecord(
                 new InvalidOperationException("A logging configuration already exists."),
                 "LoggingConfigurationAlreadyExists",
                 ErrorCategory.InvalidOperation,
@@ -67,8 +67,8 @@ public class NewBasicLoggerCommand : PSCmdlet
 
         LogManager.Configuration = configuration;
 
-        var logger = LogManager.GetLogger(this.Name);
+        var logger = LogManager.GetLogger(Name);
 
-        this.WriteObject(logger);
+        WriteObject(logger);
     }
 }
