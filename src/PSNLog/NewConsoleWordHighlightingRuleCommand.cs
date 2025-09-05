@@ -77,6 +77,7 @@ public class NewConsoleWordHighlightingRuleCommand : PSCmdlet
 
         if (Words is { Length: > 0 })
         {
+            instance.Words = [];
             foreach (var item in Words)
             {
                 instance.Words.Add(item);
