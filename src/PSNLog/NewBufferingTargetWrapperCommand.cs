@@ -40,36 +40,36 @@ public class NewBufferingTargetWrapperCommand : PSCmdlet
     {
         var instance = new NLog.Targets.Wrappers.BufferingTargetWrapper();
 
-        if (this.BufferSize is not null)
+        if (BufferSize is not null)
         {
-            instance.BufferSize = this.BufferSize;
+            instance.BufferSize = BufferSize;
         }
 
-        if (this.FlushTimeout is not null)
+        if (FlushTimeout is not null)
         {
-            instance.FlushTimeout = this.FlushTimeout;
+            instance.FlushTimeout = FlushTimeout;
         }
 
-        if (this.Name is not null)
+        if (Name is not null)
         {
-            instance.Name = this.Name;
+            instance.Name = Name;
         }
 
-        if (this.OverflowAction.HasValue)
+        if (OverflowAction.HasValue)
         {
-            instance.OverflowAction = this.OverflowAction.Value;
+            instance.OverflowAction = OverflowAction.Value;
         }
 
-        if (this.SlidingTimeout.HasValue)
+        if (SlidingTimeout.HasValue)
         {
-            instance.SlidingTimeout = this.SlidingTimeout.Value;
+            instance.SlidingTimeout = SlidingTimeout.Value;
         }
 
-        if (this.WrappedTarget is not null)
+        if (WrappedTarget is not null)
         {
-            instance.WrappedTarget = this.WrappedTarget;
+            instance.WrappedTarget = WrappedTarget;
         }
 
-        this.WriteObject(instance);
+        WriteObject(instance);
     }
 }

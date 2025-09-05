@@ -55,51 +55,51 @@ public class NewConsoleTargetCommand : PSCmdlet
     {
         var instance = new NLog.Targets.ConsoleTarget();
 
-        if (this.AutoFlush.HasValue)
+        if (AutoFlush.HasValue)
         {
-            instance.AutoFlush = this.AutoFlush.Value;
+            instance.AutoFlush = AutoFlush.Value;
         }
 
-        if (this.DetectConsoleAvailable.HasValue)
+        if (DetectConsoleAvailable.HasValue)
         {
-            instance.DetectConsoleAvailable = this.DetectConsoleAvailable.Value;
+            instance.DetectConsoleAvailable = DetectConsoleAvailable.Value;
         }
 
-        if (this.Encoding is not null)
+        if (Encoding is not null)
         {
-            instance.Encoding = this.Encoding;
+            instance.Encoding = Encoding;
         }
 
-        if (this.Footer is not null)
+        if (Footer is not null)
         {
-            instance.Footer = this.Footer;
+            instance.Footer = Footer;
         }
 
-        if (this.ForceWriteLine.HasValue)
+        if (ForceWriteLine.HasValue)
         {
-            instance.ForceWriteLine = this.ForceWriteLine.Value;
+            instance.ForceWriteLine = ForceWriteLine.Value;
         }
 
-        if (this.Header is not null)
+        if (Header is not null)
         {
-            instance.Header = this.Header;
+            instance.Header = Header;
         }
 
-        if (this.Layout is not null)
+        if (Layout is not null)
         {
-            instance.Layout = this.Layout;
+            instance.Layout = Layout;
         }
 
-        if (this.Name is not null)
+        if (Name is not null)
         {
-            instance.Name = this.Name;
+            instance.Name = Name;
         }
 
-        if (this.StdErr is not null)
+        if (StdErr is not null)
         {
-            instance.StdErr = this.StdErr;
+            instance.StdErr = StdErr;
         }
 
-        this.WriteObject(instance);
+        WriteObject(instance);
     }
 }

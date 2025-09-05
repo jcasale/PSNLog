@@ -42,9 +42,9 @@ public class NewColoredConsoleTargetCommand : PSCmdlet
         {
             if (property.IsCollection)
             {
-                WriteLine("        if (this.{0} is {{ Length: > 0 }})", property.Name);
+                WriteLine("        if ({0} is {{ Length: > 0 }})", property.Name);
                 WriteLine("        {");
-                WriteLine("            foreach (var item in this.{0})", property.Name);
+                WriteLine("            foreach (var item in {0})", property.Name);
                 WriteLine("            {");
                 WriteLine("                instance.{0}.Add(item);", property.Name);
                 WriteLine("            }");
@@ -52,23 +52,23 @@ public class NewColoredConsoleTargetCommand : PSCmdlet
             }
             else if (property.Type.IsValueType)
             {
-                WriteLine("        if (this.{0}.HasValue)", property.Name);
+                WriteLine("        if ({0}.HasValue)", property.Name);
                 WriteLine("        {");
-                WriteLine("            instance.{0} = this.{0}.Value;", property.Name);
+                WriteLine("            instance.{0} = {0}.Value;", property.Name);
                 WriteLine("        }");
             }
             else
             {
-                WriteLine("        if (this.{0} is not null)", property.Name);
+                WriteLine("        if ({0} is not null)", property.Name);
                 WriteLine("        {");
-                WriteLine("            instance.{0} = this.{0};", property.Name);
+                WriteLine("            instance.{0} = {0};", property.Name);
                 WriteLine("        }");
             }
 
             WriteLine(string.Empty);
         }
 #>
-        this.WriteObject(instance);
+        WriteObject(instance);
     }
 }
 <#@ include file="base.t4" #>

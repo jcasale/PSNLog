@@ -50,46 +50,46 @@ public class NewAsyncTargetWrapperCommand : PSCmdlet
     {
         var instance = new NLog.Targets.Wrappers.AsyncTargetWrapper();
 
-        if (this.BatchSize.HasValue)
+        if (BatchSize.HasValue)
         {
-            instance.BatchSize = this.BatchSize.Value;
+            instance.BatchSize = BatchSize.Value;
         }
 
-        if (this.ForceLockingQueue.HasValue)
+        if (ForceLockingQueue.HasValue)
         {
-            instance.ForceLockingQueue = this.ForceLockingQueue.Value;
+            instance.ForceLockingQueue = ForceLockingQueue.Value;
         }
 
-        if (this.FullBatchSizeWriteLimit.HasValue)
+        if (FullBatchSizeWriteLimit.HasValue)
         {
-            instance.FullBatchSizeWriteLimit = this.FullBatchSizeWriteLimit.Value;
+            instance.FullBatchSizeWriteLimit = FullBatchSizeWriteLimit.Value;
         }
 
-        if (this.Name is not null)
+        if (Name is not null)
         {
-            instance.Name = this.Name;
+            instance.Name = Name;
         }
 
-        if (this.OverflowAction.HasValue)
+        if (OverflowAction.HasValue)
         {
-            instance.OverflowAction = this.OverflowAction.Value;
+            instance.OverflowAction = OverflowAction.Value;
         }
 
-        if (this.QueueLimit.HasValue)
+        if (QueueLimit.HasValue)
         {
-            instance.QueueLimit = this.QueueLimit.Value;
+            instance.QueueLimit = QueueLimit.Value;
         }
 
-        if (this.TimeToSleepBetweenBatches.HasValue)
+        if (TimeToSleepBetweenBatches.HasValue)
         {
-            instance.TimeToSleepBetweenBatches = this.TimeToSleepBetweenBatches.Value;
+            instance.TimeToSleepBetweenBatches = TimeToSleepBetweenBatches.Value;
         }
 
-        if (this.WrappedTarget is not null)
+        if (WrappedTarget is not null)
         {
-            instance.WrappedTarget = this.WrappedTarget;
+            instance.WrappedTarget = WrappedTarget;
         }
 
-        this.WriteObject(instance);
+        WriteObject(instance);
     }
 }

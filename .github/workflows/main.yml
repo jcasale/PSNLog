@@ -25,9 +25,9 @@ jobs:
 
       - name: Setup wix
         run: |
-          dotnet.exe tool install --global wix --version 6.0.1 --verbosity diag
+          dotnet.exe tool install --global wix --version 6.0.2 --verbosity diag
 
-          wix.exe extension add WixToolset.UI.wixext/6.0.1 --global
+          wix.exe extension add WixToolset.UI.wixext/6.0.2 --global
           wix.exe extension list --global
 
       - name: Generate version property
@@ -39,10 +39,10 @@ jobs:
           echo "version=$version" >> $env:GITHUB_OUTPUT
 
       - name: Run tests
-        run: dotnet.exe test .\src\PSNLog.sln --configuration Release --runtime win-x64
+        run: dotnet.exe test .\src\PSNLog.slnx --configuration Release --runtime win-x64
 
       - name: Clean solution
-        run: dotnet.exe clean .\src\PSNLog.sln --configuration Release
+        run: dotnet.exe clean .\src\PSNLog.slnx --configuration Release
 
       - name: Build project
         run: dotnet.exe publish .\src\PSNLog\PSNLog.csproj --configuration Release --runtime win-x64 --output .\publish

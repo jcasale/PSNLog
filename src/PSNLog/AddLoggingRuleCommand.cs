@@ -1,6 +1,7 @@
 namespace PSNLog;
 
 using System.Management.Automation;
+
 using NLog.Config;
 
 [Cmdlet(VerbsCommon.Add, "NLogLoggingRule")]
@@ -30,11 +31,11 @@ public class AddLoggingRuleCommand : PSCmdlet
 
     protected override void ProcessRecord()
     {
-        this.Configuration.LoggingRules.Add(this.Rule);
+        Configuration.LoggingRules.Add(Rule);
 
-        if (this.PassThru.IsPresent)
+        if (PassThru.IsPresent)
         {
-            this.WriteObject(this.Configuration);
+            WriteObject(Configuration);
         }
     }
 }

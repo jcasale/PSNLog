@@ -1,4 +1,4 @@
-namespace PSNLog;
+﻿namespace PSNLog;
 
 using System.Management.Automation;
 
@@ -80,82 +80,82 @@ public class NewColoredConsoleTargetCommand : PSCmdlet
     {
         var instance = new NLog.Targets.ColoredConsoleTarget();
 
-        if (this.AutoFlush.HasValue)
+        if (AutoFlush.HasValue)
         {
-            instance.AutoFlush = this.AutoFlush.Value;
+            instance.AutoFlush = AutoFlush.Value;
         }
 
-        if (this.DetectConsoleAvailable.HasValue)
+        if (DetectConsoleAvailable.HasValue)
         {
-            instance.DetectConsoleAvailable = this.DetectConsoleAvailable.Value;
+            instance.DetectConsoleAvailable = DetectConsoleAvailable.Value;
         }
 
-        if (this.DetectOutputRedirected.HasValue)
+        if (DetectOutputRedirected.HasValue)
         {
-            instance.DetectOutputRedirected = this.DetectOutputRedirected.Value;
+            instance.DetectOutputRedirected = DetectOutputRedirected.Value;
         }
 
-        if (this.EnableAnsiOutput.HasValue)
+        if (EnableAnsiOutput.HasValue)
         {
-            instance.EnableAnsiOutput = this.EnableAnsiOutput.Value;
+            instance.EnableAnsiOutput = EnableAnsiOutput.Value;
         }
 
-        if (this.Encoding is not null)
+        if (Encoding is not null)
         {
-            instance.Encoding = this.Encoding;
+            instance.Encoding = Encoding;
         }
 
-        if (this.Footer is not null)
+        if (Footer is not null)
         {
-            instance.Footer = this.Footer;
+            instance.Footer = Footer;
         }
 
-        if (this.Header is not null)
+        if (Header is not null)
         {
-            instance.Header = this.Header;
+            instance.Header = Header;
         }
 
-        if (this.Layout is not null)
+        if (Layout is not null)
         {
-            instance.Layout = this.Layout;
+            instance.Layout = Layout;
         }
 
-        if (this.Name is not null)
+        if (Name is not null)
         {
-            instance.Name = this.Name;
+            instance.Name = Name;
         }
 
-        if (this.NoColor is not null)
+        if (NoColor is not null)
         {
-            instance.NoColor = this.NoColor;
+            instance.NoColor = NoColor;
         }
 
-        if (this.RowHighlightingRules is { Length: > 0 })
+        if (RowHighlightingRules is { Length: > 0 })
         {
-            foreach (var item in this.RowHighlightingRules)
+            foreach (var item in RowHighlightingRules)
             {
                 instance.RowHighlightingRules.Add(item);
             }
         }
 
-        if (this.StdErr is not null)
+        if (StdErr is not null)
         {
-            instance.StdErr = this.StdErr;
+            instance.StdErr = StdErr;
         }
 
-        if (this.UseDefaultRowHighlightingRules.HasValue)
+        if (UseDefaultRowHighlightingRules.HasValue)
         {
-            instance.UseDefaultRowHighlightingRules = this.UseDefaultRowHighlightingRules.Value;
+            instance.UseDefaultRowHighlightingRules = UseDefaultRowHighlightingRules.Value;
         }
 
-        if (this.WordHighlightingRules is { Length: > 0 })
+        if (WordHighlightingRules is { Length: > 0 })
         {
-            foreach (var item in this.WordHighlightingRules)
+            foreach (var item in WordHighlightingRules)
             {
                 instance.WordHighlightingRules.Add(item);
             }
         }
 
-        this.WriteObject(instance);
+        WriteObject(instance);
     }
 }

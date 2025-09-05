@@ -28,7 +28,7 @@ public class NewConsoleWordHighlightingRuleCommand : PSCmdlet
 
     [Parameter(
         ValueFromPipelineByPropertyName = true,
-        HelpMessage = "Gets or sets the text to be matched. You must specify either text or regex.")]
+        HelpMessage = "Gets or sets the text to be matched for Highlighting.")]
     public string Text { get; set; }
 
     [Parameter(
@@ -36,40 +36,54 @@ public class NewConsoleWordHighlightingRuleCommand : PSCmdlet
         HelpMessage = "Gets or sets a value indicating whether to match whole words only.")]
     public bool? WholeWords { get; set; }
 
+    [Parameter(
+        ValueFromPipelineByPropertyName = true,
+        HelpMessage = "Gets or sets the list of words to be matched for Highlighting.")]
+    public string[] Words { get; set; }
+
     protected override void ProcessRecord()
     {
         var instance = new NLog.Targets.ConsoleWordHighlightingRule();
 
-        if (this.BackgroundColor.HasValue)
+        if (BackgroundColor.HasValue)
         {
-            instance.BackgroundColor = this.BackgroundColor.Value;
+            instance.BackgroundColor = BackgroundColor.Value;
         }
 
-        if (this.Condition is not null)
+        if (Condition is not null)
         {
-            instance.Condition = this.Condition;
+            instance.Condition = Condition;
         }
 
-        if (this.ForegroundColor.HasValue)
+        if (ForegroundColor.HasValue)
         {
-            instance.ForegroundColor = this.ForegroundColor.Value;
+            instance.ForegroundColor = ForegroundColor.Value;
         }
 
-        if (this.IgnoreCase.HasValue)
+        if (IgnoreCase.HasValue)
         {
-            instance.IgnoreCase = this.IgnoreCase.Value;
+            instance.IgnoreCase = IgnoreCase.Value;
         }
 
-        if (this.Text is not null)
+        if (Text is not null)
         {
-            instance.Text = this.Text;
+            instance.Text = Text;
         }
 
-        if (this.WholeWords.HasValue)
+        if (WholeWords.HasValue)
         {
-            instance.WholeWords = this.WholeWords.Value;
+            instance.WholeWords = WholeWords.Value;
         }
 
-        this.WriteObject(instance);
+        if (Words is { Length: > 0 })
+        {
+            instance.Words = [];
+            foreach (var item in Words)
+            {
+                instance.Words.Add(item);
+            }
+        }
+
+        WriteObject(instance);
     }
 }

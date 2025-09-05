@@ -1,6 +1,7 @@
 namespace PSNLog;
 
 using System.Management.Automation;
+
 using NLog;
 using NLog.Config;
 
@@ -14,15 +15,11 @@ public class GetLoggingConfigurationCommand : PSCmdlet
 
         if (configuration is null)
         {
-            this.ThrowTerminatingError(new ErrorRecord(
-                new ItemNotFoundException("A logging configuration was not found."),
-                "LoggingConfigurationNotFound",
-                ErrorCategory.ObjectNotFound,
-                null));
+            ThrowTerminatingError(new(new ItemNotFoundException("A logging configuration was not found."), "LoggingConfigurationNotFound", ErrorCategory.ObjectNotFound, null));
 
             return;
         }
 
-        this.WriteObject(configuration);
+        WriteObject(configuration);
     }
 }

@@ -1,4 +1,4 @@
-namespace PSNLog;
+﻿namespace PSNLog;
 
 using System.Management.Automation;
 
@@ -35,34 +35,34 @@ public class NewDatabaseCommandInfoCommand : PSCmdlet
     {
         var instance = new NLog.Targets.DatabaseCommandInfo();
 
-        if (this.CommandType.HasValue)
+        if (CommandType.HasValue)
         {
-            instance.CommandType = this.CommandType.Value;
+            instance.CommandType = CommandType.Value;
         }
 
-        if (this.ConnectionString is not null)
+        if (ConnectionString is not null)
         {
-            instance.ConnectionString = this.ConnectionString;
+            instance.ConnectionString = ConnectionString;
         }
 
-        if (this.IgnoreFailures.HasValue)
+        if (IgnoreFailures.HasValue)
         {
-            instance.IgnoreFailures = this.IgnoreFailures.Value;
+            instance.IgnoreFailures = IgnoreFailures.Value;
         }
 
-        if (this.Parameters is { Length: > 0 })
+        if (Parameters is { Length: > 0 })
         {
-            foreach (var item in this.Parameters)
+            foreach (var item in Parameters)
             {
                 instance.Parameters.Add(item);
             }
         }
 
-        if (this.Text is not null)
+        if (Text is not null)
         {
-            instance.Text = this.Text;
+            instance.Text = Text;
         }
 
-        this.WriteObject(instance);
+        WriteObject(instance);
     }
 }

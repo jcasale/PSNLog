@@ -65,61 +65,61 @@ public class NewEventLogTargetCommand : PSCmdlet
     {
         var instance = new NLog.Targets.EventLogTarget();
 
-        if (this.Category is not null)
+        if (Category is not null)
         {
-            instance.Category = this.Category;
+            instance.Category = Category;
         }
 
-        if (this.EntryType is not null)
+        if (EntryType is not null)
         {
-            instance.EntryType = this.EntryType;
+            instance.EntryType = EntryType;
         }
 
-        if (this.EventId is not null)
+        if (EventId is not null)
         {
-            instance.EventId = this.EventId;
+            instance.EventId = EventId;
         }
 
-        if (this.Layout is not null)
+        if (Layout is not null)
         {
-            instance.Layout = this.Layout;
+            instance.Layout = Layout;
         }
 
-        if (this.Log is not null)
+        if (Log is not null)
         {
-            instance.Log = this.Log;
+            instance.Log = Log;
         }
 
-        if (this.MachineName is not null)
+        if (MachineName is not null)
         {
-            instance.MachineName = this.MachineName;
+            instance.MachineName = MachineName;
         }
 
-        if (this.MaxKilobytes is not null)
+        if (MaxKilobytes is not null)
         {
-            instance.MaxKilobytes = this.MaxKilobytes;
+            instance.MaxKilobytes = MaxKilobytes;
         }
 
-        if (this.MaxMessageLength is not null)
+        if (MaxMessageLength is not null)
         {
-            instance.MaxMessageLength = this.MaxMessageLength;
+            instance.MaxMessageLength = MaxMessageLength;
         }
 
-        if (this.Name is not null)
+        if (Name is not null)
         {
-            instance.Name = this.Name;
+            instance.Name = Name;
         }
 
-        if (this.OnOverflow.HasValue)
+        if (OnOverflow.HasValue)
         {
-            instance.OnOverflow = this.OnOverflow.Value;
+            instance.OnOverflow = OnOverflow.Value;
         }
 
-        if (this.Source is not null)
+        if (Source is not null)
         {
-            instance.Source = this.Source;
+            instance.Source = Source;
         }
 
-        this.WriteObject(instance);
+        WriteObject(instance);
     }
 }

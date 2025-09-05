@@ -2,6 +2,7 @@ namespace PSNLog;
 
 using System;
 using System.Management.Automation;
+
 using NLog.Config;
 using NLog.Targets;
 
@@ -43,28 +44,24 @@ public class RemoveTargetCommand : PSCmdlet
 
     protected override void ProcessRecord()
     {
-        switch (this.ParameterSetName)
+        switch (ParameterSetName)
         {
-            case nameof(this.Target):
+            case nameof(Target):
 
-                if (string.IsNullOrWhiteSpace(this.Target.Name))
+                if (string.IsNullOrWhiteSpace(Target.Name))
                 {
-                    this.ThrowTerminatingError(new ErrorRecord(
-                        new ItemNotFoundException("The target is unnamed."),
-                        "TargetNameMissing",
-                        ErrorCategory.InvalidOperation,
-                        null));
+                    ThrowTerminatingError(new(new ItemNotFoundException("The target is unnamed."), "TargetNameMissing", ErrorCategory.InvalidOperation, null));
 
                     return;
                 }
 
-                this.Configuration.RemoveTarget(this.Target.Name);
+                Configuration.RemoveTarget(Target.Name);
 
                 break;
 
-            case nameof(this.Name):
+            case nameof(Name):
 
-                this.Configuration.RemoveTarget(this.Name);
+                Configuration.RemoveTarget(Name);
 
                 break;
 
@@ -72,9 +69,9 @@ public class RemoveTargetCommand : PSCmdlet
                 throw new InvalidOperationException("Unknown parameter set.");
         }
 
-        if (this.PassThru.IsPresent)
+        if (PassThru.IsPresent)
         {
-            this.WriteObject(this.Configuration);
+            WriteObject(Configuration);
         }
     }
 }

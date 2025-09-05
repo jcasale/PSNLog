@@ -1,4 +1,4 @@
-namespace PSNLog;
+﻿namespace PSNLog;
 
 using System.Management.Automation;
 
@@ -150,146 +150,146 @@ public class NewFileTargetCommand : PSCmdlet
     {
         var instance = new NLog.Targets.FileTarget();
 
-        if (this.ArchiveAboveSize.HasValue)
+        if (ArchiveAboveSize.HasValue)
         {
-            instance.ArchiveAboveSize = this.ArchiveAboveSize.Value;
+            instance.ArchiveAboveSize = ArchiveAboveSize.Value;
         }
 
-        if (this.ArchiveEvery.HasValue)
+        if (ArchiveEvery.HasValue)
         {
-            instance.ArchiveEvery = this.ArchiveEvery.Value;
+            instance.ArchiveEvery = ArchiveEvery.Value;
         }
 
-        if (this.ArchiveFileName is not null)
+        if (ArchiveFileName is not null)
         {
-            instance.ArchiveFileName = this.ArchiveFileName;
+            instance.ArchiveFileName = ArchiveFileName;
         }
 
-        if (this.ArchiveOldFileOnStartup.HasValue)
+        if (ArchiveOldFileOnStartup.HasValue)
         {
-            instance.ArchiveOldFileOnStartup = this.ArchiveOldFileOnStartup.Value;
+            instance.ArchiveOldFileOnStartup = ArchiveOldFileOnStartup.Value;
         }
 
-        if (this.ArchiveSuffixFormat is not null)
+        if (ArchiveSuffixFormat is not null)
         {
-            instance.ArchiveSuffixFormat = this.ArchiveSuffixFormat;
+            instance.ArchiveSuffixFormat = ArchiveSuffixFormat;
         }
 
-        if (this.AutoFlush.HasValue)
+        if (AutoFlush.HasValue)
         {
-            instance.AutoFlush = this.AutoFlush.Value;
+            instance.AutoFlush = AutoFlush.Value;
         }
 
-        if (this.BufferSize.HasValue)
+        if (BufferSize.HasValue)
         {
-            instance.BufferSize = this.BufferSize.Value;
+            instance.BufferSize = BufferSize.Value;
         }
 
-        if (this.CreateDirs.HasValue)
+        if (CreateDirs.HasValue)
         {
-            instance.CreateDirs = this.CreateDirs.Value;
+            instance.CreateDirs = CreateDirs.Value;
         }
 
-        if (this.DeleteOldFileOnStartup.HasValue)
+        if (DeleteOldFileOnStartup.HasValue)
         {
-            instance.DeleteOldFileOnStartup = this.DeleteOldFileOnStartup.Value;
+            instance.DeleteOldFileOnStartup = DeleteOldFileOnStartup.Value;
         }
 
-        if (this.DiscardAll.HasValue)
+        if (DiscardAll.HasValue)
         {
-            instance.DiscardAll = this.DiscardAll.Value;
+            instance.DiscardAll = DiscardAll.Value;
         }
 
-        if (this.EnableFileDelete.HasValue)
+        if (EnableFileDelete.HasValue)
         {
-            instance.EnableFileDelete = this.EnableFileDelete.Value;
+            instance.EnableFileDelete = EnableFileDelete.Value;
         }
 
-        if (this.Encoding is not null)
+        if (Encoding is not null)
         {
-            instance.Encoding = this.Encoding;
+            instance.Encoding = Encoding;
         }
 
-        if (this.FileName is not null)
+        if (FileName is not null)
         {
-            instance.FileName = this.FileName;
+            instance.FileName = FileName;
         }
 
-        if (this.Footer is not null)
+        if (Footer is not null)
         {
-            instance.Footer = this.Footer;
+            instance.Footer = Footer;
         }
 
-        if (this.Header is not null)
+        if (Header is not null)
         {
-            instance.Header = this.Header;
+            instance.Header = Header;
         }
 
-        if (this.KeepFileOpen.HasValue)
+        if (KeepFileOpen.HasValue)
         {
-            instance.KeepFileOpen = this.KeepFileOpen.Value;
+            instance.KeepFileOpen = KeepFileOpen.Value;
         }
 
-        if (this.Layout is not null)
+        if (Layout is not null)
         {
-            instance.Layout = this.Layout;
+            instance.Layout = Layout;
         }
 
-        if (this.LineEnding is not null)
+        if (LineEnding is not null)
         {
-            instance.LineEnding = this.LineEnding;
+            instance.LineEnding = LineEnding;
         }
 
-        if (this.MaxArchiveDays.HasValue)
+        if (MaxArchiveDays.HasValue)
         {
-            instance.MaxArchiveDays = this.MaxArchiveDays.Value;
+            instance.MaxArchiveDays = MaxArchiveDays.Value;
         }
 
-        if (this.MaxArchiveFiles.HasValue)
+        if (MaxArchiveFiles.HasValue)
         {
-            instance.MaxArchiveFiles = this.MaxArchiveFiles.Value;
+            instance.MaxArchiveFiles = MaxArchiveFiles.Value;
         }
 
-        if (this.Name is not null)
+        if (Name is not null)
         {
-            instance.Name = this.Name;
+            instance.Name = Name;
         }
 
-        if (this.OpenFileCacheSize.HasValue)
+        if (OpenFileCacheSize.HasValue)
         {
-            instance.OpenFileCacheSize = this.OpenFileCacheSize.Value;
+            instance.OpenFileCacheSize = OpenFileCacheSize.Value;
         }
 
-        if (this.OpenFileCacheTimeout.HasValue)
+        if (OpenFileCacheTimeout.HasValue)
         {
-            instance.OpenFileCacheTimeout = this.OpenFileCacheTimeout.Value;
+            instance.OpenFileCacheTimeout = OpenFileCacheTimeout.Value;
         }
 
-        if (this.OpenFileFlushTimeout.HasValue)
+        if (OpenFileFlushTimeout.HasValue)
         {
-            instance.OpenFileFlushTimeout = this.OpenFileFlushTimeout.Value;
+            instance.OpenFileFlushTimeout = OpenFileFlushTimeout.Value;
         }
 
-        if (this.ReplaceFileContentsOnEachWrite.HasValue)
+        if (ReplaceFileContentsOnEachWrite.HasValue)
         {
-            instance.ReplaceFileContentsOnEachWrite = this.ReplaceFileContentsOnEachWrite.Value;
+            instance.ReplaceFileContentsOnEachWrite = ReplaceFileContentsOnEachWrite.Value;
         }
 
-        if (this.WriteBom.HasValue)
+        if (WriteBom.HasValue)
         {
-            instance.WriteBom = this.WriteBom.Value;
+            instance.WriteBom = WriteBom.Value;
         }
 
-        if (this.WriteFooterOnArchivingOnly.HasValue)
+        if (WriteFooterOnArchivingOnly.HasValue)
         {
-            instance.WriteFooterOnArchivingOnly = this.WriteFooterOnArchivingOnly.Value;
+            instance.WriteFooterOnArchivingOnly = WriteFooterOnArchivingOnly.Value;
         }
 
-        if (this.WriteHeaderWhenInitialFileNotEmpty.HasValue)
+        if (WriteHeaderWhenInitialFileNotEmpty.HasValue)
         {
-            instance.WriteHeaderWhenInitialFileNotEmpty = this.WriteHeaderWhenInitialFileNotEmpty.Value;
+            instance.WriteHeaderWhenInitialFileNotEmpty = WriteHeaderWhenInitialFileNotEmpty.Value;
         }
 
-        this.WriteObject(instance);
+        WriteObject(instance);
     }
 }

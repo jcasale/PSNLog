@@ -2,6 +2,7 @@ namespace PSNLog;
 
 using System;
 using System.Management.Automation;
+
 using NLog.Config;
 
 [Cmdlet(VerbsCommon.Remove, "NLogLoggingRule")]
@@ -39,24 +40,20 @@ public class RemoveLoggingRuleCommand : PSCmdlet
 
     protected override void ProcessRecord()
     {
-        var removed = this.ParameterSetName switch
+        var removed = ParameterSetName switch
         {
-            nameof(this.Rule) => this.Configuration.RemoveRuleByName(this.Rule.RuleName),
-            nameof(this.Name) => this.Configuration.RemoveRuleByName(this.Name),
+            nameof(Rule) => Configuration.RemoveRuleByName(Rule?.RuleName ?? throw new InvalidOperationException("Cannot remove unnamed rule.")),
+            nameof(Name) => Configuration.RemoveRuleByName(Name),
             _ => throw new InvalidOperationException("Unknown parameter set.")
         };
 
         if (!removed)
         {
-            this.ThrowTerminatingError(new ErrorRecord(
-                new ItemNotFoundException("The logging rule was not found."),
-                "LoggingRuleNotFound",
-                ErrorCategory.ObjectNotFound,
-                null));
+            ThrowTerminatingError(new(new ItemNotFoundException("The logging rule was not found."), "LoggingRuleNotFound", ErrorCategory.ObjectNotFound, null));
 
             return;
         }
 
-        this.WriteObject(this.Configuration);
+        WriteObject(Configuration);
     }
 }

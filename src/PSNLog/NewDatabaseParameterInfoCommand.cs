@@ -1,4 +1,4 @@
-namespace PSNLog;
+﻿namespace PSNLog;
 
 using System.Management.Automation;
 
@@ -70,66 +70,66 @@ public class NewDatabaseParameterInfoCommand : PSCmdlet
     {
         var instance = new NLog.Targets.DatabaseParameterInfo();
 
-        if (this.AllowDbNull.HasValue)
+        if (AllowDbNull.HasValue)
         {
-            instance.AllowDbNull = this.AllowDbNull.Value;
+            instance.AllowDbNull = AllowDbNull.Value;
         }
 
-        if (this.Culture is not null)
+        if (Culture is not null)
         {
-            instance.Culture = this.Culture;
+            instance.Culture = Culture;
         }
 
-        if (this.DbType is not null)
+        if (DbType is not null)
         {
-            instance.DbType = this.DbType;
+            instance.DbType = DbType;
         }
 
-        if (this.DbTypeEnum.HasValue)
+        if (DbTypeEnum.HasValue)
         {
-            instance.DbTypeEnum = this.DbTypeEnum.Value;
+            instance.DbTypeEnum = DbTypeEnum.Value;
         }
 
-        if (this.DefaultValue is not null)
+        if (DefaultValue is not null)
         {
-            instance.DefaultValue = this.DefaultValue;
+            instance.DefaultValue = DefaultValue;
         }
 
-        if (this.Format is not null)
+        if (Format is not null)
         {
-            instance.Format = this.Format;
+            instance.Format = Format;
         }
 
-        if (this.Layout is not null)
+        if (Layout is not null)
         {
-            instance.Layout = this.Layout;
+            instance.Layout = Layout;
         }
 
-        if (this.Name is not null)
+        if (Name is not null)
         {
-            instance.Name = this.Name;
+            instance.Name = Name;
         }
 
-        if (this.ParameterType is not null)
+        if (ParameterType is not null)
         {
-            instance.ParameterType = this.ParameterType;
+            instance.ParameterType = ParameterType;
         }
 
-        if (this.Precision.HasValue)
+        if (Precision.HasValue)
         {
-            instance.Precision = this.Precision.Value;
+            instance.Precision = Precision.Value;
         }
 
-        if (this.Scale.HasValue)
+        if (Scale.HasValue)
         {
-            instance.Scale = this.Scale.Value;
+            instance.Scale = Scale.Value;
         }
 
-        if (this.Size.HasValue)
+        if (Size.HasValue)
         {
-            instance.Size = this.Size.Value;
+            instance.Size = Size.Value;
         }
 
-        this.WriteObject(instance);
+        WriteObject(instance);
     }
 }

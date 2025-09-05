@@ -2,6 +2,7 @@ namespace PSNLog;
 
 using System;
 using System.Management.Automation;
+
 using NLog;
 using NLog.Config;
 
@@ -25,20 +26,16 @@ public class AddLoggingConfigurationCommand : PSCmdlet
     {
         if (LogManager.Configuration is not null)
         {
-            this.ThrowTerminatingError(new ErrorRecord(
-                new InvalidOperationException("A logging configuration already exists."),
-                "LoggingConfigurationAlreadyExists",
-                ErrorCategory.InvalidOperation,
-                null));
+            ThrowTerminatingError(new(new InvalidOperationException("A logging configuration already exists."), "LoggingConfigurationAlreadyExists", ErrorCategory.InvalidOperation, null));
 
             return;
         }
 
-        LogManager.Configuration = this.Configuration;
+        LogManager.Configuration = Configuration;
 
-        if (this.PassThru.IsPresent)
+        if (PassThru.IsPresent)
         {
-            this.WriteObject(this.Configuration);
+            WriteObject(Configuration);
         }
     }
 }

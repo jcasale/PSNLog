@@ -2,6 +2,7 @@ namespace PSNLog;
 
 using System;
 using System.Management.Automation;
+
 using NLog.Config;
 
 [Cmdlet(VerbsCommon.New, "NLogLoggingConfiguration")]
@@ -21,7 +22,7 @@ public class NewLoggingConfigurationCommand : PSCmdlet
     {
         LoggingConfiguration configuration;
 
-        switch (this.ParameterSetName)
+        switch (ParameterSetName)
         {
             case ParameterAttribute.AllParameterSets:
 
@@ -33,15 +34,11 @@ public class NewLoggingConfigurationCommand : PSCmdlet
 
                 try
                 {
-                    configuration = new XmlLoggingConfiguration(this.Path);
+                    configuration = new XmlLoggingConfiguration(Path);
                 }
                 catch (Exception e)
                 {
-                    this.ThrowTerminatingError(new ErrorRecord(
-                        e,
-                        nameof(XmlLoggingConfiguration),
-                        ErrorCategory.NotSpecified,
-                        this.Path));
+                    ThrowTerminatingError(new(e, nameof(XmlLoggingConfiguration), ErrorCategory.NotSpecified, Path));
 
                     return;
                 }
@@ -53,6 +50,6 @@ public class NewLoggingConfigurationCommand : PSCmdlet
                 throw new InvalidOperationException("Unknown parameter set.");
         }
 
-        this.WriteObject(configuration);
+        WriteObject(configuration);
     }
 }

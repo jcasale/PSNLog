@@ -15,9 +15,9 @@ using SmtpServer.Storage;
 
 public class TestMessageStore : MessageStore
 {
-    private readonly ICollection<MimeMessage> messages;
+    private readonly ICollection<MimeMessage> _messages;
 
-    public TestMessageStore(ICollection<MimeMessage> messages) => this.messages = messages ?? throw new ArgumentNullException(nameof(messages));
+    public TestMessageStore(ICollection<MimeMessage> messages) => _messages = messages ?? throw new ArgumentNullException(nameof(messages));
 
     public override async Task<SmtpResponse> SaveAsync(ISessionContext context, IMessageTransaction transaction, ReadOnlySequence<byte> buffer, CancellationToken cancellationToken)
     {
@@ -33,7 +33,7 @@ public class TestMessageStore : MessageStore
         stream.Position = 0;
 
         var message = await MimeMessage.LoadAsync(stream, cancellationToken).ConfigureAwait(false);
-        this.messages.Add(message);
+        _messages.Add(message);
 
         return SmtpResponse.Ok;
     }
