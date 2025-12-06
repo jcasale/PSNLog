@@ -1,6 +1,7 @@
 <Solution>
   <Folder Name="/Solution Items/">
     <File Path="../.editorconfig" />
+    <File Path="Directory.Packages.props" />
   </Folder>
   <Project Path="PSNLog/PSNLog.csproj" />
   <Project Path="Tests/Tests.csproj" />
