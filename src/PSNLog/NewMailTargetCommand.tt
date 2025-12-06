@@ -1,8 +1,8 @@
-<#@ template debug="true" hostSpecific="false" language="C#" #>
+<#@ template debug="true" hostSpecific="true" language="C#" #>
 <#@ output extension=".cs" #>
 <#@ assembly name="System.Core" #>
 <#
-    var properties = GetProperties<NLog.Targets.MailTarget>().ToArray();
+    var properties = GetProperties("NLog.Targets.MailTarget");
 #>
 namespace PSNLog;
 
@@ -71,4 +71,4 @@ public class NewMailTargetCommand : PSCmdlet
         WriteObject(instance);
     }
 }
-<#@ include file="base.t4" #>
+<#@ include file="base.ttinclude" #>

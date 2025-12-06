@@ -1,8 +1,8 @@
-<#@ template debug="true" hostSpecific="false" language="C#" #>
+<#@ template debug="true" hostSpecific="true" language="C#" #>
 <#@ output extension=".cs" #>
 <#@ assembly name="System.Core" #>
 <#
-    var properties = GetProperties<NLog.Targets.ConsoleWordHighlightingRule>().ToArray();
+    var properties = GetProperties("NLog.Targets.ConsoleWordHighlightingRule");
 #>
 namespace PSNLog;
 
@@ -72,4 +72,4 @@ public class NewConsoleWordHighlightingRuleCommand : PSCmdlet
         WriteObject(instance);
     }
 }
-<#@ include file="base.t4" #>
+<#@ include file="base.ttinclude" #>

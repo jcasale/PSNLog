@@ -1,8 +1,8 @@
-<#@ template debug="true" hostSpecific="false" language="C#" #>
+<#@ template debug="true" hostSpecific="true" language="C#" #>
 <#@ output extension=".cs" #>
 <#@ assembly name="System.Core" #>
 <#
-    var properties = GetProperties<NLog.Targets.DatabaseCommandInfo>().ToArray();
+    var properties = GetProperties("NLog.Targets.DatabaseCommandInfo");
 #>
 namespace PSNLog;
 
@@ -71,4 +71,4 @@ public class NewDatabaseCommandInfoCommand : PSCmdlet
         WriteObject(instance);
     }
 }
-<#@ include file="base.t4" #>
+<#@ include file="base.ttinclude" #>

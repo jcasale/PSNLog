@@ -1,0 +1,241 @@
+<#@ assembly name="System.Xml" #>
+<#@ assembly name="System.Xml.Linq" #>
+<#@ import namespace="System" #>
+<#@ import namespace="System.CodeDom" #>
+<#@ import namespace="System.Collections.Generic" #>
+<#@ import namespace="System.IO" #>
+<#@ import namespace="System.Linq" #>
+<#@ import namespace="System.Reflection" #>
+<#@ import namespace="System.Text" #>
+<#@ import namespace="System.Text.RegularExpressions" #>
+<#@ import namespace="System.Xml" #>
+<#@ import namespace="System.Xml.Linq" #>
+<#@ import namespace="Microsoft.CSharp" #>
+<#+
+    private IDictionary<string, Type> _nLogTypes;
+    private IDictionary<string, string> _summaryMap;
+    
+    public override void Initialize()
+    {
+        base.Initialize();
+
+        var nugetRootPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), ".nuget", "packages");
+        var projectPath = Path.GetDirectoryName(Host.TemplateFile) ?? throw new InvalidOperationException();
+        var solutionPath = Path.GetFullPath(Path.Combine(projectPath, ".."));
+
+        var cpmPath = Path.Combine(solutionPath, "Directory.Packages.props");
+        var cpmDocument = XDocument.Load(cpmPath).Descendants("PackageVersion").ToArray();
+        string GetPackageVersion(string id) =>
+            cpmDocument
+                .Where(e => e.Attribute("Include")?.Value == id)
+                .Select(e => e.Attribute("Version")?.Value)
+                .First(e => !string.IsNullOrWhiteSpace(e));
+        
+        var nLogVersion = GetPackageVersion("NLog");
+        var nLogTargetsDatabaseVersion = GetPackageVersion("NLog.Database");
+        var nLogTargetsMailVersion = GetPackageVersion("NLog.Targets.Mail");
+
+        var nLogBasePath = Path.Combine(nugetRootPath, "nlog", nLogVersion, "lib", "net46");
+        var nLogTargetsDatabaseBasePath = Path.Combine(nugetRootPath, "nlog.database", nLogTargetsDatabaseVersion, "lib", "net46");
+        var nLogTargetsMailBasePath = Path.Combine(nugetRootPath, "nlog.targets.mail", nLogTargetsMailVersion, "lib", "net46");
+        
+        var nLogLibraryPath = Path.Combine(nLogBasePath, "NLog.dll");
+        var nLogTargetsDatabaseLibraryPath = Path.Combine(nLogTargetsDatabaseBasePath, "NLog.Database.dll");
+        var nLogTargetsMailLibraryPath = Path.Combine(nLogTargetsMailBasePath, "NLog.Targets.Mail.dll");
+
+        var nLogAssembly = Assembly.LoadFrom(nLogLibraryPath);
+        var nLogTargetsDatabaseAssembly = Assembly.LoadFrom(nLogTargetsDatabaseLibraryPath);
+        var nLogTargetsMailAssembly = Assembly.LoadFrom(nLogTargetsMailLibraryPath);
+
+        _nLogTypes = nLogAssembly.GetTypes()
+            .Concat(nLogTargetsDatabaseAssembly.GetTypes())
+            .Concat(nLogTargetsMailAssembly.GetTypes())
+            .Where(p => !string.IsNullOrWhiteSpace(p.FullName) && p.FullName.StartsWith("NLog.", StringComparison.Ordinal))
+            .GroupBy(p => p.FullName)
+            .Select(g => g.First())
+            .ToDictionary(k => k.FullName, v => v);
+
+        string[] xmlPaths =
+        [
+            Path.Combine(nLogBasePath, "NLog.xml"),
+            Path.Combine(nLogTargetsDatabaseBasePath, "NLog.Database.xml"),
+            Path.Combine(nLogTargetsMailBasePath, "NLog.Targets.Mail.xml")
+        ];
+        
+        _summaryMap = xmlPaths
+            .SelectMany(GetXmlMembers)
+            .GroupBy(p => p.Key)
+            .Select(p => p.First())
+            .ToDictionary(k => k.Key, v => v.Value, StringComparer.Ordinal);
+    }
+
+    public PropertyData[] GetProperties(string name)
+    {
+        const BindingFlags bindingFlags = BindingFlags.Public | BindingFlags.Instance;
+        var type = _nLogTypes[name];
+        var properties = type.GetProperties(bindingFlags).OrderBy(p => p.Name);
+
+        using var provider = new CSharpCodeProvider();
+
+        var results = new List<PropertyData>();
+
+        foreach (var property in properties)
+        {
+            if (property.GetCustomAttribute<ObsoleteAttribute>() is not null)
+            {
+                continue;
+            }
+
+            var isCollection = property.PropertyType.GetInterfaces().Any(p => p.IsGenericType && p.GetGenericTypeDefinition() == typeof(ICollection<>));
+            var isNullable = property.PropertyType.IsGenericType && property.PropertyType.GetGenericTypeDefinition() == typeof(Nullable<>);
+            var propertyType = isCollection || isNullable ? property.PropertyType.GetGenericArguments().Single() : property.PropertyType;
+
+            if (!property.CanWrite && !isCollection)
+            {
+                continue;
+            }
+
+            var alias = provider.GetTypeOutput(new CodeTypeReference(propertyType));
+
+            var classes = _nLogTypes.Values
+                .Where(p => type.IsSubclassOf(p) || type == p)
+                .OrderBy(p => type == p);
+
+            string summary = null;
+
+            foreach (var cls in classes)
+            {
+                var key = $"P:{cls.FullName}.{property.Name}";
+                _summaryMap.TryGetValue(key, out summary);
+
+                if (!string.IsNullOrWhiteSpace(summary))
+                {
+                    break;
+                }
+            }
+
+            if (string.IsNullOrWhiteSpace(summary))
+            {
+                throw new InvalidOperationException($"Summary not found for {property.Name} in {type.FullName}.");
+            }
+
+            var result = new PropertyData
+            {
+                Name = property.Name,
+                Type = propertyType,
+                Alias = alias,
+                Summary = summary,
+                HasGetMethod = property.GetGetMethod() is not null,
+                HasSetMethod = property.GetSetMethod() is not null,
+                IsCollection = isCollection,
+                IsNullable = isNullable
+            };
+            
+            results.Add(result);
+        }
+
+        return results.ToArray();
+    }
+
+    private static void ExtractText(StringBuilder stringBuilder, XmlNode node)
+    {
+        if (stringBuilder is null)
+        {
+            throw new ArgumentNullException(nameof(stringBuilder));
+        }
+
+        if (node is null)
+        {
+            throw new ArgumentNullException(nameof(node));
+        }
+
+        foreach (var child in node.ChildNodes)
+        {
+            switch (child)
+            {
+                case XmlText xmlText:
+                    stringBuilder.Append(xmlText.Value);
+
+                    break;
+
+                case XmlElement xmlElement:
+                    string text;
+                    if (xmlElement.HasAttribute("cref"))
+                    {
+                        text = xmlElement.GetAttribute("cref");
+                        stringBuilder.Append(text);
+                    }
+                    else if  (xmlElement.HasAttribute("langword"))
+                    {
+                        text = xmlElement.GetAttribute("langword");
+                        stringBuilder.Append(text);
+                    }
+                    else if  (xmlElement.HasAttribute("href"))
+                    {
+                        text = xmlElement.GetAttribute("href");
+                        stringBuilder.Append(text);
+                        stringBuilder.Append(" ");
+                    }
+
+                    ExtractText(stringBuilder, xmlElement);
+
+                    break;
+            }
+        }
+    }
+
+    private static IEnumerable<KeyValuePair<string, string>> GetXmlMembers(string path)
+    {
+        if (string.IsNullOrWhiteSpace(path))
+        {
+            throw new ArgumentException("Value cannot be null or whitespace.", nameof(path));
+        }
+
+        var document = new XmlDocument();
+        document.Load(path);
+        var root = document.DocumentElement ?? throw new InvalidOperationException();
+        var elements = root.SelectNodes("//member[@name]") ?? throw new InvalidOperationException();
+        var stringBuilder = new StringBuilder();
+
+        foreach (XmlElement element in elements)
+        {
+            var name = element.GetAttribute("name");
+            if (string.IsNullOrWhiteSpace(name))
+            {
+                throw new InvalidOperationException();
+            }
+
+            var summary = element.GetElementsByTagName("summary")[0];
+            if (summary is null)
+            {
+                continue;
+            }
+
+            stringBuilder.Clear();
+            ExtractText(stringBuilder, summary);
+
+            var value = Regex.Replace(stringBuilder.ToString(), @"[\r\n\s]+", " ", RegexOptions.Multiline, TimeSpan.FromSeconds(1))
+                .Replace('"', '\'')
+                .Trim();
+
+            if (!(value.EndsWith("?") || value.EndsWith(".")))
+            {
+                value = $"{value}.";
+            }
+
+            yield return new KeyValuePair<string, string>(name, value);
+        }
+    }
+
+    public class PropertyData
+    {
+        public string Name { get; set; }
+        public Type Type { get; set; }
+        public string Alias { get; set; }
+        public string Summary { get; set; }
+        public bool HasGetMethod { get; set; }
+        public bool HasSetMethod { get; set; }
+        public bool IsCollection { get; set; }
+        public bool IsNullable { get; set; }
+    }
+#>
