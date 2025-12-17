@@ -1,6 +1,7 @@
-<Project InitialTargets="GetVersionFromGit" Sdk="Microsoft.NET.Sdk">
+﻿<Project InitialTargets="GetVersionFromGit" Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFramework>net462</TargetFramework>
+    <RuntimeIdentifier>win-x64</RuntimeIdentifier>
     <LangVersion>preview</LangVersion>
     <AnalysisLevel>preview-All</AnalysisLevel>
   </PropertyGroup>

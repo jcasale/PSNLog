@@ -1,11 +1,6 @@
 namespace Tests;
 
-using System;
 using System.Buffers;
-using System.Collections.Generic;
-using System.IO;
-using System.Threading;
-using System.Threading.Tasks;
 
 using MimeKit;
 
@@ -13,7 +8,7 @@ using SmtpServer;
 using SmtpServer.Protocol;
 using SmtpServer.Storage;
 
-public class TestMessageStore : MessageStore
+internal sealed class TestMessageStore : MessageStore
 {
     private readonly ICollection<MimeMessage> _messages;
 

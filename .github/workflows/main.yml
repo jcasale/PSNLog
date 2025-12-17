@@ -39,13 +39,15 @@ jobs:
           echo "version=$version" >> $env:GITHUB_OUTPUT
 
       - name: Run tests
-        run: dotnet.exe test .\src\PSNLog.slnx --configuration Release --runtime win-x64
+        run: |
+          cd .\src
+          dotnet.exe test --project .\Tests\Tests.csproj --configuration Debug --output Detailed
 
       - name: Clean solution
         run: dotnet.exe clean .\src\PSNLog.slnx --configuration Release
 
       - name: Build project
-        run: dotnet.exe publish .\src\PSNLog\PSNLog.csproj --configuration Release --runtime win-x64 --output .\publish
+        run: dotnet.exe publish .\src\PSNLog\PSNLog.csproj --configuration Release --output .\publish
 
       - name: Prepare release
         run: Remove-Item ./publish/* -Include *.pdb,*.xml -ErrorAction Stop

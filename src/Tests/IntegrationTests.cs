@@ -1,16 +1,10 @@
 namespace Tests;
 
-using System;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.Globalization;
-using System.IO;
-using System.Linq;
 using System.Management.Automation;
 using System.Management.Automation.Runspaces;
 using System.Net;
-using System.Threading;
-using System.Threading.Tasks;
 
 using Microsoft.Extensions.DependencyInjection;
 
@@ -25,11 +19,10 @@ using SmtpServer;
 using SmtpServer.Authentication;
 using SmtpServer.Storage;
 
-using Xunit;
-
+[TestClass]
 public class IntegrationTests
 {
-    [Fact]
+    [TestMethod]
     public void LoggerWithConsoleTargetShouldWork()
     {
         const string name = "MyLogger";
@@ -71,7 +64,7 @@ public class IntegrationTests
             .AddCommand("New-NLogLoggingConfiguration");
 
         var configuration = powerShell.Invoke<LoggingConfiguration>().Single();
-        Assert.False(powerShell.HadErrors);
+        Assert.IsFalse(powerShell.HadErrors);
 
         powerShell.Commands.Clear();
 
@@ -82,7 +75,7 @@ public class IntegrationTests
             .AddParameter(nameof(NewConsoleTargetCommand.Name), "ConsoleTarget");
 
         var target = powerShell.Invoke<ConsoleTarget>().Single();
-        Assert.False(powerShell.HadErrors);
+        Assert.IsFalse(powerShell.HadErrors);
 
         powerShell.Commands.Clear();
 
@@ -134,12 +127,12 @@ public class IntegrationTests
 
         var results = powerShell.Invoke<string>();
 
-        Assert.False(powerShell.HadErrors);
-        Assert.Single(results);
-        Assert.Equal(result, results[0], StringComparer.Ordinal);
+        Assert.IsFalse(powerShell.HadErrors);
+        Assert.ContainsSingle(results);
+        Assert.AreEqual(result, results[0], StringComparer.Ordinal);
     }
 
-    [Fact]
+    [TestMethod]
     public async Task LoggerWithMailTargetShouldWork()
     {
         const string sender = "sender@domain.com";
@@ -207,7 +200,7 @@ public class IntegrationTests
             .AddCommand("New-NLogLoggingConfiguration");
 
         var configuration = powerShell.Invoke<LoggingConfiguration>().Single();
-        Assert.False(powerShell.HadErrors);
+        Assert.IsFalse(powerShell.HadErrors);
 
         powerShell.Commands.Clear();
 
@@ -221,7 +214,7 @@ public class IntegrationTests
             .AddParameter(nameof(NewMailTargetCommand.Name), "MailTarget");
 
         var target = powerShell.Invoke<MailTarget>().Single();
-        Assert.False(powerShell.HadErrors);
+        Assert.IsFalse(powerShell.HadErrors);
 
         powerShell.Commands.Clear();
 
@@ -258,7 +251,7 @@ public class IntegrationTests
 
         powerShell.Invoke();
 
-        Assert.False(powerShell.HadErrors);
+        Assert.IsFalse(powerShell.HadErrors);
 
         var stopWatch = Stopwatch.StartNew();
         while (stopWatch.ElapsedMilliseconds < 5000 && messages.Count == 0)
@@ -269,14 +262,14 @@ public class IntegrationTests
 
         stopWatch.Stop();
 
-        Assert.Single(messages);
-        Assert.Equal(result, messages[0].TextBody, StringComparer.Ordinal);
+        Assert.ContainsSingle(messages);
+        Assert.AreEqual(result, messages[0].TextBody, StringComparer.Ordinal);
 
         smtpServer.Shutdown();
         await smtpServerTask;
     }
 
-    [Fact]
+    [TestMethod]
     public void LoggerWithFileTargetShouldWork()
     {
         const string name = "MyLogger";
@@ -322,7 +315,7 @@ public class IntegrationTests
                 .AddCommand("New-NLogLoggingConfiguration");
 
             var configuration = powerShell.Invoke<LoggingConfiguration>().Single();
-            Assert.False(powerShell.HadErrors);
+            Assert.IsFalse(powerShell.HadErrors);
 
             powerShell.Commands.Clear();
 
@@ -335,7 +328,7 @@ public class IntegrationTests
                 .AddParameter(nameof(NewFileTargetCommand.Name), "FileTarget");
 
             var target = powerShell.Invoke<FileTarget>().Single();
-            Assert.False(powerShell.HadErrors);
+            Assert.IsFalse(powerShell.HadErrors);
 
             powerShell.Commands.Clear();
 
@@ -379,8 +372,8 @@ public class IntegrationTests
             File.Delete(path);
         }
 
-        Assert.False(powerShell.HadErrors);
-        Assert.Single(results);
-        Assert.Equal(result, results[0], StringComparer.Ordinal);
+        Assert.IsFalse(powerShell.HadErrors);
+        Assert.ContainsSingle(results);
+        Assert.AreEqual(result, results[0], StringComparer.Ordinal);
     }
 }

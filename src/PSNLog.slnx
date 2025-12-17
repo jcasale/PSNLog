@@ -2,6 +2,7 @@
   <Folder Name="/Solution Items/">
     <File Path="../.editorconfig" />
     <File Path="Directory.Packages.props" />
+    <File Path="global.json" />
   </Folder>
   <Project Path="PSNLog/PSNLog.csproj" />
   <Project Path="Tests/Tests.csproj" />
