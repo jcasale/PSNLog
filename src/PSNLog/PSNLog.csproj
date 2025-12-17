@@ -8,8 +8,6 @@
   <ItemGroup>
     <PackageReference Include="Microsoft.PowerShell.5.1.ReferenceAssemblies" PrivateAssets="All" />
     <PackageReference Include="NLog" />
-    <PackageReference Include="NLog.Database" />
-    <PackageReference Include="NLog.Targets.Mail" />
   </ItemGroup>
   <ItemGroup>
     <None Include="NewAsyncTargetWrapperCommand.cs">
@@ -42,21 +40,6 @@
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
     </None>
-    <None Include="NewDatabaseCommandInfoCommand.cs">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>NewDatabaseCommandInfoCommand.tt</DependentUpon>
-    </None>
-    <None Include="NewDatabaseParameterInfoCommand.cs">
-      <DependentUpon>NewDatabaseParameterInfoCommand.tt</DependentUpon>
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-    </None>
-    <None Include="NewDatabaseTargetCommand.cs">
-      <DependentUpon>NewDatabaseTargetCommand.tt</DependentUpon>
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-    </None>
     <None Include="NewEventLogTargetCommand.cs">
       <DependentUpon>NewEventLogTargetCommand.tt</DependentUpon>
       <DesignTime>True</DesignTime>
@@ -66,11 +49,6 @@
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
       <DependentUpon>NewFileTargetCommand.tt</DependentUpon>
-    </None>
-    <None Include="NewMailTargetCommand.cs">
-      <DependentUpon>NewMailTargetCommand.tt</DependentUpon>
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
     </None>
   </ItemGroup>
   <ItemGroup>
@@ -214,6 +192,6 @@
   </Target>
   <Target Name="CreateModuleManifest" AfterTargets="GetVersionFromGit">
     <Message Text="*** Writing PowerShell module manifest to $(NameModuleManifest)." Importance="high" />
-    <WriteLinesToFile File="$(NameModuleManifest)" Overwrite="true" Lines="&#xD;&#xA;@{&#xD;&#xA;  RootModule = 'PSNLog.dll'&#xD;&#xA;  ModuleVersion = '$(Version)'&#xD;&#xA;  GUID = '4b3dd496-905f-4932-a876-4c92bb4918c1'&#xD;&#xA;  Author = 'Joseph L. Casale'&#xD;&#xA;  CompanyName = 'Joseph L. Casale'&#xD;&#xA;  Copyright = '(c) Joseph L. Casale. All rights reserved.'&#xD;&#xA;  Description = 'A PowerShell module for logging based on the NLog library.'&#xD;&#xA;  RequiredAssemblies = @('NLog.dll', 'NLog.Database.dll')&#xD;&#xA;  NestedModules = @()&#xD;&#xA;  FunctionsToExport = @()&#xD;&#xA;  CmdletsToExport = @(&#xD;&#xA;    'Add-NLogLoggingConfiguration',&#xD;&#xA;    'Add-NLogLoggingRule',&#xD;&#xA;    'Add-NLogTarget',&#xD;&#xA;    'Get-NLogLogger',&#xD;&#xA;    'Get-NLogLoggingConfiguration',&#xD;&#xA;    'New-AsyncTargetWrapper',&#xD;&#xA;    'New-BufferingTargetWrapper',&#xD;&#xA;    'New-NLogBasicLogger',&#xD;&#xA;    'New-NLogColoredConsoleTarget',&#xD;&#xA;    'New-NLogConsoleRowHighlightingRule',&#xD;&#xA;    'New-NLogConsoleTarget',&#xD;&#xA;    'New-NLogConsoleWordHighlightingRule',&#xD;&#xA;    'New-NLogDatabaseCommandInfo',&#xD;&#xA;    'New-NLogDatabaseParameterInfo',&#xD;&#xA;    'New-NLogDatabaseTarget',&#xD;&#xA;    'New-NLogEventLogTarget',&#xD;&#xA;    'New-NLogFileTarget',&#xD;&#xA;    'New-NLogLoggingConfiguration',&#xD;&#xA;    'New-NLogLoggingRule',&#xD;&#xA;    'New-NLogMailTarget',&#xD;&#xA;    'Remove-NLogLoggingRule',&#xD;&#xA;    'Remove-NLogTarget',&#xD;&#xA;    'Stop-NLogLogging'&#xD;&#xA;  )&#xD;&#xA;  VariablesToExport = @()&#xD;&#xA;  AliasesToExport = @()&#xD;&#xA;  PrivateData = @{ PSData = @{} }&#xD;&#xA;}" />
+    <WriteLinesToFile File="$(NameModuleManifest)" Overwrite="true" Lines="@{&#xD;&#xA;  RootModule = 'PSNLog.dll'&#xD;&#xA;  ModuleVersion = '$(Version)'&#xD;&#xA;  GUID = '4b3dd496-905f-4932-a876-4c92bb4918c1'&#xD;&#xA;  Author = 'Joseph L. Casale'&#xD;&#xA;  CompanyName = 'Joseph L. Casale'&#xD;&#xA;  Copyright = '(c) Joseph L. Casale. All rights reserved.'&#xD;&#xA;  Description = 'A PowerShell module for logging based on the NLog library.'&#xD;&#xA;  RequiredAssemblies = @('NLog.dll')&#xD;&#xA;  NestedModules = @()&#xD;&#xA;  FunctionsToExport = @()&#xD;&#xA;  CmdletsToExport = @(&#xD;&#xA;    'Add-NLogLoggingConfiguration',&#xD;&#xA;    'Add-NLogLoggingRule',&#xD;&#xA;    'Add-NLogTarget',&#xD;&#xA;    'Get-NLogLogger',&#xD;&#xA;    'Get-NLogLoggingConfiguration',&#xD;&#xA;    'New-AsyncTargetWrapper',&#xD;&#xA;    'New-BufferingTargetWrapper',&#xD;&#xA;    'New-NLogBasicLogger',&#xD;&#xA;    'New-NLogColoredConsoleTarget',&#xD;&#xA;    'New-NLogConsoleRowHighlightingRule',&#xD;&#xA;    'New-NLogConsoleTarget',&#xD;&#xA;    'New-NLogConsoleWordHighlightingRule',&#xD;&#xA;    'New-NLogEventLogTarget',&#xD;&#xA;    'New-NLogFileTarget',&#xD;&#xA;    'New-NLogLoggingConfiguration',&#xD;&#xA;    'New-NLogLoggingRule',&#xD;&#xA;    'Remove-NLogLoggingRule',&#xD;&#xA;    'Remove-NLogTarget',&#xD;&#xA;    'Stop-NLogLogging'&#xD;&#xA;  )&#xD;&#xA;  VariablesToExport = @()&#xD;&#xA;  AliasesToExport = @()&#xD;&#xA;  PrivateData = @{ PSData = @{} }&#xD;&#xA;}" />
   </Target>
 </Project>

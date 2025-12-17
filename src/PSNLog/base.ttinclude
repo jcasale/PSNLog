@@ -32,35 +32,20 @@
                 .First(e => !string.IsNullOrWhiteSpace(e));
         
         var nLogVersion = GetPackageVersion("NLog");
-        var nLogTargetsDatabaseVersion = GetPackageVersion("NLog.Database");
-        var nLogTargetsMailVersion = GetPackageVersion("NLog.Targets.Mail");
 
         var nLogBasePath = Path.Combine(nugetRootPath, "nlog", nLogVersion, "lib", "net46");
-        var nLogTargetsDatabaseBasePath = Path.Combine(nugetRootPath, "nlog.database", nLogTargetsDatabaseVersion, "lib", "net46");
-        var nLogTargetsMailBasePath = Path.Combine(nugetRootPath, "nlog.targets.mail", nLogTargetsMailVersion, "lib", "net46");
         
         var nLogLibraryPath = Path.Combine(nLogBasePath, "NLog.dll");
-        var nLogTargetsDatabaseLibraryPath = Path.Combine(nLogTargetsDatabaseBasePath, "NLog.Database.dll");
-        var nLogTargetsMailLibraryPath = Path.Combine(nLogTargetsMailBasePath, "NLog.Targets.Mail.dll");
 
         var nLogAssembly = Assembly.LoadFrom(nLogLibraryPath);
-        var nLogTargetsDatabaseAssembly = Assembly.LoadFrom(nLogTargetsDatabaseLibraryPath);
-        var nLogTargetsMailAssembly = Assembly.LoadFrom(nLogTargetsMailLibraryPath);
 
         _nLogTypes = nLogAssembly.GetTypes()
-            .Concat(nLogTargetsDatabaseAssembly.GetTypes())
-            .Concat(nLogTargetsMailAssembly.GetTypes())
             .Where(p => !string.IsNullOrWhiteSpace(p.FullName) && p.FullName.StartsWith("NLog.", StringComparison.Ordinal))
             .GroupBy(p => p.FullName)
             .Select(g => g.First())
             .ToDictionary(k => k.FullName, v => v);
 
-        string[] xmlPaths =
-        [
-            Path.Combine(nLogBasePath, "NLog.xml"),
-            Path.Combine(nLogTargetsDatabaseBasePath, "NLog.Database.xml"),
-            Path.Combine(nLogTargetsMailBasePath, "NLog.Targets.Mail.xml")
-        ];
+        string[] xmlPaths = [Path.Combine(nLogBasePath, "NLog.xml")];
         
         _summaryMap = xmlPaths
             .SelectMany(GetXmlMembers)
