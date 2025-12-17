@@ -1,4 +1,4 @@
-﻿namespace PSNLog;
+namespace PSNLog;
 
 using System.Management.Automation;
 

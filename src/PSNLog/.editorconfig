@@ -1,0 +1,6 @@
+﻿[*.cs]
+dotnet_diagnostic.CA1819.severity = none # Properties should not return arrays.
+dotnet_diagnostic.CA2000.severity = none # Dispose objects before losing scope.
+
+[NewLoggingConfigurationCommand.cs]
+dotnet_diagnostic.CA1031.severity = none # Do not catch general exception types.
