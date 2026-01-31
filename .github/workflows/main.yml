@@ -16,10 +16,12 @@ env:
 jobs:
   build:
     runs-on: windows-latest
+    permissions:
+      contents: write
     timeout-minutes: 10
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
         with:
           fetch-depth: 0
 
@@ -74,7 +76,7 @@ jobs:
         run: wix.exe msi validate ps-nlog.msi
 
       - name: Upload artifacts
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v6
         with:
           name: ps-nlog
           path: |
@@ -103,5 +105,4 @@ jobs:
         if: github.ref_type == 'tag'
         run: gh.exe release create v${{ steps.version.outputs.version }} --title v${{ steps.version.outputs.version }} --notes 'PowerShell NLog logging module.' ps-nlog.msi
         env:
-            # Requires a personal access token with a fine-grained permission of contents:read/write.
-            GH_TOKEN: ${{ secrets.MY_GITHUB_TOKEN }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
