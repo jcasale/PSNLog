@@ -4,7 +4,9 @@ The `PSNLog` module provides logging based on the NLog library.
 
 The *NLog* objects are all built from T4 templates that instantiate the objects using the default constructor and set any properties supplied by the user.
 
-All the common, useful targets are included. No drivers are bundled for the database target.
+This nodule includes only the targets provided by the main *NLog* package, and offers cmdlets for a subset of the most common ones.
+
+Module versioning now follows the *NLog* version.
 
 ## Installation
 
