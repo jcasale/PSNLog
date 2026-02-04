@@ -5,7 +5,7 @@
            Version="$(var.ProductVersion)"
            Manufacturer="Joseph L. Casale"
            UpgradeCode="12db3470-bdf5-4dfe-a454-dfd2081aff72">
-    <SummaryInformation Description="A PowerShell module for logging based on the NLog library." Comments="PSNLog v$(var.ProductVersion)" />
+    <SummaryInformation Description="A PowerShell module for logging based on the NLog library." Comments="PSNLog v$(var.FullVersion)" />
     <MajorUpgrade DowngradeErrorMessage="A newer version of [ProductName] is already installed." />
     <Media Id="1" Cabinet="Data.cab" EmbedCab="yes" CompressionLevel="high" />
 

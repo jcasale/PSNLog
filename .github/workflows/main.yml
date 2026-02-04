@@ -35,20 +35,26 @@ jobs:
       - name: Generate version property
         id: version
         run: |
+          $pattern = '^v(((\d+(?:\.\d+)+)(?:-[a-z]+\.\d+)?)-(\d+-g.+))'
           $tag = git.exe describe --tags --long
-          $version = [version]::new($tag.Split('-')[0].TrimStart('v'))
+          $match = [Text.RegularExpressions.Regex]::Match($tag, $pattern)
+          if (!$match.Success)
+          {
+            throw 'Failed to parse tag.'
+          }
 
-          echo "version=$version" >> $env:GITHUB_OUTPUT
+          'version={0}' -f $match.Groups[3].Value |Tee-Object -FilePath $env:GITHUB_OUTPUT -Append
+          'full-version={0}' -f $match.Groups[2].Value |Tee-Object -FilePath $env:GITHUB_OUTPUT -Append
 
       - name: Run tests
         run: |
           cd .\src
-          dotnet.exe test --project .\Tests\Tests.csproj --configuration Debug --output Detailed
+          dotnet.exe test --project .\Tests\Tests.csproj --configuration Release --output Detailed
 
       - name: Clean solution
         run: dotnet.exe clean .\src\PSNLog.slnx --configuration Release
 
-      - name: Build project
+      - name: Publish project
         run: dotnet.exe publish .\src\PSNLog\PSNLog.csproj --configuration Release --output .\publish
 
       - name: Prepare release
@@ -69,6 +75,7 @@ jobs:
             -src src\Product.wxs `
             -d ProductSource="$(Resolve-Path ./publish)" `
             -d ProductVersion="${{ steps.version.outputs.version }}" `
+            -d FullVersion="${{ steps.version.outputs.full-version}}" `
             -ext WixToolset.UI.wixext `
             -out ps-nlog.msi
 
@@ -103,6 +110,6 @@ jobs:
 
       - name: Publish release
         if: github.ref_type == 'tag'
-        run: gh.exe release create v${{ steps.version.outputs.version }} --title v${{ steps.version.outputs.version }} --notes 'PowerShell NLog logging module.' ps-nlog.msi
+        run: gh.exe release create v${{ steps.version.outputs.full-version }} --title v${{ steps.version.outputs.full-version }} --notes 'PowerShell NLog logging module.' ps-nlog.msi
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
