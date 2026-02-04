@@ -5,7 +5,7 @@
            Version="$(var.ProductVersion)"
            Manufacturer="Joseph L. Casale"
            UpgradeCode="12db3470-bdf5-4dfe-a454-dfd2081aff72">
-    <SummaryInformation Description="A PowerShell module for logging based on the NLog library." Comments="PSNLog v$(var.ProductVersion)" />
+    <SummaryInformation Description="A PowerShell module for logging based on the NLog library." Comments="PSNLog v$(var.FullVersion)" />
     <MajorUpgrade DowngradeErrorMessage="A newer version of [ProductName] is already installed." />
     <Media Id="1" Cabinet="Data.cab" EmbedCab="yes" CompressionLevel="high" />
 
@@ -16,24 +16,24 @@
       <ComponentGroupRef Id="ProductComponents" />
     </Feature>
 
-    <UI>
-      <ui:WixUI Id="WixUI_InstallDir_NoLicense" InstallDirectory="INSTALLFOLDER" />
-    </UI>
+    <ComponentGroup Id="ProductComponents" Directory="INSTALLFOLDER">
+      <Files Include="$(var.ProductSource)\**" />
+    </ComponentGroup>
 
+    <ui:WixUI Id="WixUI_InstallDir_NoLicense" InstallDirectory="INSTALLFOLDER" />
+  </Package>
+
+  <Fragment>
     <StandardDirectory Id="ProgramFiles6432Folder">
       <Directory Id="WindowsPowerShell" Name="WindowsPowerShell">
         <Directory Id="Modules" Name="Modules">
           <Directory Id="PSNLog" Name="PSNLog">
-            <Directory Id="INSTALLDIR" Name="$(var.ProductVersion)" />
+            <Directory Id="INSTALLFOLDER" Name="$(var.ProductVersion)" />
           </Directory>
         </Directory>
       </Directory>
     </StandardDirectory>
-
-    <ComponentGroup Id="ProductComponents" Directory="INSTALLDIR">
-      <Files Include="$(var.ProductSource)\**" />
-    </ComponentGroup>
-  </Package>
+  </Fragment>
 
   <?foreach WIXUIARCH in X86;X64;A64?>
   <Fragment>

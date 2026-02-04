@@ -1,14 +1,17 @@
-﻿<Project InitialTargets="GetVersionFromGit" Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
   <PropertyGroup>
     <TargetFramework>net462</TargetFramework>
     <RuntimeIdentifier>win-x64</RuntimeIdentifier>
     <LangVersion>preview</LangVersion>
     <AnalysisLevel>preview-All</AnalysisLevel>
   </PropertyGroup>
+
   <ItemGroup>
     <PackageReference Include="Microsoft.PowerShell.5.1.ReferenceAssemblies" PrivateAssets="All" />
     <PackageReference Include="NLog" />
   </ItemGroup>
+
   <ItemGroup>
     <None Include="NewAsyncTargetWrapperCommand.cs">
       <DesignTime>True</DesignTime>
@@ -51,6 +54,7 @@
       <DependentUpon>NewFileTargetCommand.tt</DependentUpon>
     </None>
   </ItemGroup>
+
   <ItemGroup>
     <None Update="NewAsyncTargetWrapperCommand.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
@@ -101,9 +105,11 @@
       <Generator>TextTemplatingFileGenerator</Generator>
     </None>
   </ItemGroup>
+
   <ItemGroup>
     <Service Include="{508349b6-6b84-4df5-91f0-309beebad82d}" />
   </ItemGroup>
+
   <ItemGroup>
     <Compile Update="NewAsyncTargetWrapperCommand.cs">
       <DesignTime>True</DesignTime>
@@ -166,32 +172,74 @@
       <DependentUpon>NewMailTargetCommand.tt</DependentUpon>
     </Compile>
   </ItemGroup>
-  <PropertyGroup>
-    <NameModuleManifest>PSNLog.psd1</NameModuleManifest>
-  </PropertyGroup>
+
   <ItemGroup>
     <None Update="Debug.ps1">
       <CopyToOutputDirectory Condition="'$(Configuration)'=='DEBUG'">PreserveNewest</CopyToOutputDirectory>
       <CopyToOutputDirectory Condition="'$(Configuration)'!='DEBUG'">Never</CopyToOutputDirectory>
     </None>
-    <None Update="$(NameModuleManifest)" CopyToOutputDirectory="Always" />
-    <Content Update="$(NameModuleManifest)" CopyToPublishDirectory="Always" />
   </ItemGroup>
-  <Target Name="GetVersionFromGit">
-    <Exec Command="git.exe describe --tags --long" WorkingDirectory="$(MSBuildProjectDirectory)" ConsoleToMsBuild="true" StandardOutputImportance="Low">
-      <Output TaskParameter="ConsoleOutput" PropertyName="GitTag" />
-    </Exec>
+
+  <PropertyGroup>
+    <ModuleManifestName>PSNLog.psd1</ModuleManifestName>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Content Update="$(NameModuleManifest)">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <CopyToPublishDirectory>Always</CopyToPublishDirectory>
+    </Content>
+  </ItemGroup>
+
+  <Target Name="CreateModuleManifest" AfterTargets="SetVersionFromGit" BeforeTargets="BeforeBuild">
     <PropertyGroup>
-      <PatternGitTag>^v((.+)-(\d+)-g(.+))</PatternGitTag>
-      <AssemblyVersion>$([System.Text.RegularExpressions.Regex]::Match($(GitTag), $(PatternGitTag)).Groups[2].Value)</AssemblyVersion>
-      <FileVersion>$([System.Text.RegularExpressions.Regex]::Match($(GitTag), $(PatternGitTag)).Groups[2].Value)</FileVersion>
-      <Version>$([System.Text.RegularExpressions.Regex]::Match($(GitTag), $(PatternGitTag)).Groups[2].Value)</Version>
-      <InformationalVersion>$([System.Text.RegularExpressions.Regex]::Match($(GitTag), $(PatternGitTag)).Groups[1].Value)</InformationalVersion>
+      <ModuleManifestContent>
+@{
+  RootModule = 'PSNLog.dll'
+  ModuleVersion = '$(Version)'
+  GUID = '4b3dd496-905f-4932-a876-4c92bb4918c1'
+  Author = 'Joseph L. Casale'
+  CompanyName = 'Joseph L. Casale'
+  Copyright = '(c) Joseph L. Casale. All rights reserved.'
+  Description = 'A PowerShell module for logging based on the NLog library.'
+  RequiredAssemblies = @('NLog.dll')
+  NestedModules = @()
+  FunctionsToExport = @()
+  CmdletsToExport = @(
+    'Add-NLogLoggingConfiguration',
+    'Add-NLogLoggingRule',
+    'Add-NLogTarget',
+    'Get-NLogLogger',
+    'Get-NLogLoggingConfiguration',
+    'New-AsyncTargetWrapper',
+    'New-BufferingTargetWrapper',
+    'New-NLogBasicLogger',
+    'New-NLogColoredConsoleTarget',
+    'New-NLogConsoleRowHighlightingRule',
+    'New-NLogConsoleTarget',
+    'New-NLogConsoleWordHighlightingRule',
+    'New-NLogEventLogTarget',
+    'New-NLogFileTarget',
+    'New-NLogLoggingConfiguration',
+    'New-NLogLoggingRule',
+    'Remove-NLogLoggingRule',
+    'Remove-NLogTarget',
+    'Stop-NLogLogging'
+  )
+  VariablesToExport = @()
+  AliasesToExport = @()
+  PrivateData = @{ PSData = @{} }
+}
+      </ModuleManifestContent>
     </PropertyGroup>
-    <Message Text="*** InformationalVersion $(InformationalVersion)" Importance="high" />
+    <Message Text="Writing PowerShell module manifest to $(ModuleManifestName)." Importance="high" />
+    <WriteLinesToFile File="$(ModuleManifestName)" Overwrite="true" Lines="$(ModuleManifestContent)" />
   </Target>
-  <Target Name="CreateModuleManifest" AfterTargets="GetVersionFromGit">
-    <Message Text="*** Writing PowerShell module manifest to $(NameModuleManifest)." Importance="high" />
-    <WriteLinesToFile File="$(NameModuleManifest)" Overwrite="true" Lines="@{&#xD;&#xA;  RootModule = 'PSNLog.dll'&#xD;&#xA;  ModuleVersion = '$(Version)'&#xD;&#xA;  GUID = '4b3dd496-905f-4932-a876-4c92bb4918c1'&#xD;&#xA;  Author = 'Joseph L. Casale'&#xD;&#xA;  CompanyName = 'Joseph L. Casale'&#xD;&#xA;  Copyright = '(c) Joseph L. Casale. All rights reserved.'&#xD;&#xA;  Description = 'A PowerShell module for logging based on the NLog library.'&#xD;&#xA;  RequiredAssemblies = @('NLog.dll')&#xD;&#xA;  NestedModules = @()&#xD;&#xA;  FunctionsToExport = @()&#xD;&#xA;  CmdletsToExport = @(&#xD;&#xA;    'Add-NLogLoggingConfiguration',&#xD;&#xA;    'Add-NLogLoggingRule',&#xD;&#xA;    'Add-NLogTarget',&#xD;&#xA;    'Get-NLogLogger',&#xD;&#xA;    'Get-NLogLoggingConfiguration',&#xD;&#xA;    'New-AsyncTargetWrapper',&#xD;&#xA;    'New-BufferingTargetWrapper',&#xD;&#xA;    'New-NLogBasicLogger',&#xD;&#xA;    'New-NLogColoredConsoleTarget',&#xD;&#xA;    'New-NLogConsoleRowHighlightingRule',&#xD;&#xA;    'New-NLogConsoleTarget',&#xD;&#xA;    'New-NLogConsoleWordHighlightingRule',&#xD;&#xA;    'New-NLogEventLogTarget',&#xD;&#xA;    'New-NLogFileTarget',&#xD;&#xA;    'New-NLogLoggingConfiguration',&#xD;&#xA;    'New-NLogLoggingRule',&#xD;&#xA;    'Remove-NLogLoggingRule',&#xD;&#xA;    'Remove-NLogTarget',&#xD;&#xA;    'Stop-NLogLogging'&#xD;&#xA;  )&#xD;&#xA;  VariablesToExport = @()&#xD;&#xA;  AliasesToExport = @()&#xD;&#xA;  PrivateData = @{ PSData = @{} }&#xD;&#xA;}" />
+
+  <Target Name="IncludeModuleManifest" AfterTargets="CreateModuleManifest" BeforeTargets="BeforeBuild">
+    <ItemGroup>
+      <None Include="$(ModuleManifestName)" CopyToOutputDirectory="Always" />
+    </ItemGroup>
   </Target>
+
 </Project>
