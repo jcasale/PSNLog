@@ -18,18 +18,16 @@
   </ItemGroup>
 
   <Target Name="SetVersionFromGit" BeforeTargets="BeforeBuild">
-    <Exec Command="git.exe describe --tags --long" WorkingDirectory="$(MSBuildProjectDirectory)" ConsoleToMsBuild="true" StandardOutputImportance="Low">
+    <Exec Command="git.exe describe --tags" WorkingDirectory="$(MSBuildProjectDirectory)" ConsoleToMsBuild="true" StandardOutputImportance="Low">
       <Output TaskParameter="ConsoleOutput" PropertyName="GitTag" />
     </Exec>
 
     <PropertyGroup>
-      <GitTagPattern>^v(((\d+(?:\.\d+)+)(?:-[a-z]+\.\d+)?)-(\d+-g.+))</GitTagPattern>
-      <Version>$([System.Text.RegularExpressions.Regex]::Match($(GitTag), $(GitTagPattern)).Groups[3].Value)</Version>
+      <GitTagPattern><![CDATA[^(?<major>0|[1-9]\d*)\.(?<minor>0|[1-9]\d*)\.(?<patch>0|[1-9]\d*)(?:-(?<prerelease>(?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*)(?:\.(?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*))*))?(?:\+(?<buildmetadata>[0-9a-zA-Z-]+(?:\.[0-9a-zA-Z-]+)*))?$]]></GitTagPattern>
+      <Version>$([System.Text.RegularExpressions.Regex]::Match($(GitTag), $(GitTagPattern)).Groups['major'].Value).$([System.Text.RegularExpressions.Regex]::Match($(GitTag), $(GitTagPattern)).Groups['minor'].Value).$([System.Text.RegularExpressions.Regex]::Match($(GitTag), $(GitTagPattern)).Groups['patch'].Value)</Version>
       <AssemblyVersion>$(Version)</AssemblyVersion>
       <FileVersion>$(Version)</FileVersion>
-      <GitTagSemVer>$([System.Text.RegularExpressions.Regex]::Match($(GitTag), $(GitTagPattern)).Groups[2].Value)</GitTagSemVer>
-      <GitTagBuildMetadata>$([System.Text.RegularExpressions.Regex]::Match($(GitTag), $(GitTagPattern)).Groups[4].Value)</GitTagBuildMetadata>
-      <InformationalVersion>$(GitTagSemVer)+$(GitTagBuildMetadata)</InformationalVersion>
+      <InformationalVersion>$([System.Text.RegularExpressions.Regex]::Match($(GitTag), $(GitTagPattern)).Groups[0].Value)</InformationalVersion>
     </PropertyGroup>
 
     <Message Text="InformationalVersion $(InformationalVersion)" Importance="high" />
