@@ -31,24 +31,45 @@ jobs:
           wix.exe extension add WixToolset.UI.wixext/6.0.2 --global
           wix.exe extension list --global
 
-      - name: Generate version property
+      - name: Generate version properties
         id: version
         run: |
           $pattern = '^(?<major>0|[1-9]\d*)\.(?<minor>0|[1-9]\d*)\.(?<patch>0|[1-9]\d*)(?:-(?<prerelease>(?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*)(?:\.(?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*))*))?(?:\+(?<buildmetadata>[0-9a-zA-Z-]+(?:\.[0-9a-zA-Z-]+)*))?$'
-          $tag = git.exe describe --tags
+          $tag = git.exe describe --tags --abbrev=0
           $regex = [Text.RegularExpressions.Regex]::Match($tag, $pattern)
           if (!$regex.Success)
           {
-            throw 'Failed to parse tag.'
+              throw 'Failed to parse tag.'
           }
 
-          'version={0}.{1}.{2}' -f $regex.Groups['major'].Value, $regex.Groups['minor'].Value, $regex.Groups['patch'].Value |Tee-Object -FilePath $env:GITHUB_OUTPUT -Append
-          'version-major={0}' -f $regex.Groups['major'].Value |Tee-Object -FilePath $env:GITHUB_OUTPUT -Append
-          'version-minor={0}' -f $regex.Groups['minor'].Value |Tee-Object -FilePath $env:GITHUB_OUTPUT -Append
-          'version-patch={0}' -f $regex.Groups['patch'].Value |Tee-Object -FilePath $env:GITHUB_OUTPUT -Append
-          'version-prerelease={0}' -f $regex.Groups['prerelease'].Value |Tee-Object -FilePath $env:GITHUB_OUTPUT -Append
-          'version-buildmetadata={0}' -f $regex.Groups['buildmetadata'].Value |Tee-Object -FilePath $env:GITHUB_OUTPUT -Append
-          'version-full={0}' -f $regex.Groups[0].Value |Tee-Object -FilePath $env:GITHUB_OUTPUT -Append
+          $buildmetadata = 0
+          if (![string]::IsNullOrWhiteSpace($regex.Groups['buildmetadata'].Value))
+          {
+              try
+              {
+                  $buildmetadata = [int]$regex.Groups['buildmetadata'].Value
+              }
+              catch
+              {
+                  throw 'Failed to parse the build metadata.'
+              }
+          }
+
+          $module = '{0}.{1}.{2}' -f $regex.Groups['major'].Value, $regex.Groups['minor'].Value, $regex.Groups['patch'].Value
+          $msi = '{0}.{1}' -f $module, $buildmetadata
+          $major = $regex.Groups['major'].Value
+          $minor = $regex.Groups['minor'].Value
+          $patch = $regex.Groups['patch'].Value
+          $prerelease = $regex.Groups['prerelease'].Value
+
+          'tag={0}' -f $tag |Tee-Object -FilePath $env:GITHUB_OUTPUT -Append
+          'module={0}' -f $module |Tee-Object -FilePath $env:GITHUB_OUTPUT -Append
+          'msi={0}' -f $msi |Tee-Object -FilePath $env:GITHUB_OUTPUT -Append
+          'major={0}' -f $major |Tee-Object -FilePath $env:GITHUB_OUTPUT -Append
+          'minor={0}' -f $minor |Tee-Object -FilePath $env:GITHUB_OUTPUT -Append
+          'patch={0}' -f $patch |Tee-Object -FilePath $env:GITHUB_OUTPUT -Append
+          'prerelease={0}' -f $prerelease |Tee-Object -FilePath $env:GITHUB_OUTPUT -Append
+          'buildmetadata={0}' -f $buildmetadata |Tee-Object -FilePath $env:GITHUB_OUTPUT -Append
 
       - name: Run tests
         run: |
@@ -78,8 +99,9 @@ jobs:
             -arch x64 `
             -src src\Product.wxs `
             -d ProductSource="$(Resolve-Path ./publish)" `
-            -d ProductVersion="${{ steps.version.outputs.version }}" `
-            -d ProductVersionFull="${{ steps.version.outputs.version-full }}" `
+            -d ProductVersion="${{ steps.version.outputs.msi }}" `
+            -d ProductTag="${{ steps.version.outputs.tag }}" `
+            -d ModuleVersion="${{ steps.version.outputs.module }}" `
             -ext WixToolset.UI.wixext `
             -out ps-nlog.msi
 
@@ -108,12 +130,18 @@ jobs:
         run: |
           $PSVersionTable
 
+          [Environment]::NewLine
+
+          Get-Module PSNLog -ListAvailable
+
+          [Environment]::NewLine
+
           $logger = New-NLogBasicLogger -Name foo -Path foo.log -ErrorAction Stop
           $logger.Info('Hello World!')
           Stop-NLogLogging
 
       - name: Publish release
         if: github.ref_type == 'tag'
-        run: gh.exe release create ${{ steps.version.outputs.version-full }} --title ${{ steps.version.outputs.version-full }} --notes 'PowerShell NLog logging module.' ps-nlog.msi
+        run: gh.exe release create ${{ steps.version.outputs.tag }} --title ${{ steps.version.outputs.tag }} --notes 'PowerShell NLog logging module.' ps-nlog.msi
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}

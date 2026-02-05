@@ -1,18 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Wix xmlns="http://wixtoolset.org/schemas/v4/wxs" xmlns:ui="http://wixtoolset.org/schemas/v4/wxs/ui">
-  <Package Name="PowerShell NLog Module"
-           Language="1033"
-           Version="$(var.ProductVersion)"
-           Manufacturer="Joseph L. Casale"
-           UpgradeCode="12db3470-bdf5-4dfe-a454-dfd2081aff72">
-    <SummaryInformation Description="A PowerShell module for logging based on the NLog library." Comments="PSNLog $(var.ProductVersionFull)" />
+  <Package Name="PowerShell NLog Module" Language="1033" Version="$(var.ProductVersion)" Manufacturer="Joseph L. Casale" UpgradeCode="12db3470-bdf5-4dfe-a454-dfd2081aff72">
+    <SummaryInformation Description="A PowerShell module for logging based on the NLog library." Comments="PSNLog $(var.ProductTag)" />
     <MajorUpgrade DowngradeErrorMessage="A newer version of [ProductName] is already installed." />
     <Media Id="1" Cabinet="Data.cab" EmbedCab="yes" CompressionLevel="high" />
 
-    <Feature Id="Product"
-             Description="PowerShell NLog Module"
-             Title="PSNLog"
-             AllowAbsent="no">
+    <Feature Id="Product" Description="PowerShell NLog Module" Title="PSNLog" AllowAbsent="no">
       <ComponentGroupRef Id="ProductComponents" />
     </Feature>
 
@@ -28,7 +21,7 @@
       <Directory Id="WindowsPowerShell" Name="WindowsPowerShell">
         <Directory Id="Modules" Name="Modules">
           <Directory Id="PSNLog" Name="PSNLog">
-            <Directory Id="INSTALLFOLDER" Name="$(var.ProductVersion)" />
+            <Directory Id="INSTALLFOLDER" Name="$(var.ModuleVersion)" />
           </Directory>
         </Directory>
       </Directory>
