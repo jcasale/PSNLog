@@ -196,7 +196,7 @@
       <ModuleManifestContent>
 @{
   RootModule = 'PSNLog.dll'
-  ModuleVersion = '$(Version)'
+  ModuleVersion = '$(ModuleVersion)'
   GUID = '4b3dd496-905f-4932-a876-4c92bb4918c1'
   Author = 'Joseph L. Casale'
   CompanyName = 'Joseph L. Casale'
