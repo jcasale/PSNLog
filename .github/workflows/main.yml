@@ -24,12 +24,6 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Setup dotnet
-        id: setup-dotnet
-        uses: actions/setup-dotnet@v5
-        with:
-          global-json-file: src/global.json
-
       - name: Setup wix
         run: |
           dotnet.exe tool install --global wix --version 6.0.2 --verbosity diag
