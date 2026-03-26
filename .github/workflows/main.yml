@@ -82,9 +82,6 @@ jobs:
           cd .\src
           dotnet.exe test --project .\Tests\Tests.csproj --configuration Release --output Detailed
 
-      - name: Clean solution
-        run: dotnet.exe clean .\src\PSNLog.slnx --configuration Release
-
       - name: Publish project
         run: dotnet.exe publish .\src\PSNLog\PSNLog.csproj --configuration Release --output .\publish
 
