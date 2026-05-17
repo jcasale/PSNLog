@@ -7,10 +7,15 @@
 
     <Feature Id="Product" Description="PowerShell NLog Module" Title="PSNLog" AllowAbsent="no">
       <ComponentGroupRef Id="ProductComponents" />
+      <ComponentGroupRef Id="HelpComponents" />
     </Feature>
 
     <ComponentGroup Id="ProductComponents" Directory="INSTALLFOLDER">
       <Files Include="$(var.ProductSource)\**" />
+    </ComponentGroup>
+
+    <ComponentGroup Id="HelpComponents" Directory="HelpSource">
+      <Files Include="$(var.HelpSource)\**" />
     </ComponentGroup>
 
     <ui:WixUI Id="WixUI_InstallDir_NoLicense" InstallDirectory="INSTALLFOLDER" />
@@ -21,7 +26,9 @@
       <Directory Id="WindowsPowerShell" Name="WindowsPowerShell">
         <Directory Id="Modules" Name="Modules">
           <Directory Id="PSNLog" Name="PSNLog">
-            <Directory Id="INSTALLFOLDER" Name="$(var.ModuleVersion)" />
+            <Directory Id="INSTALLFOLDER" Name="$(var.ModuleVersion)">
+              <Directory Id="HelpSource" Name="en-US" />
+            </Directory>
           </Directory>
         </Directory>
       </Directory>

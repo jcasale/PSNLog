@@ -81,13 +81,6 @@ jobs:
       - name: Prepare release
         run: Remove-Item ./publish/* -Include *.pdb,*.xml -ErrorAction Stop
 
-      - name: Generate PowerShell help
-        run: |
-          Install-Module -Name platyPS -Force -Confirm:$false -ErrorAction Stop
-          Import-Module ./publish/PSNLog.psd1 -ErrorAction Stop
-          Update-MarkdownHelp ./docs -UpdateInputOutput -Force -ErrorAction Stop
-          New-ExternalHelp ./docs -OutputPath ./publish -ErrorAction Stop
-
       - name: Build installer
         run: |
           wix.exe `
@@ -95,6 +88,7 @@ jobs:
             -arch x64 `
             -src src\Product.wxs `
             -d ProductSource="$(Resolve-Path ./publish)" `
+            -d HelpSource="$(Resolve-Path ./maml/PSNLog)" `
             -d ProductVersion="${{ steps.version.outputs.msi }}" `
             -d ProductTag="${{ steps.version.outputs.tag }}" `
             -d ModuleVersion="${{ steps.version.outputs.module }}" `
@@ -131,7 +125,8 @@ jobs:
         run: |
           $PSVersionTable |Out-String
 
-          Get-Module PSNLog -ListAvailable |fl
+          Import-Module PSNLog -ErrorAction Stop
+          Get-Module PSNLog |Select-Object -ExpandProperty Path |Split-Path -Parent |Get-ChildItem -Recurse
 
           $logger = New-NLogBasicLogger -Name foo -Path foo.log -ErrorAction Stop
           $logger.Info('Hello World!')
