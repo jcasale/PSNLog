@@ -24,12 +24,12 @@ public class NewBufferingTargetWrapperCommand : PSCmdlet
     [Parameter(
         ValueFromPipelineByPropertyName = true,
         HelpMessage = "Gets or sets the action to take if the buffer overflows.")]
-    public NLog.Targets.Wrappers.BufferingTargetWrapperOverflowAction? OverflowAction { get; set; }
+    public NLog.Targets.Wrappers.BufferingTargetWrapperOverflowAction OverflowAction { get; set; }
 
     [Parameter(
         ValueFromPipelineByPropertyName = true,
         HelpMessage = "Gets or sets a value indicating whether to use sliding timeout.")]
-    public bool? SlidingTimeout { get; set; }
+    public bool SlidingTimeout { get; set; }
 
     [Parameter(
         ValueFromPipelineByPropertyName = true,
@@ -40,32 +40,32 @@ public class NewBufferingTargetWrapperCommand : PSCmdlet
     {
         var instance = new NLog.Targets.Wrappers.BufferingTargetWrapper();
 
-        if (BufferSize is not null)
+        if (MyInvocation.BoundParameters.ContainsKey(nameof(BufferSize)))
         {
             instance.BufferSize = BufferSize;
         }
 
-        if (FlushTimeout is not null)
+        if (MyInvocation.BoundParameters.ContainsKey(nameof(FlushTimeout)))
         {
             instance.FlushTimeout = FlushTimeout;
         }
 
-        if (Name is not null)
+        if (MyInvocation.BoundParameters.ContainsKey(nameof(Name)))
         {
             instance.Name = Name;
         }
 
-        if (OverflowAction.HasValue)
+        if (MyInvocation.BoundParameters.ContainsKey(nameof(OverflowAction)))
         {
-            instance.OverflowAction = OverflowAction.Value;
+            instance.OverflowAction = OverflowAction;
         }
 
-        if (SlidingTimeout.HasValue)
+        if (MyInvocation.BoundParameters.ContainsKey(nameof(SlidingTimeout)))
         {
-            instance.SlidingTimeout = SlidingTimeout.Value;
+            instance.SlidingTimeout = SlidingTimeout;
         }
 
-        if (WrappedTarget is not null)
+        if (MyInvocation.BoundParameters.ContainsKey(nameof(WrappedTarget)))
         {
             instance.WrappedTarget = WrappedTarget;
         }

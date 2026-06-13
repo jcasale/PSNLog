@@ -14,7 +14,7 @@
 <#+
     private IDictionary<string, Type> _nLogTypes;
     private IDictionary<string, string> _summaryMap;
-    
+
     public override void Initialize()
     {
         base.Initialize();
@@ -30,11 +30,11 @@
                 .Where(e => e.Attribute("Include")?.Value == id)
                 .Select(e => e.Attribute("Version")?.Value)
                 .First(e => !string.IsNullOrWhiteSpace(e));
-        
+
         var nLogVersion = GetPackageVersion("NLog");
 
         var nLogBasePath = Path.Combine(nugetRootPath, "nlog", nLogVersion, "lib", "net46");
-        
+
         var nLogLibraryPath = Path.Combine(nLogBasePath, "NLog.dll");
 
         var nLogAssembly = Assembly.LoadFrom(nLogLibraryPath);
@@ -46,7 +46,7 @@
             .ToDictionary(k => k.FullName, v => v);
 
         string[] xmlPaths = [Path.Combine(nLogBasePath, "NLog.xml")];
-        
+
         _summaryMap = xmlPaths
             .SelectMany(GetXmlMembers)
             .GroupBy(p => p.Key)
@@ -115,7 +115,7 @@
                 IsCollection = isCollection,
                 IsNullable = isNullable
             };
-            
+
             results.Add(result);
         }
 

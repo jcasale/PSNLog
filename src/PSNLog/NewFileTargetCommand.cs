@@ -9,12 +9,12 @@ public class NewFileTargetCommand : PSCmdlet
     [Parameter(
         ValueFromPipelineByPropertyName = true,
         HelpMessage = "Gets or sets the size in bytes above which log files will be automatically archived. Zero or negative means disabled.")]
-    public long? ArchiveAboveSize { get; set; }
+    public long ArchiveAboveSize { get; set; }
 
     [Parameter(
         ValueFromPipelineByPropertyName = true,
         HelpMessage = "Gets or sets a value indicating whether to trigger archive operation based on time-period, by moving active-file to file-path specified by P:NLog.Targets.FileTarget.ArchiveFileName.")]
-    public NLog.Targets.FileArchivePeriod? ArchiveEvery { get; set; }
+    public NLog.Targets.FileArchivePeriod ArchiveEvery { get; set; }
 
     [Parameter(
         ValueFromPipelineByPropertyName = true,
@@ -24,7 +24,7 @@ public class NewFileTargetCommand : PSCmdlet
     [Parameter(
         ValueFromPipelineByPropertyName = true,
         HelpMessage = "Gets or sets a value indicating whether any existing log-file should be archived on startup.")]
-    public bool? ArchiveOldFileOnStartup { get; set; }
+    public bool ArchiveOldFileOnStartup { get; set; }
 
     [Parameter(
         ValueFromPipelineByPropertyName = true,
@@ -34,32 +34,32 @@ public class NewFileTargetCommand : PSCmdlet
     [Parameter(
         ValueFromPipelineByPropertyName = true,
         HelpMessage = "Gets or sets a value indicating whether to automatically flush the file buffers after each log message.")]
-    public bool? AutoFlush { get; set; }
+    public bool AutoFlush { get; set; }
 
     [Parameter(
         ValueFromPipelineByPropertyName = true,
         HelpMessage = "Gets or sets the log file buffer size in bytes.")]
-    public int? BufferSize { get; set; }
+    public int BufferSize { get; set; }
 
     [Parameter(
         ValueFromPipelineByPropertyName = true,
         HelpMessage = "Gets or sets a value indicating whether to create directories if they do not exist.")]
-    public bool? CreateDirs { get; set; }
+    public bool CreateDirs { get; set; }
 
     [Parameter(
         ValueFromPipelineByPropertyName = true,
         HelpMessage = "Gets or sets a value indicating whether to delete old log file on startup.")]
-    public bool? DeleteOldFileOnStartup { get; set; }
+    public bool DeleteOldFileOnStartup { get; set; }
 
     [Parameter(
         ValueFromPipelineByPropertyName = true,
         HelpMessage = "Gets or sets whether or not this target should just discard all data that its asked to write. Mostly used for when testing NLog Stack except final write.")]
-    public bool? DiscardAll { get; set; }
+    public bool DiscardAll { get; set; }
 
     [Parameter(
         ValueFromPipelineByPropertyName = true,
         HelpMessage = "Gets or sets a value indicating whether to enable log file(s) to be deleted.")]
-    public bool? EnableFileDelete { get; set; }
+    public bool EnableFileDelete { get; set; }
 
     [Parameter(
         ValueFromPipelineByPropertyName = true,
@@ -84,7 +84,7 @@ public class NewFileTargetCommand : PSCmdlet
     [Parameter(
         ValueFromPipelineByPropertyName = true,
         HelpMessage = "Gets or sets a value indicating whether to keep log file open instead of opening and closing it on each logging event.")]
-    public bool? KeepFileOpen { get; set; }
+    public bool KeepFileOpen { get; set; }
 
     [Parameter(
         ValueFromPipelineByPropertyName = true,
@@ -99,12 +99,12 @@ public class NewFileTargetCommand : PSCmdlet
     [Parameter(
         ValueFromPipelineByPropertyName = true,
         HelpMessage = "Gets or sets the maximum days of archive files that should be kept. Zero or negative means disabled.")]
-    public int? MaxArchiveDays { get; set; }
+    public int MaxArchiveDays { get; set; }
 
     [Parameter(
         ValueFromPipelineByPropertyName = true,
         HelpMessage = "Gets or sets the maximum number of archive files that should be kept. Negative means disabled.")]
-    public int? MaxArchiveFiles { get; set; }
+    public int MaxArchiveFiles { get; set; }
 
     [Parameter(
         ValueFromPipelineByPropertyName = true,
@@ -114,180 +114,180 @@ public class NewFileTargetCommand : PSCmdlet
     [Parameter(
         ValueFromPipelineByPropertyName = true,
         HelpMessage = "Gets or sets the maximum number of files to be kept open.")]
-    public int? OpenFileCacheSize { get; set; }
+    public int OpenFileCacheSize { get; set; }
 
     [Parameter(
         ValueFromPipelineByPropertyName = true,
         HelpMessage = "Gets or sets the maximum number of seconds that files are kept open. Zero or negative means disabled.")]
-    public int? OpenFileCacheTimeout { get; set; }
+    public int OpenFileCacheTimeout { get; set; }
 
     [Parameter(
         ValueFromPipelineByPropertyName = true,
         HelpMessage = "Gets or sets the maximum number of seconds before open files are flushed. Zero or negative means disabled.")]
-    public int? OpenFileFlushTimeout { get; set; }
+    public int OpenFileFlushTimeout { get; set; }
 
     [Parameter(
         ValueFromPipelineByPropertyName = true,
         HelpMessage = "Gets or sets a value indicating whether to replace file contents on each write instead of appending log message at the end.")]
-    public bool? ReplaceFileContentsOnEachWrite { get; set; }
+    public bool ReplaceFileContentsOnEachWrite { get; set; }
 
     [Parameter(
         ValueFromPipelineByPropertyName = true,
         HelpMessage = "Gets or sets a value indicating whether to write BOM (byte order mark) in created files.")]
-    public bool? WriteBom { get; set; }
+    public bool WriteBom { get; set; }
 
     [Parameter(
         ValueFromPipelineByPropertyName = true,
         HelpMessage = "Gets or sets a value indicating whether the footer should be written only when the file is archived.")]
-    public bool? WriteFooterOnArchivingOnly { get; set; }
+    public bool WriteFooterOnArchivingOnly { get; set; }
 
     [Parameter(
         ValueFromPipelineByPropertyName = true,
         HelpMessage = "Gets or sets whether to write the Header on initial creation of file appender, even if the file is not empty. Default value is false, which means only write header when initial file is empty (Ex. ensures valid CSV files).")]
-    public bool? WriteHeaderWhenInitialFileNotEmpty { get; set; }
+    public bool WriteHeaderWhenInitialFileNotEmpty { get; set; }
 
     protected override void ProcessRecord()
     {
         var instance = new NLog.Targets.FileTarget();
 
-        if (ArchiveAboveSize.HasValue)
+        if (MyInvocation.BoundParameters.ContainsKey(nameof(ArchiveAboveSize)))
         {
-            instance.ArchiveAboveSize = ArchiveAboveSize.Value;
+            instance.ArchiveAboveSize = ArchiveAboveSize;
         }
 
-        if (ArchiveEvery.HasValue)
+        if (MyInvocation.BoundParameters.ContainsKey(nameof(ArchiveEvery)))
         {
-            instance.ArchiveEvery = ArchiveEvery.Value;
+            instance.ArchiveEvery = ArchiveEvery;
         }
 
-        if (ArchiveFileName is not null)
+        if (MyInvocation.BoundParameters.ContainsKey(nameof(ArchiveFileName)))
         {
             instance.ArchiveFileName = ArchiveFileName;
         }
 
-        if (ArchiveOldFileOnStartup.HasValue)
+        if (MyInvocation.BoundParameters.ContainsKey(nameof(ArchiveOldFileOnStartup)))
         {
-            instance.ArchiveOldFileOnStartup = ArchiveOldFileOnStartup.Value;
+            instance.ArchiveOldFileOnStartup = ArchiveOldFileOnStartup;
         }
 
-        if (ArchiveSuffixFormat is not null)
+        if (MyInvocation.BoundParameters.ContainsKey(nameof(ArchiveSuffixFormat)))
         {
             instance.ArchiveSuffixFormat = ArchiveSuffixFormat;
         }
 
-        if (AutoFlush.HasValue)
+        if (MyInvocation.BoundParameters.ContainsKey(nameof(AutoFlush)))
         {
-            instance.AutoFlush = AutoFlush.Value;
+            instance.AutoFlush = AutoFlush;
         }
 
-        if (BufferSize.HasValue)
+        if (MyInvocation.BoundParameters.ContainsKey(nameof(BufferSize)))
         {
-            instance.BufferSize = BufferSize.Value;
+            instance.BufferSize = BufferSize;
         }
 
-        if (CreateDirs.HasValue)
+        if (MyInvocation.BoundParameters.ContainsKey(nameof(CreateDirs)))
         {
-            instance.CreateDirs = CreateDirs.Value;
+            instance.CreateDirs = CreateDirs;
         }
 
-        if (DeleteOldFileOnStartup.HasValue)
+        if (MyInvocation.BoundParameters.ContainsKey(nameof(DeleteOldFileOnStartup)))
         {
-            instance.DeleteOldFileOnStartup = DeleteOldFileOnStartup.Value;
+            instance.DeleteOldFileOnStartup = DeleteOldFileOnStartup;
         }
 
-        if (DiscardAll.HasValue)
+        if (MyInvocation.BoundParameters.ContainsKey(nameof(DiscardAll)))
         {
-            instance.DiscardAll = DiscardAll.Value;
+            instance.DiscardAll = DiscardAll;
         }
 
-        if (EnableFileDelete.HasValue)
+        if (MyInvocation.BoundParameters.ContainsKey(nameof(EnableFileDelete)))
         {
-            instance.EnableFileDelete = EnableFileDelete.Value;
+            instance.EnableFileDelete = EnableFileDelete;
         }
 
-        if (Encoding is not null)
+        if (MyInvocation.BoundParameters.ContainsKey(nameof(Encoding)))
         {
             instance.Encoding = Encoding;
         }
 
-        if (FileName is not null)
+        if (MyInvocation.BoundParameters.ContainsKey(nameof(FileName)))
         {
             instance.FileName = FileName;
         }
 
-        if (Footer is not null)
+        if (MyInvocation.BoundParameters.ContainsKey(nameof(Footer)))
         {
             instance.Footer = Footer;
         }
 
-        if (Header is not null)
+        if (MyInvocation.BoundParameters.ContainsKey(nameof(Header)))
         {
             instance.Header = Header;
         }
 
-        if (KeepFileOpen.HasValue)
+        if (MyInvocation.BoundParameters.ContainsKey(nameof(KeepFileOpen)))
         {
-            instance.KeepFileOpen = KeepFileOpen.Value;
+            instance.KeepFileOpen = KeepFileOpen;
         }
 
-        if (Layout is not null)
+        if (MyInvocation.BoundParameters.ContainsKey(nameof(Layout)))
         {
             instance.Layout = Layout;
         }
 
-        if (LineEnding is not null)
+        if (MyInvocation.BoundParameters.ContainsKey(nameof(LineEnding)))
         {
             instance.LineEnding = LineEnding;
         }
 
-        if (MaxArchiveDays.HasValue)
+        if (MyInvocation.BoundParameters.ContainsKey(nameof(MaxArchiveDays)))
         {
-            instance.MaxArchiveDays = MaxArchiveDays.Value;
+            instance.MaxArchiveDays = MaxArchiveDays;
         }
 
-        if (MaxArchiveFiles.HasValue)
+        if (MyInvocation.BoundParameters.ContainsKey(nameof(MaxArchiveFiles)))
         {
-            instance.MaxArchiveFiles = MaxArchiveFiles.Value;
+            instance.MaxArchiveFiles = MaxArchiveFiles;
         }
 
-        if (Name is not null)
+        if (MyInvocation.BoundParameters.ContainsKey(nameof(Name)))
         {
             instance.Name = Name;
         }
 
-        if (OpenFileCacheSize.HasValue)
+        if (MyInvocation.BoundParameters.ContainsKey(nameof(OpenFileCacheSize)))
         {
-            instance.OpenFileCacheSize = OpenFileCacheSize.Value;
+            instance.OpenFileCacheSize = OpenFileCacheSize;
         }
 
-        if (OpenFileCacheTimeout.HasValue)
+        if (MyInvocation.BoundParameters.ContainsKey(nameof(OpenFileCacheTimeout)))
         {
-            instance.OpenFileCacheTimeout = OpenFileCacheTimeout.Value;
+            instance.OpenFileCacheTimeout = OpenFileCacheTimeout;
         }
 
-        if (OpenFileFlushTimeout.HasValue)
+        if (MyInvocation.BoundParameters.ContainsKey(nameof(OpenFileFlushTimeout)))
         {
-            instance.OpenFileFlushTimeout = OpenFileFlushTimeout.Value;
+            instance.OpenFileFlushTimeout = OpenFileFlushTimeout;
         }
 
-        if (ReplaceFileContentsOnEachWrite.HasValue)
+        if (MyInvocation.BoundParameters.ContainsKey(nameof(ReplaceFileContentsOnEachWrite)))
         {
-            instance.ReplaceFileContentsOnEachWrite = ReplaceFileContentsOnEachWrite.Value;
+            instance.ReplaceFileContentsOnEachWrite = ReplaceFileContentsOnEachWrite;
         }
 
-        if (WriteBom.HasValue)
+        if (MyInvocation.BoundParameters.ContainsKey(nameof(WriteBom)))
         {
-            instance.WriteBom = WriteBom.Value;
+            instance.WriteBom = WriteBom;
         }
 
-        if (WriteFooterOnArchivingOnly.HasValue)
+        if (MyInvocation.BoundParameters.ContainsKey(nameof(WriteFooterOnArchivingOnly)))
         {
-            instance.WriteFooterOnArchivingOnly = WriteFooterOnArchivingOnly.Value;
+            instance.WriteFooterOnArchivingOnly = WriteFooterOnArchivingOnly;
         }
 
-        if (WriteHeaderWhenInitialFileNotEmpty.HasValue)
+        if (MyInvocation.BoundParameters.ContainsKey(nameof(WriteHeaderWhenInitialFileNotEmpty)))
         {
-            instance.WriteHeaderWhenInitialFileNotEmpty = WriteHeaderWhenInitialFileNotEmpty.Value;
+            instance.WriteHeaderWhenInitialFileNotEmpty = WriteHeaderWhenInitialFileNotEmpty;
         }
 
         WriteObject(instance);

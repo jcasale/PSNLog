@@ -1,10 +1,10 @@
----
+﻿---
 document type: cmdlet
 external help file: PSNLog.dll-Help.xml
 HelpUri: ''
 Locale: en-US
 Module Name: PSNLog
-ms.date: 05-17-2026
+ms.date: 06-13-2026
 PlatyPS schema version: 2024-05-01
 title: Get-NLogLogger
 ---
@@ -22,6 +22,11 @@ Gets a named logger.
 ```
 Get-NLogLogger [-Name] <string> [<CommonParameters>]
 ```
+
+## ALIASES
+
+None.
+
 
 ## DESCRIPTION
 
@@ -81,13 +86,13 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 
 ### System.String
 
-You can pipe the logger name to this cmdlet.
+You can pipe the logger name.
 
 ## OUTPUTS
 
 ### NLog.Logger
 
-This cmdlet returns an **NLog.Logger** object.
+Returns the logger with the specified name.
 
 ## NOTES
 

@@ -1,10 +1,10 @@
----
+﻿---
 document type: cmdlet
 external help file: PSNLog.dll-Help.xml
 HelpUri: ''
 Locale: en-US
 Module Name: PSNLog
-ms.date: 05-17-2026
+ms.date: 06-13-2026
 PlatyPS schema version: 2024-05-01
 title: New-NLogConsoleTarget
 ---
@@ -24,6 +24,11 @@ New-NLogConsoleTarget [-AutoFlush <bool>] [-DetectConsoleAvailable <bool>] [-Enc
  [-Footer <Layout>] [-ForceWriteLine <bool>] [-Header <Layout>] [-Layout <Layout>] [-Name <string>]
  [-StdErr <Layout`1[bool]>] [<CommonParameters>]
 ```
+
+## ALIASES
+
+None.
+
 
 ## DESCRIPTION
 
@@ -56,7 +61,7 @@ This example creates a logger with a console target.
 Gets or sets a value indicating whether to auto-flush after M:System.Console.WriteLine.
 
 ```yaml
-Type: System.Nullable`1[System.Boolean]
+Type: System.Boolean
 DefaultValue: ''
 SupportsWildcards: false
 Aliases: []
@@ -77,7 +82,7 @@ HelpMessage: ''
 Gets or sets a value indicating whether to auto-check if the console is available - Disables console writing if Environment.UserInteractive = false (Windows Service) - Disables console writing if Console Standard Input is not available (Non-Console-App).
 
 ```yaml
-Type: System.Nullable`1[System.Boolean]
+Type: System.Boolean
 DefaultValue: ''
 SupportsWildcards: false
 Aliases: []
@@ -140,7 +145,7 @@ HelpMessage: ''
 Gets or sets whether to force M:System.Console.WriteLine (slower) instead of the faster internal buffering.
 
 ```yaml
-Type: System.Nullable`1[System.Boolean]
+Type: System.Boolean
 DefaultValue: ''
 SupportsWildcards: false
 Aliases: []
@@ -251,33 +256,45 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 
 ### System.Boolean
 
-You can pipe a Boolean value to this cmdlet.
+You can pipe objects with an AutoFlush property that indicates whether to flush after each console write.
+
+### System.Boolean
+
+You can pipe objects with a DetectConsoleAvailable property that indicates whether console availability should be checked automatically.
 
 ### System.Text.Encoding
 
-You can pipe a **System.Text.Encoding** object to this cmdlet.
+You can pipe objects with an Encoding property that specifies the encoding used to write console messages.
 
 ### NLog.Layouts.Layout
 
-You can pipe an **NLog.Layouts.Layout** object to this cmdlet.
+You can pipe objects with a Footer property that specifies the footer layout.
+
+### System.Boolean
+
+You can pipe objects with a ForceWriteLine property that indicates whether to force console writes instead of using internal buffering.
+
+### NLog.Layouts.Layout
+
+You can pipe objects with a Header property that specifies the header layout.
+
+### NLog.Layouts.Layout
+
+You can pipe objects with a Layout property that specifies the log message layout.
 
 ### System.String
 
-You can pipe a string to this cmdlet.
+You can pipe objects with a Name property that specifies the target name.
 
-### NLog.Layouts.Layout`1[[System.Boolean
+### NLog.Layouts.Layout`1[System.Boolean]
 
-You can pipe a typed **NLog.Layouts.Layout** object to this cmdlet.
-
-### NLog.Layouts.Layout`1[[System.Boolean, System.Private.CoreLib, Version=11.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]
-
-You can pipe a typed **NLog.Layouts.Layout** object to this cmdlet.
+You can pipe objects with a StdErr property that indicates whether log messages are sent to standard error instead of standard output.
 
 ## OUTPUTS
 
 ### NLog.Targets.ConsoleTarget
 
-This cmdlet returns an **NLog.Targets.ConsoleTarget** object.
+Returns a new console target.
 
 ## NOTES
 

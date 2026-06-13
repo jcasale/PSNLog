@@ -9,7 +9,7 @@ public class NewConsoleRowHighlightingRuleCommand : PSCmdlet
     [Parameter(
         ValueFromPipelineByPropertyName = true,
         HelpMessage = "Gets or sets the background color.")]
-    public NLog.Targets.ConsoleOutputColor? BackgroundColor { get; set; }
+    public NLog.Targets.ConsoleOutputColor BackgroundColor { get; set; }
 
     [Parameter(
         ValueFromPipelineByPropertyName = true,
@@ -19,25 +19,25 @@ public class NewConsoleRowHighlightingRuleCommand : PSCmdlet
     [Parameter(
         ValueFromPipelineByPropertyName = true,
         HelpMessage = "Gets or sets the foreground color.")]
-    public NLog.Targets.ConsoleOutputColor? ForegroundColor { get; set; }
+    public NLog.Targets.ConsoleOutputColor ForegroundColor { get; set; }
 
     protected override void ProcessRecord()
     {
         var instance = new NLog.Targets.ConsoleRowHighlightingRule();
 
-        if (BackgroundColor.HasValue)
+        if (MyInvocation.BoundParameters.ContainsKey(nameof(BackgroundColor)))
         {
-            instance.BackgroundColor = BackgroundColor.Value;
+            instance.BackgroundColor = BackgroundColor;
         }
 
-        if (Condition is not null)
+        if (MyInvocation.BoundParameters.ContainsKey(nameof(Condition)))
         {
             instance.Condition = Condition;
         }
 
-        if (ForegroundColor.HasValue)
+        if (MyInvocation.BoundParameters.ContainsKey(nameof(ForegroundColor)))
         {
-            instance.ForegroundColor = ForegroundColor.Value;
+            instance.ForegroundColor = ForegroundColor;
         }
 
         WriteObject(instance);

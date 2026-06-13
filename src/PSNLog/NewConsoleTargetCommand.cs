@@ -9,12 +9,12 @@ public class NewConsoleTargetCommand : PSCmdlet
     [Parameter(
         ValueFromPipelineByPropertyName = true,
         HelpMessage = "Gets or sets a value indicating whether to auto-flush after M:System.Console.WriteLine.")]
-    public bool? AutoFlush { get; set; }
+    public bool AutoFlush { get; set; }
 
     [Parameter(
         ValueFromPipelineByPropertyName = true,
         HelpMessage = "Gets or sets a value indicating whether to auto-check if the console is available - Disables console writing if Environment.UserInteractive = false (Windows Service) - Disables console writing if Console Standard Input is not available (Non-Console-App).")]
-    public bool? DetectConsoleAvailable { get; set; }
+    public bool DetectConsoleAvailable { get; set; }
 
     [Parameter(
         ValueFromPipelineByPropertyName = true,
@@ -29,7 +29,7 @@ public class NewConsoleTargetCommand : PSCmdlet
     [Parameter(
         ValueFromPipelineByPropertyName = true,
         HelpMessage = "Gets or sets whether to force M:System.Console.WriteLine (slower) instead of the faster internal buffering.")]
-    public bool? ForceWriteLine { get; set; }
+    public bool ForceWriteLine { get; set; }
 
     [Parameter(
         ValueFromPipelineByPropertyName = true,
@@ -55,47 +55,47 @@ public class NewConsoleTargetCommand : PSCmdlet
     {
         var instance = new NLog.Targets.ConsoleTarget();
 
-        if (AutoFlush.HasValue)
+        if (MyInvocation.BoundParameters.ContainsKey(nameof(AutoFlush)))
         {
-            instance.AutoFlush = AutoFlush.Value;
+            instance.AutoFlush = AutoFlush;
         }
 
-        if (DetectConsoleAvailable.HasValue)
+        if (MyInvocation.BoundParameters.ContainsKey(nameof(DetectConsoleAvailable)))
         {
-            instance.DetectConsoleAvailable = DetectConsoleAvailable.Value;
+            instance.DetectConsoleAvailable = DetectConsoleAvailable;
         }
 
-        if (Encoding is not null)
+        if (MyInvocation.BoundParameters.ContainsKey(nameof(Encoding)))
         {
             instance.Encoding = Encoding;
         }
 
-        if (Footer is not null)
+        if (MyInvocation.BoundParameters.ContainsKey(nameof(Footer)))
         {
             instance.Footer = Footer;
         }
 
-        if (ForceWriteLine.HasValue)
+        if (MyInvocation.BoundParameters.ContainsKey(nameof(ForceWriteLine)))
         {
-            instance.ForceWriteLine = ForceWriteLine.Value;
+            instance.ForceWriteLine = ForceWriteLine;
         }
 
-        if (Header is not null)
+        if (MyInvocation.BoundParameters.ContainsKey(nameof(Header)))
         {
             instance.Header = Header;
         }
 
-        if (Layout is not null)
+        if (MyInvocation.BoundParameters.ContainsKey(nameof(Layout)))
         {
             instance.Layout = Layout;
         }
 
-        if (Name is not null)
+        if (MyInvocation.BoundParameters.ContainsKey(nameof(Name)))
         {
             instance.Name = Name;
         }
 
-        if (StdErr is not null)
+        if (MyInvocation.BoundParameters.ContainsKey(nameof(StdErr)))
         {
             instance.StdErr = StdErr;
         }

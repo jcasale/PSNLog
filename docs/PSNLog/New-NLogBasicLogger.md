@@ -1,10 +1,10 @@
----
+﻿---
 document type: cmdlet
 external help file: PSNLog.dll-Help.xml
 HelpUri: ''
 Locale: en-US
 Module Name: PSNLog
-ms.date: 05-17-2026
+ms.date: 06-13-2026
 PlatyPS schema version: 2024-05-01
 title: New-NLogBasicLogger
 ---
@@ -22,6 +22,11 @@ Creates a basic logger with a common configuration.
 ```
 New-NLogBasicLogger [-Name] <string> [-Path] <string> [<CommonParameters>]
 ```
+
+## ALIASES
+
+None.
+
 
 ## DESCRIPTION
 
@@ -99,13 +104,17 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 
 ### System.String
 
-You can pipe a string to this cmdlet.
+You can pipe objects with a Name property that specifies the logger name.
+
+### System.String
+
+You can pipe objects with a Path property that specifies the log file path.
 
 ## OUTPUTS
 
 ### NLog.Config.LoggingConfiguration
 
-This cmdlet returns an **NLog.Config.LoggingConfiguration** object.
+Returns a new logging configuration for a basic file logger.
 
 ## NOTES
 

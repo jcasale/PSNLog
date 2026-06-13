@@ -54,7 +54,7 @@
           <dev:name>NLog.Config.LoggingConfiguration</dev:name>
         </dev:type>
         <maml:description>
-          <maml:para>You can pipe an **NLog.Config.LoggingConfiguration** object to this cmdlet.</maml:para>
+          <maml:para>You can pipe the configuration to apply.</maml:para>
         </maml:description>
       </command:inputType>
     </command:inputTypes>
@@ -64,7 +64,7 @@
           <dev:name>NLog.Config.LoggingConfiguration</dev:name>
         </dev:type>
         <maml:description>
-          <maml:para>When you use the **PassThru** parameter, this cmdlet returns the **NLog.Config.LoggingConfiguration** object. Otherwise, this cmdlet does not generate any output.</maml:para>
+          <maml:para>Returns the applied logging configuration when you use the **PassThru** parameter. Otherwise, this cmdlet does not generate any output.</maml:para>
         </maml:description>
       </command:returnValue>
     </command:returnValues>
@@ -167,18 +167,18 @@ Add-NLogLoggingConfiguration $configuration
     <command:inputTypes>
       <command:inputType>
         <dev:type>
-          <dev:name>NLog.Config.LoggingRule</dev:name>
+          <dev:name>NLog.Config.LoggingConfiguration</dev:name>
         </dev:type>
         <maml:description>
-          <maml:para>You can pipe an **NLog.Config.LoggingRule** object to this cmdlet.</maml:para>
+          <maml:para>You can pipe the configuration to update.</maml:para>
         </maml:description>
       </command:inputType>
       <command:inputType>
         <dev:type>
-          <dev:name>NLog.Config.LoggingConfiguration</dev:name>
+          <dev:name>NLog.Config.LoggingRule</dev:name>
         </dev:type>
         <maml:description>
-          <maml:para>You can pipe an **NLog.Config.LoggingConfiguration** object to this cmdlet.</maml:para>
+          <maml:para>You can pipe the rule to add.</maml:para>
         </maml:description>
       </command:inputType>
     </command:inputTypes>
@@ -188,7 +188,7 @@ Add-NLogLoggingConfiguration $configuration
           <dev:name>NLog.Config.LoggingConfiguration</dev:name>
         </dev:type>
         <maml:description>
-          <maml:para>When you use the **PassThru** parameter, this cmdlet returns the **NLog.Config.LoggingConfiguration** object. Otherwise, this cmdlet does not generate any output.</maml:para>
+          <maml:para>Returns the updated logging configuration when you use the **PassThru** parameter. Otherwise, this cmdlet does not generate any output.</maml:para>
         </maml:description>
       </command:returnValue>
     </command:returnValues>
@@ -291,18 +291,18 @@ Add-NLogLoggingConfiguration $configuration
     <command:inputTypes>
       <command:inputType>
         <dev:type>
-          <dev:name>NLog.Targets.Target</dev:name>
+          <dev:name>NLog.Config.LoggingConfiguration</dev:name>
         </dev:type>
         <maml:description>
-          <maml:para>You can pipe an **NLog.Targets.Target** object to this cmdlet.</maml:para>
+          <maml:para>You can pipe the configuration to update.</maml:para>
         </maml:description>
       </command:inputType>
       <command:inputType>
         <dev:type>
-          <dev:name>NLog.Config.LoggingConfiguration</dev:name>
+          <dev:name>NLog.Targets.Target</dev:name>
         </dev:type>
         <maml:description>
-          <maml:para>You can pipe an **NLog.Config.LoggingConfiguration** object to this cmdlet.</maml:para>
+          <maml:para>You can pipe the target to add.</maml:para>
         </maml:description>
       </command:inputType>
     </command:inputTypes>
@@ -312,7 +312,7 @@ Add-NLogLoggingConfiguration $configuration
           <dev:name>NLog.Config.LoggingConfiguration</dev:name>
         </dev:type>
         <maml:description>
-          <maml:para>When you use the **PassThru** parameter, this cmdlet returns the **NLog.Config.LoggingConfiguration** object. Otherwise, this cmdlet does not generate any output.</maml:para>
+          <maml:para>Returns the updated logging configuration when you use the **PassThru** parameter. Otherwise, this cmdlet does not generate any output.</maml:para>
         </maml:description>
       </command:returnValue>
     </command:returnValues>
@@ -383,7 +383,7 @@ Add-NLogTarget -Target $consoleTarget -Configuration $configuration
           <dev:name>System.String</dev:name>
         </dev:type>
         <maml:description>
-          <maml:para>You can pipe the logger name to this cmdlet.</maml:para>
+          <maml:para>You can pipe the logger name.</maml:para>
         </maml:description>
       </command:inputType>
     </command:inputTypes>
@@ -393,7 +393,7 @@ Add-NLogTarget -Target $consoleTarget -Configuration $configuration
           <dev:name>NLog.Logger</dev:name>
         </dev:type>
         <maml:description>
-          <maml:para>This cmdlet returns an **NLog.Logger** object.</maml:para>
+          <maml:para>Returns the logger with the specified name.</maml:para>
         </maml:description>
       </command:returnValue>
     </command:returnValues>
@@ -459,7 +459,7 @@ $logger = Get-NLogLogger -Name MyLogger
           <dev:name>NLog.Config.LoggingConfiguration</dev:name>
         </dev:type>
         <maml:description>
-          <maml:para>This cmdlet returns the **NLog.Config.LoggingConfiguration** object from the static `NLog.LogManager.Configuration` property.</maml:para>
+          <maml:para>Returns the current logging configuration from `NLog.LogManager.Configuration`.</maml:para>
         </maml:description>
       </command:returnValue>
     </command:returnValues>
@@ -544,7 +544,15 @@ $configuration = Get-NLogLoggingConfiguration
           <dev:name>System.String</dev:name>
         </dev:type>
         <maml:description>
-          <maml:para>You can pipe a string to this cmdlet.</maml:para>
+          <maml:para>You can pipe objects with a Name property that specifies the logger name.</maml:para>
+        </maml:description>
+      </command:inputType>
+      <command:inputType>
+        <dev:type>
+          <dev:name>System.String</dev:name>
+        </dev:type>
+        <maml:description>
+          <maml:para>You can pipe objects with a Path property that specifies the log file path.</maml:para>
         </maml:description>
       </command:inputType>
     </command:inputTypes>
@@ -554,7 +562,7 @@ $configuration = Get-NLogLoggingConfiguration
           <dev:name>NLog.Config.LoggingConfiguration</dev:name>
         </dev:type>
         <maml:description>
-          <maml:para>This cmdlet returns an **NLog.Config.LoggingConfiguration** object.</maml:para>
+          <maml:para>Returns a new logging configuration for a basic file logger.</maml:para>
         </maml:description>
       </command:returnValue>
     </command:returnValues>
@@ -604,28 +612,28 @@ $logger = New-NLogBasicLogger -Name MyLogger -Path x:/path/application.log
           <maml:description>
             <maml:para>Gets or sets a value indicating whether to auto-flush after M:System.Console.WriteLine.</maml:para>
           </maml:description>
-          <command:parameterValue required="false" variableLength="true">System.Nullable`1[System.Boolean]</command:parameterValue>
+          <command:parameterValue required="false" variableLength="true">System.Boolean</command:parameterValue>
         </command:parameter>
         <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="Named" aliases="none">
           <maml:name>DetectConsoleAvailable</maml:name>
           <maml:description>
             <maml:para>Gets or sets a value indicating whether to auto-check if the console is available. - Disables console writing if Environment.UserInteractive = false (Windows Service) - Disables console writing if Console Standard Input is not available (Non-Console-App).</maml:para>
           </maml:description>
-          <command:parameterValue required="false" variableLength="true">System.Nullable`1[System.Boolean]</command:parameterValue>
+          <command:parameterValue required="false" variableLength="true">System.Boolean</command:parameterValue>
         </command:parameter>
         <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="Named" aliases="none">
           <maml:name>DetectOutputRedirected</maml:name>
           <maml:description>
             <maml:para>Gets or sets a value indicating whether to auto-check if the console has been redirected to file - Disables coloring logic when System.Console.IsOutputRedirected = true.</maml:para>
           </maml:description>
-          <command:parameterValue required="false" variableLength="true">System.Nullable`1[System.Boolean]</command:parameterValue>
+          <command:parameterValue required="false" variableLength="true">System.Boolean</command:parameterValue>
         </command:parameter>
         <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="Named" aliases="none">
           <maml:name>EnableAnsiOutput</maml:name>
           <maml:description>
             <maml:para>Enables output using ANSI Color Codes.</maml:para>
           </maml:description>
-          <command:parameterValue required="false" variableLength="true">System.Nullable`1[System.Boolean]</command:parameterValue>
+          <command:parameterValue required="false" variableLength="true">System.Boolean</command:parameterValue>
         </command:parameter>
         <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="Named" aliases="none">
           <maml:name>Encoding</maml:name>
@@ -688,7 +696,7 @@ $logger = New-NLogBasicLogger -Name MyLogger -Path x:/path/application.log
           <maml:description>
             <maml:para>Gets or sets a value indicating whether to use default row highlighting rules.</maml:para>
           </maml:description>
-          <command:parameterValue required="false" variableLength="true">System.Nullable`1[System.Boolean]</command:parameterValue>
+          <command:parameterValue required="false" variableLength="true">System.Boolean</command:parameterValue>
         </command:parameter>
         <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="Named" aliases="none">
           <maml:name>WordHighlightingRules</maml:name>
@@ -705,28 +713,28 @@ $logger = New-NLogBasicLogger -Name MyLogger -Path x:/path/application.log
         <maml:description>
           <maml:para>Gets or sets a value indicating whether to auto-flush after M:System.Console.WriteLine.</maml:para>
         </maml:description>
-        <command:parameterValue required="false" variableLength="true">System.Nullable`1[System.Boolean]</command:parameterValue>
+        <command:parameterValue required="false" variableLength="true">System.Boolean</command:parameterValue>
       </command:parameter>
       <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="Named" aliases="none">
         <maml:name>DetectConsoleAvailable</maml:name>
         <maml:description>
           <maml:para>Gets or sets a value indicating whether to auto-check if the console is available. - Disables console writing if Environment.UserInteractive = false (Windows Service) - Disables console writing if Console Standard Input is not available (Non-Console-App).</maml:para>
         </maml:description>
-        <command:parameterValue required="false" variableLength="true">System.Nullable`1[System.Boolean]</command:parameterValue>
+        <command:parameterValue required="false" variableLength="true">System.Boolean</command:parameterValue>
       </command:parameter>
       <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="Named" aliases="none">
         <maml:name>DetectOutputRedirected</maml:name>
         <maml:description>
           <maml:para>Gets or sets a value indicating whether to auto-check if the console has been redirected to file - Disables coloring logic when System.Console.IsOutputRedirected = true.</maml:para>
         </maml:description>
-        <command:parameterValue required="false" variableLength="true">System.Nullable`1[System.Boolean]</command:parameterValue>
+        <command:parameterValue required="false" variableLength="true">System.Boolean</command:parameterValue>
       </command:parameter>
       <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="Named" aliases="none">
         <maml:name>EnableAnsiOutput</maml:name>
         <maml:description>
           <maml:para>Enables output using ANSI Color Codes.</maml:para>
         </maml:description>
-        <command:parameterValue required="false" variableLength="true">System.Nullable`1[System.Boolean]</command:parameterValue>
+        <command:parameterValue required="false" variableLength="true">System.Boolean</command:parameterValue>
       </command:parameter>
       <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="Named" aliases="none">
         <maml:name>Encoding</maml:name>
@@ -789,7 +797,7 @@ $logger = New-NLogBasicLogger -Name MyLogger -Path x:/path/application.log
         <maml:description>
           <maml:para>Gets or sets a value indicating whether to use default row highlighting rules.</maml:para>
         </maml:description>
-        <command:parameterValue required="false" variableLength="true">System.Nullable`1[System.Boolean]</command:parameterValue>
+        <command:parameterValue required="false" variableLength="true">System.Boolean</command:parameterValue>
       </command:parameter>
       <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="Named" aliases="none">
         <maml:name>WordHighlightingRules</maml:name>
@@ -805,7 +813,31 @@ $logger = New-NLogBasicLogger -Name MyLogger -Path x:/path/application.log
           <dev:name>System.Boolean</dev:name>
         </dev:type>
         <maml:description>
-          <maml:para>You can pipe a Boolean value to this cmdlet.</maml:para>
+          <maml:para>You can pipe objects with an AutoFlush property that indicates whether to flush after each console write.</maml:para>
+        </maml:description>
+      </command:inputType>
+      <command:inputType>
+        <dev:type>
+          <dev:name>System.Boolean</dev:name>
+        </dev:type>
+        <maml:description>
+          <maml:para>You can pipe objects with a DetectConsoleAvailable property that indicates whether console availability should be checked automatically.</maml:para>
+        </maml:description>
+      </command:inputType>
+      <command:inputType>
+        <dev:type>
+          <dev:name>System.Boolean</dev:name>
+        </dev:type>
+        <maml:description>
+          <maml:para>You can pipe objects with a DetectOutputRedirected property that indicates whether output redirection should be checked automatically.</maml:para>
+        </maml:description>
+      </command:inputType>
+      <command:inputType>
+        <dev:type>
+          <dev:name>System.Boolean</dev:name>
+        </dev:type>
+        <maml:description>
+          <maml:para>You can pipe objects with an EnableAnsiOutput property that enables ANSI color code output.</maml:para>
         </maml:description>
       </command:inputType>
       <command:inputType>
@@ -813,7 +845,7 @@ $logger = New-NLogBasicLogger -Name MyLogger -Path x:/path/application.log
           <dev:name>System.Text.Encoding</dev:name>
         </dev:type>
         <maml:description>
-          <maml:para>You can pipe a **System.Text.Encoding** object to this cmdlet.</maml:para>
+          <maml:para>You can pipe objects with an Encoding property that specifies the encoding used to write console messages.</maml:para>
         </maml:description>
       </command:inputType>
       <command:inputType>
@@ -821,7 +853,23 @@ $logger = New-NLogBasicLogger -Name MyLogger -Path x:/path/application.log
           <dev:name>NLog.Layouts.Layout</dev:name>
         </dev:type>
         <maml:description>
-          <maml:para>You can pipe an **NLog.Layouts.Layout** object to this cmdlet.</maml:para>
+          <maml:para>You can pipe objects with a Footer property that specifies the footer layout.</maml:para>
+        </maml:description>
+      </command:inputType>
+      <command:inputType>
+        <dev:type>
+          <dev:name>NLog.Layouts.Layout</dev:name>
+        </dev:type>
+        <maml:description>
+          <maml:para>You can pipe objects with a Header property that specifies the header layout.</maml:para>
+        </maml:description>
+      </command:inputType>
+      <command:inputType>
+        <dev:type>
+          <dev:name>NLog.Layouts.Layout</dev:name>
+        </dev:type>
+        <maml:description>
+          <maml:para>You can pipe objects with a Layout property that specifies the log message layout.</maml:para>
         </maml:description>
       </command:inputType>
       <command:inputType>
@@ -829,7 +877,7 @@ $logger = New-NLogBasicLogger -Name MyLogger -Path x:/path/application.log
           <dev:name>System.String</dev:name>
         </dev:type>
         <maml:description>
-          <maml:para>You can pipe a string to this cmdlet.</maml:para>
+          <maml:para>You can pipe objects with a Name property that specifies the target name.</maml:para>
         </maml:description>
       </command:inputType>
       <command:inputType>
@@ -837,7 +885,7 @@ $logger = New-NLogBasicLogger -Name MyLogger -Path x:/path/application.log
           <dev:name>NLog.Layouts.Layout`1</dev:name>
         </dev:type>
         <maml:description>
-          <maml:para>You can pipe a typed **NLog.Layouts.Layout** object to this cmdlet.</maml:para>
+          <maml:para>You can pipe objects with a NoColor property that specifies support for the NO_COLOR environment variable.</maml:para>
         </maml:description>
       </command:inputType>
       <command:inputType>
@@ -845,15 +893,7 @@ $logger = New-NLogBasicLogger -Name MyLogger -Path x:/path/application.log
           <dev:name>NLog.Targets.ConsoleRowHighlightingRule</dev:name>
         </dev:type>
         <maml:description>
-          <maml:para>You can pipe an **NLog.Targets.ConsoleRowHighlightingRule** object to this cmdlet.</maml:para>
-        </maml:description>
-      </command:inputType>
-      <command:inputType>
-        <dev:type>
-          <dev:name>NLog.Targets.ConsoleWordHighlightingRule</dev:name>
-        </dev:type>
-        <maml:description>
-          <maml:para>You can pipe an **NLog.Targets.ConsoleWordHighlightingRule** object to this cmdlet.</maml:para>
+          <maml:para>You can pipe objects with a RowHighlightingRules property that specifies the row highlighting rules.</maml:para>
         </maml:description>
       </command:inputType>
       <command:inputType>
@@ -861,15 +901,15 @@ $logger = New-NLogBasicLogger -Name MyLogger -Path x:/path/application.log
           <dev:name>NLog.Layouts.Layout`1</dev:name>
         </dev:type>
         <maml:description>
-          <maml:para>You can pipe a typed **NLog.Layouts.Layout** object to this cmdlet.</maml:para>
+          <maml:para>You can pipe objects with a StdErr property that indicates whether log messages are sent to standard error instead of standard output.</maml:para>
         </maml:description>
       </command:inputType>
       <command:inputType>
         <dev:type>
-          <dev:name>NLog.Targets.ConsoleRowHighlightingRule</dev:name>
+          <dev:name>System.Boolean</dev:name>
         </dev:type>
         <maml:description>
-          <maml:para>You can pipe an array of **NLog.Targets.ConsoleRowHighlightingRule** objects to this cmdlet.</maml:para>
+          <maml:para>You can pipe objects with a UseDefaultRowHighlightingRules property that indicates whether default row highlighting rules are used.</maml:para>
         </maml:description>
       </command:inputType>
       <command:inputType>
@@ -877,7 +917,7 @@ $logger = New-NLogBasicLogger -Name MyLogger -Path x:/path/application.log
           <dev:name>NLog.Targets.ConsoleWordHighlightingRule</dev:name>
         </dev:type>
         <maml:description>
-          <maml:para>You can pipe an array of **NLog.Targets.ConsoleWordHighlightingRule** objects to this cmdlet.</maml:para>
+          <maml:para>You can pipe objects with a WordHighlightingRules property that specifies the word highlighting rules.</maml:para>
         </maml:description>
       </command:inputType>
     </command:inputTypes>
@@ -887,7 +927,7 @@ $logger = New-NLogBasicLogger -Name MyLogger -Path x:/path/application.log
           <dev:name>NLog.Targets.ColoredConsoleTarget</dev:name>
         </dev:type>
         <maml:description>
-          <maml:para>This cmdlet returns an **NLog.Targets.ColoredConsoleTarget** object.</maml:para>
+          <maml:para>Returns a new colored console target.</maml:para>
         </maml:description>
       </command:returnValue>
     </command:returnValues>
@@ -947,7 +987,7 @@ $logger = Get-NLogLogger -Name MyLogger
           <maml:description>
             <maml:para>Gets or sets the background color.</maml:para>
           </maml:description>
-          <command:parameterValue required="false" variableLength="true">System.Nullable`1[NLog.Targets.ConsoleOutputColor]</command:parameterValue>
+          <command:parameterValue required="false" variableLength="true">NLog.Targets.ConsoleOutputColor</command:parameterValue>
         </command:parameter>
         <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="Named" aliases="none">
           <maml:name>Condition</maml:name>
@@ -961,7 +1001,7 @@ $logger = Get-NLogLogger -Name MyLogger
           <maml:description>
             <maml:para>Gets or sets the foreground color.</maml:para>
           </maml:description>
-          <command:parameterValue required="false" variableLength="true">System.Nullable`1[NLog.Targets.ConsoleOutputColor]</command:parameterValue>
+          <command:parameterValue required="false" variableLength="true">NLog.Targets.ConsoleOutputColor</command:parameterValue>
         </command:parameter>
       </command:syntaxItem>
     </command:syntax>
@@ -971,7 +1011,7 @@ $logger = Get-NLogLogger -Name MyLogger
         <maml:description>
           <maml:para>Gets or sets the background color.</maml:para>
         </maml:description>
-        <command:parameterValue required="false" variableLength="true">System.Nullable`1[NLog.Targets.ConsoleOutputColor]</command:parameterValue>
+        <command:parameterValue required="false" variableLength="true">NLog.Targets.ConsoleOutputColor</command:parameterValue>
       </command:parameter>
       <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="Named" aliases="none">
         <maml:name>Condition</maml:name>
@@ -985,7 +1025,7 @@ $logger = Get-NLogLogger -Name MyLogger
         <maml:description>
           <maml:para>Gets or sets the foreground color.</maml:para>
         </maml:description>
-        <command:parameterValue required="false" variableLength="true">System.Nullable`1[NLog.Targets.ConsoleOutputColor]</command:parameterValue>
+        <command:parameterValue required="false" variableLength="true">NLog.Targets.ConsoleOutputColor</command:parameterValue>
       </command:parameter>
     </command:parameters>
     <command:inputTypes>
@@ -994,7 +1034,7 @@ $logger = Get-NLogLogger -Name MyLogger
           <dev:name>NLog.Targets.ConsoleOutputColor</dev:name>
         </dev:type>
         <maml:description>
-          <maml:para>You can pipe a **ConsoleOutputColor** value to this cmdlet.</maml:para>
+          <maml:para>You can pipe objects with a BackgroundColor property that specifies the background color.</maml:para>
         </maml:description>
       </command:inputType>
       <command:inputType>
@@ -1002,7 +1042,15 @@ $logger = Get-NLogLogger -Name MyLogger
           <dev:name>NLog.Conditions.ConditionExpression</dev:name>
         </dev:type>
         <maml:description>
-          <maml:para>You can pipe an **NLog.Conditions.ConditionExpression** object to this cmdlet.</maml:para>
+          <maml:para>You can pipe objects with a Condition property that specifies the condition required to apply the configured colors.</maml:para>
+        </maml:description>
+      </command:inputType>
+      <command:inputType>
+        <dev:type>
+          <dev:name>NLog.Targets.ConsoleOutputColor</dev:name>
+        </dev:type>
+        <maml:description>
+          <maml:para>You can pipe objects with a ForegroundColor property that specifies the foreground color.</maml:para>
         </maml:description>
       </command:inputType>
     </command:inputTypes>
@@ -1012,7 +1060,7 @@ $logger = Get-NLogLogger -Name MyLogger
           <dev:name>NLog.Targets.ConsoleRowHighlightingRule</dev:name>
         </dev:type>
         <maml:description>
-          <maml:para>This cmdlet returns an **NLog.Targets.ConsoleRowHighlightingRule** object.</maml:para>
+          <maml:para>Returns a new console row highlighting rule.</maml:para>
         </maml:description>
       </command:returnValue>
     </command:returnValues>
@@ -1066,14 +1114,14 @@ $target = New-NLogColoredConsoleTarget -Name ConsoleTarget -RowHighlightingRules
           <maml:description>
             <maml:para>Gets or sets a value indicating whether to auto-flush after M:System.Console.WriteLine.</maml:para>
           </maml:description>
-          <command:parameterValue required="false" variableLength="true">System.Nullable`1[System.Boolean]</command:parameterValue>
+          <command:parameterValue required="false" variableLength="true">System.Boolean</command:parameterValue>
         </command:parameter>
         <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="Named" aliases="none">
           <maml:name>DetectConsoleAvailable</maml:name>
           <maml:description>
             <maml:para>Gets or sets a value indicating whether to auto-check if the console is available - Disables console writing if Environment.UserInteractive = false (Windows Service) - Disables console writing if Console Standard Input is not available (Non-Console-App).</maml:para>
           </maml:description>
-          <command:parameterValue required="false" variableLength="true">System.Nullable`1[System.Boolean]</command:parameterValue>
+          <command:parameterValue required="false" variableLength="true">System.Boolean</command:parameterValue>
         </command:parameter>
         <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="Named" aliases="none">
           <maml:name>Encoding</maml:name>
@@ -1094,7 +1142,7 @@ $target = New-NLogColoredConsoleTarget -Name ConsoleTarget -RowHighlightingRules
           <maml:description>
             <maml:para>Gets or sets whether to force M:System.Console.WriteLine (slower) instead of the faster internal buffering.</maml:para>
           </maml:description>
-          <command:parameterValue required="false" variableLength="true">System.Nullable`1[System.Boolean]</command:parameterValue>
+          <command:parameterValue required="false" variableLength="true">System.Boolean</command:parameterValue>
         </command:parameter>
         <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="Named" aliases="none">
           <maml:name>Header</maml:name>
@@ -1132,14 +1180,14 @@ $target = New-NLogColoredConsoleTarget -Name ConsoleTarget -RowHighlightingRules
         <maml:description>
           <maml:para>Gets or sets a value indicating whether to auto-flush after M:System.Console.WriteLine.</maml:para>
         </maml:description>
-        <command:parameterValue required="false" variableLength="true">System.Nullable`1[System.Boolean]</command:parameterValue>
+        <command:parameterValue required="false" variableLength="true">System.Boolean</command:parameterValue>
       </command:parameter>
       <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="Named" aliases="none">
         <maml:name>DetectConsoleAvailable</maml:name>
         <maml:description>
           <maml:para>Gets or sets a value indicating whether to auto-check if the console is available - Disables console writing if Environment.UserInteractive = false (Windows Service) - Disables console writing if Console Standard Input is not available (Non-Console-App).</maml:para>
         </maml:description>
-        <command:parameterValue required="false" variableLength="true">System.Nullable`1[System.Boolean]</command:parameterValue>
+        <command:parameterValue required="false" variableLength="true">System.Boolean</command:parameterValue>
       </command:parameter>
       <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="Named" aliases="none">
         <maml:name>Encoding</maml:name>
@@ -1160,7 +1208,7 @@ $target = New-NLogColoredConsoleTarget -Name ConsoleTarget -RowHighlightingRules
         <maml:description>
           <maml:para>Gets or sets whether to force M:System.Console.WriteLine (slower) instead of the faster internal buffering.</maml:para>
         </maml:description>
-        <command:parameterValue required="false" variableLength="true">System.Nullable`1[System.Boolean]</command:parameterValue>
+        <command:parameterValue required="false" variableLength="true">System.Boolean</command:parameterValue>
       </command:parameter>
       <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="Named" aliases="none">
         <maml:name>Header</maml:name>
@@ -1197,7 +1245,15 @@ $target = New-NLogColoredConsoleTarget -Name ConsoleTarget -RowHighlightingRules
           <dev:name>System.Boolean</dev:name>
         </dev:type>
         <maml:description>
-          <maml:para>You can pipe a Boolean value to this cmdlet.</maml:para>
+          <maml:para>You can pipe objects with an AutoFlush property that indicates whether to flush after each console write.</maml:para>
+        </maml:description>
+      </command:inputType>
+      <command:inputType>
+        <dev:type>
+          <dev:name>System.Boolean</dev:name>
+        </dev:type>
+        <maml:description>
+          <maml:para>You can pipe objects with a DetectConsoleAvailable property that indicates whether console availability should be checked automatically.</maml:para>
         </maml:description>
       </command:inputType>
       <command:inputType>
@@ -1205,7 +1261,7 @@ $target = New-NLogColoredConsoleTarget -Name ConsoleTarget -RowHighlightingRules
           <dev:name>System.Text.Encoding</dev:name>
         </dev:type>
         <maml:description>
-          <maml:para>You can pipe a **System.Text.Encoding** object to this cmdlet.</maml:para>
+          <maml:para>You can pipe objects with an Encoding property that specifies the encoding used to write console messages.</maml:para>
         </maml:description>
       </command:inputType>
       <command:inputType>
@@ -1213,7 +1269,31 @@ $target = New-NLogColoredConsoleTarget -Name ConsoleTarget -RowHighlightingRules
           <dev:name>NLog.Layouts.Layout</dev:name>
         </dev:type>
         <maml:description>
-          <maml:para>You can pipe an **NLog.Layouts.Layout** object to this cmdlet.</maml:para>
+          <maml:para>You can pipe objects with a Footer property that specifies the footer layout.</maml:para>
+        </maml:description>
+      </command:inputType>
+      <command:inputType>
+        <dev:type>
+          <dev:name>System.Boolean</dev:name>
+        </dev:type>
+        <maml:description>
+          <maml:para>You can pipe objects with a ForceWriteLine property that indicates whether to force console writes instead of using internal buffering.</maml:para>
+        </maml:description>
+      </command:inputType>
+      <command:inputType>
+        <dev:type>
+          <dev:name>NLog.Layouts.Layout</dev:name>
+        </dev:type>
+        <maml:description>
+          <maml:para>You can pipe objects with a Header property that specifies the header layout.</maml:para>
+        </maml:description>
+      </command:inputType>
+      <command:inputType>
+        <dev:type>
+          <dev:name>NLog.Layouts.Layout</dev:name>
+        </dev:type>
+        <maml:description>
+          <maml:para>You can pipe objects with a Layout property that specifies the log message layout.</maml:para>
         </maml:description>
       </command:inputType>
       <command:inputType>
@@ -1221,7 +1301,7 @@ $target = New-NLogColoredConsoleTarget -Name ConsoleTarget -RowHighlightingRules
           <dev:name>System.String</dev:name>
         </dev:type>
         <maml:description>
-          <maml:para>You can pipe a string to this cmdlet.</maml:para>
+          <maml:para>You can pipe objects with a Name property that specifies the target name.</maml:para>
         </maml:description>
       </command:inputType>
       <command:inputType>
@@ -1229,15 +1309,7 @@ $target = New-NLogColoredConsoleTarget -Name ConsoleTarget -RowHighlightingRules
           <dev:name>NLog.Layouts.Layout`1</dev:name>
         </dev:type>
         <maml:description>
-          <maml:para>You can pipe a typed **NLog.Layouts.Layout** object to this cmdlet.</maml:para>
-        </maml:description>
-      </command:inputType>
-      <command:inputType>
-        <dev:type>
-          <dev:name>NLog.Layouts.Layout`1</dev:name>
-        </dev:type>
-        <maml:description>
-          <maml:para>You can pipe a typed **NLog.Layouts.Layout** object to this cmdlet.</maml:para>
+          <maml:para>You can pipe objects with a StdErr property that indicates whether log messages are sent to standard error instead of standard output.</maml:para>
         </maml:description>
       </command:inputType>
     </command:inputTypes>
@@ -1247,7 +1319,7 @@ $target = New-NLogColoredConsoleTarget -Name ConsoleTarget -RowHighlightingRules
           <dev:name>NLog.Targets.ConsoleTarget</dev:name>
         </dev:type>
         <maml:description>
-          <maml:para>This cmdlet returns an **NLog.Targets.ConsoleTarget** object.</maml:para>
+          <maml:para>Returns a new console target.</maml:para>
         </maml:description>
       </command:returnValue>
     </command:returnValues>
@@ -1307,7 +1379,7 @@ $logger = Get-NLogLogger -Name MyLogger
           <maml:description>
             <maml:para>Gets or sets the background color.</maml:para>
           </maml:description>
-          <command:parameterValue required="false" variableLength="true">System.Nullable`1[NLog.Targets.ConsoleOutputColor]</command:parameterValue>
+          <command:parameterValue required="false" variableLength="true">NLog.Targets.ConsoleOutputColor</command:parameterValue>
         </command:parameter>
         <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="Named" aliases="none">
           <maml:name>Condition</maml:name>
@@ -1321,14 +1393,14 @@ $logger = Get-NLogLogger -Name MyLogger
           <maml:description>
             <maml:para>Gets or sets the foreground color.</maml:para>
           </maml:description>
-          <command:parameterValue required="false" variableLength="true">System.Nullable`1[NLog.Targets.ConsoleOutputColor]</command:parameterValue>
+          <command:parameterValue required="false" variableLength="true">NLog.Targets.ConsoleOutputColor</command:parameterValue>
         </command:parameter>
         <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="Named" aliases="none">
           <maml:name>IgnoreCase</maml:name>
           <maml:description>
             <maml:para>Gets or sets a value indicating whether to ignore case when comparing texts.</maml:para>
           </maml:description>
-          <command:parameterValue required="false" variableLength="true">System.Nullable`1[System.Boolean]</command:parameterValue>
+          <command:parameterValue required="false" variableLength="true">System.Boolean</command:parameterValue>
         </command:parameter>
         <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="Named" aliases="none">
           <maml:name>Text</maml:name>
@@ -1342,7 +1414,7 @@ $logger = Get-NLogLogger -Name MyLogger
           <maml:description>
             <maml:para>Gets or sets a value indicating whether to match whole words only.</maml:para>
           </maml:description>
-          <command:parameterValue required="false" variableLength="true">System.Nullable`1[System.Boolean]</command:parameterValue>
+          <command:parameterValue required="false" variableLength="true">System.Boolean</command:parameterValue>
         </command:parameter>
         <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="Named" aliases="none">
           <maml:name>Words</maml:name>
@@ -1359,7 +1431,7 @@ $logger = Get-NLogLogger -Name MyLogger
         <maml:description>
           <maml:para>Gets or sets the background color.</maml:para>
         </maml:description>
-        <command:parameterValue required="false" variableLength="true">System.Nullable`1[NLog.Targets.ConsoleOutputColor]</command:parameterValue>
+        <command:parameterValue required="false" variableLength="true">NLog.Targets.ConsoleOutputColor</command:parameterValue>
       </command:parameter>
       <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="Named" aliases="none">
         <maml:name>Condition</maml:name>
@@ -1373,14 +1445,14 @@ $logger = Get-NLogLogger -Name MyLogger
         <maml:description>
           <maml:para>Gets or sets the foreground color.</maml:para>
         </maml:description>
-        <command:parameterValue required="false" variableLength="true">System.Nullable`1[NLog.Targets.ConsoleOutputColor]</command:parameterValue>
+        <command:parameterValue required="false" variableLength="true">NLog.Targets.ConsoleOutputColor</command:parameterValue>
       </command:parameter>
       <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="Named" aliases="none">
         <maml:name>IgnoreCase</maml:name>
         <maml:description>
           <maml:para>Gets or sets a value indicating whether to ignore case when comparing texts.</maml:para>
         </maml:description>
-        <command:parameterValue required="false" variableLength="true">System.Nullable`1[System.Boolean]</command:parameterValue>
+        <command:parameterValue required="false" variableLength="true">System.Boolean</command:parameterValue>
       </command:parameter>
       <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="Named" aliases="none">
         <maml:name>Text</maml:name>
@@ -1394,7 +1466,7 @@ $logger = Get-NLogLogger -Name MyLogger
         <maml:description>
           <maml:para>Gets or sets a value indicating whether to match whole words only.</maml:para>
         </maml:description>
-        <command:parameterValue required="false" variableLength="true">System.Nullable`1[System.Boolean]</command:parameterValue>
+        <command:parameterValue required="false" variableLength="true">System.Boolean</command:parameterValue>
       </command:parameter>
       <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="Named" aliases="none">
         <maml:name>Words</maml:name>
@@ -1410,7 +1482,7 @@ $logger = Get-NLogLogger -Name MyLogger
           <dev:name>NLog.Targets.ConsoleOutputColor</dev:name>
         </dev:type>
         <maml:description>
-          <maml:para>You can pipe a **ConsoleOutputColor** value to this cmdlet.</maml:para>
+          <maml:para>You can pipe objects with a BackgroundColor property that specifies the background color.</maml:para>
         </maml:description>
       </command:inputType>
       <command:inputType>
@@ -1418,7 +1490,15 @@ $logger = Get-NLogLogger -Name MyLogger
           <dev:name>NLog.Conditions.ConditionExpression</dev:name>
         </dev:type>
         <maml:description>
-          <maml:para>You can pipe an **NLog.Conditions.ConditionExpression** object to this cmdlet.</maml:para>
+          <maml:para>You can pipe objects with a Condition property that specifies the condition required before scanning for highlighted words.</maml:para>
+        </maml:description>
+      </command:inputType>
+      <command:inputType>
+        <dev:type>
+          <dev:name>NLog.Targets.ConsoleOutputColor</dev:name>
+        </dev:type>
+        <maml:description>
+          <maml:para>You can pipe objects with a ForegroundColor property that specifies the foreground color.</maml:para>
         </maml:description>
       </command:inputType>
       <command:inputType>
@@ -1426,7 +1506,7 @@ $logger = Get-NLogLogger -Name MyLogger
           <dev:name>System.Boolean</dev:name>
         </dev:type>
         <maml:description>
-          <maml:para>You can pipe a Boolean value to this cmdlet.</maml:para>
+          <maml:para>You can pipe objects with an IgnoreCase property that indicates whether text comparisons ignore case.</maml:para>
         </maml:description>
       </command:inputType>
       <command:inputType>
@@ -1434,7 +1514,15 @@ $logger = Get-NLogLogger -Name MyLogger
           <dev:name>System.String</dev:name>
         </dev:type>
         <maml:description>
-          <maml:para>You can pipe a string to this cmdlet.</maml:para>
+          <maml:para>You can pipe objects with a Text property that specifies the text to match for highlighting.</maml:para>
+        </maml:description>
+      </command:inputType>
+      <command:inputType>
+        <dev:type>
+          <dev:name>System.Boolean</dev:name>
+        </dev:type>
+        <maml:description>
+          <maml:para>You can pipe objects with a WholeWords property that indicates whether only whole words are matched.</maml:para>
         </maml:description>
       </command:inputType>
       <command:inputType>
@@ -1442,7 +1530,7 @@ $logger = Get-NLogLogger -Name MyLogger
           <dev:name>System.String</dev:name>
         </dev:type>
         <maml:description>
-          <maml:para>You can pipe an array of strings to this cmdlet.</maml:para>
+          <maml:para>You can pipe objects with a Words property that specifies the list of words to match for highlighting.</maml:para>
         </maml:description>
       </command:inputType>
     </command:inputTypes>
@@ -1452,7 +1540,7 @@ $logger = Get-NLogLogger -Name MyLogger
           <dev:name>NLog.Targets.ConsoleWordHighlightingRule</dev:name>
         </dev:type>
         <maml:description>
-          <maml:para>This cmdlet returns an **NLog.Targets.ConsoleWordHighlightingRule** object.</maml:para>
+          <maml:para>Returns a new console word highlighting rule.</maml:para>
         </maml:description>
       </command:returnValue>
     </command:returnValues>
@@ -1569,7 +1657,7 @@ $target = New-NLogColoredConsoleTarget -Name ConsoleTarget -WordHighlightingRule
           <maml:description>
             <maml:para>Gets or sets the action to take if the message is larger than the P:NLog.Targets.EventLogTarget.MaxMessageLength option.</maml:para>
           </maml:description>
-          <command:parameterValue required="false" variableLength="true">System.Nullable`1[NLog.Targets.EventLogTargetOverflowAction]</command:parameterValue>
+          <command:parameterValue required="false" variableLength="true">NLog.Targets.EventLogTargetOverflowAction</command:parameterValue>
         </command:parameter>
         <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="Named" aliases="none">
           <maml:name>Source</maml:name>
@@ -1649,7 +1737,7 @@ $target = New-NLogColoredConsoleTarget -Name ConsoleTarget -WordHighlightingRule
         <maml:description>
           <maml:para>Gets or sets the action to take if the message is larger than the P:NLog.Targets.EventLogTarget.MaxMessageLength option.</maml:para>
         </maml:description>
-        <command:parameterValue required="false" variableLength="true">System.Nullable`1[NLog.Targets.EventLogTargetOverflowAction]</command:parameterValue>
+        <command:parameterValue required="false" variableLength="true">NLog.Targets.EventLogTargetOverflowAction</command:parameterValue>
       </command:parameter>
       <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="Named" aliases="none">
         <maml:name>Source</maml:name>
@@ -1665,7 +1753,7 @@ $target = New-NLogColoredConsoleTarget -Name ConsoleTarget -WordHighlightingRule
           <dev:name>NLog.Layouts.Layout`1</dev:name>
         </dev:type>
         <maml:description>
-          <maml:para>You can pipe a typed **NLog.Layouts.Layout** object to this cmdlet.</maml:para>
+          <maml:para>You can pipe objects with a Category property that specifies the layout that renders the event category.</maml:para>
         </maml:description>
       </command:inputType>
       <command:inputType>
@@ -1673,7 +1761,7 @@ $target = New-NLogColoredConsoleTarget -Name ConsoleTarget -WordHighlightingRule
           <dev:name>NLog.Layouts.Layout`1</dev:name>
         </dev:type>
         <maml:description>
-          <maml:para>You can pipe a typed **NLog.Layouts.Layout** object to this cmdlet.</maml:para>
+          <maml:para>You can pipe objects with an EntryType property that specifies the event log entry type when it can be converted.</maml:para>
         </maml:description>
       </command:inputType>
       <command:inputType>
@@ -1681,7 +1769,7 @@ $target = New-NLogColoredConsoleTarget -Name ConsoleTarget -WordHighlightingRule
           <dev:name>NLog.Layouts.Layout`1</dev:name>
         </dev:type>
         <maml:description>
-          <maml:para>You can pipe a typed **NLog.Layouts.Layout** object to this cmdlet.</maml:para>
+          <maml:para>You can pipe objects with an EventId property that specifies the layout that renders the event ID.</maml:para>
         </maml:description>
       </command:inputType>
       <command:inputType>
@@ -1689,7 +1777,23 @@ $target = New-NLogColoredConsoleTarget -Name ConsoleTarget -WordHighlightingRule
           <dev:name>NLog.Layouts.Layout</dev:name>
         </dev:type>
         <maml:description>
-          <maml:para>You can pipe an **NLog.Layouts.Layout** object to this cmdlet.</maml:para>
+          <maml:para>You can pipe objects with a Layout property that specifies the log message layout.</maml:para>
+        </maml:description>
+      </command:inputType>
+      <command:inputType>
+        <dev:type>
+          <dev:name>NLog.Layouts.Layout</dev:name>
+        </dev:type>
+        <maml:description>
+          <maml:para>You can pipe objects with a Log property that specifies the Event Log name to write to.</maml:para>
+        </maml:description>
+      </command:inputType>
+      <command:inputType>
+        <dev:type>
+          <dev:name>NLog.Layouts.Layout</dev:name>
+        </dev:type>
+        <maml:description>
+          <maml:para>You can pipe objects with a MachineName property that specifies where the Event Log service is running.</maml:para>
         </maml:description>
       </command:inputType>
       <command:inputType>
@@ -1697,7 +1801,15 @@ $target = New-NLogColoredConsoleTarget -Name ConsoleTarget -WordHighlightingRule
           <dev:name>NLog.Layouts.Layout`1</dev:name>
         </dev:type>
         <maml:description>
-          <maml:para>You can pipe a typed **NLog.Layouts.Layout** object to this cmdlet.</maml:para>
+          <maml:para>You can pipe objects with a MaxKilobytes property that specifies the maximum Event Log size in kilobytes.</maml:para>
+        </maml:description>
+      </command:inputType>
+      <command:inputType>
+        <dev:type>
+          <dev:name>NLog.Layouts.Layout`1</dev:name>
+        </dev:type>
+        <maml:description>
+          <maml:para>You can pipe objects with a MaxMessageLength property that specifies the message length limit for Event Log writes.</maml:para>
         </maml:description>
       </command:inputType>
       <command:inputType>
@@ -1705,7 +1817,7 @@ $target = New-NLogColoredConsoleTarget -Name ConsoleTarget -WordHighlightingRule
           <dev:name>System.String</dev:name>
         </dev:type>
         <maml:description>
-          <maml:para>You can pipe a string to this cmdlet.</maml:para>
+          <maml:para>You can pipe objects with a Name property that specifies the target name.</maml:para>
         </maml:description>
       </command:inputType>
       <command:inputType>
@@ -1713,39 +1825,15 @@ $target = New-NLogColoredConsoleTarget -Name ConsoleTarget -WordHighlightingRule
           <dev:name>NLog.Targets.EventLogTargetOverflowAction</dev:name>
         </dev:type>
         <maml:description>
-          <maml:para>You can pipe an **EventLogTargetOverflowAction** value to this cmdlet.</maml:para>
+          <maml:para>You can pipe objects with an OnOverflow property that specifies the action to take when a message exceeds the maximum length.</maml:para>
         </maml:description>
       </command:inputType>
       <command:inputType>
         <dev:type>
-          <dev:name>NLog.Layouts.Layout`1</dev:name>
+          <dev:name>NLog.Layouts.Layout</dev:name>
         </dev:type>
         <maml:description>
-          <maml:para>You can pipe a typed **NLog.Layouts.Layout** object to this cmdlet.</maml:para>
-        </maml:description>
-      </command:inputType>
-      <command:inputType>
-        <dev:type>
-          <dev:name>NLog.Layouts.Layout`1</dev:name>
-        </dev:type>
-        <maml:description>
-          <maml:para>You can pipe a typed **NLog.Layouts.Layout** object to this cmdlet.</maml:para>
-        </maml:description>
-      </command:inputType>
-      <command:inputType>
-        <dev:type>
-          <dev:name>NLog.Layouts.Layout`1</dev:name>
-        </dev:type>
-        <maml:description>
-          <maml:para>You can pipe a typed **NLog.Layouts.Layout** object to this cmdlet.</maml:para>
-        </maml:description>
-      </command:inputType>
-      <command:inputType>
-        <dev:type>
-          <dev:name>NLog.Layouts.Layout`1</dev:name>
-        </dev:type>
-        <maml:description>
-          <maml:para>You can pipe a typed **NLog.Layouts.Layout** object to this cmdlet.</maml:para>
+          <maml:para>You can pipe objects with a Source property that specifies the event source value.</maml:para>
         </maml:description>
       </command:inputType>
     </command:inputTypes>
@@ -1755,7 +1843,7 @@ $target = New-NLogColoredConsoleTarget -Name ConsoleTarget -WordHighlightingRule
           <dev:name>NLog.Targets.EventLogTarget</dev:name>
         </dev:type>
         <maml:description>
-          <maml:para>This cmdlet returns an **NLog.Targets.EventLogTarget** object.</maml:para>
+          <maml:para>Returns a new Event Log target.</maml:para>
         </maml:description>
       </command:returnValue>
     </command:returnValues>
@@ -1815,14 +1903,14 @@ $logger.WithProperty('EventID', 42).Info('Hello World!')
           <maml:description>
             <maml:para>Gets or sets the size in bytes above which log files will be automatically archived. Zero or negative means disabled.</maml:para>
           </maml:description>
-          <command:parameterValue required="false" variableLength="true">System.Nullable`1[System.Int64]</command:parameterValue>
+          <command:parameterValue required="false" variableLength="true">System.Int64</command:parameterValue>
         </command:parameter>
         <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="Named" aliases="none">
           <maml:name>ArchiveEvery</maml:name>
           <maml:description>
             <maml:para>Gets or sets a value indicating whether to trigger archive operation based on time-period, by moving active-file to file-path specified by P:NLog.Targets.FileTarget.ArchiveFileName.</maml:para>
           </maml:description>
-          <command:parameterValue required="false" variableLength="true">System.Nullable`1[NLog.Targets.FileArchivePeriod]</command:parameterValue>
+          <command:parameterValue required="false" variableLength="true">NLog.Targets.FileArchivePeriod</command:parameterValue>
         </command:parameter>
         <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="Named" aliases="none">
           <maml:name>ArchiveFileName</maml:name>
@@ -1836,7 +1924,7 @@ $logger.WithProperty('EventID', 42).Info('Hello World!')
           <maml:description>
             <maml:para>Gets or sets a value indicating whether any existing log-file should be archived on startup.</maml:para>
           </maml:description>
-          <command:parameterValue required="false" variableLength="true">System.Nullable`1[System.Boolean]</command:parameterValue>
+          <command:parameterValue required="false" variableLength="true">System.Boolean</command:parameterValue>
         </command:parameter>
         <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="Named" aliases="none">
           <maml:name>ArchiveSuffixFormat</maml:name>
@@ -1850,42 +1938,42 @@ $logger.WithProperty('EventID', 42).Info('Hello World!')
           <maml:description>
             <maml:para>Gets or sets a value indicating whether to automatically flush the file buffers after each log message.</maml:para>
           </maml:description>
-          <command:parameterValue required="false" variableLength="true">System.Nullable`1[System.Boolean]</command:parameterValue>
+          <command:parameterValue required="false" variableLength="true">System.Boolean</command:parameterValue>
         </command:parameter>
         <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="Named" aliases="none">
           <maml:name>BufferSize</maml:name>
           <maml:description>
             <maml:para>Gets or sets the log file buffer size in bytes.</maml:para>
           </maml:description>
-          <command:parameterValue required="false" variableLength="true">System.Nullable`1[System.Int32]</command:parameterValue>
+          <command:parameterValue required="false" variableLength="true">System.Int32</command:parameterValue>
         </command:parameter>
         <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="Named" aliases="none">
           <maml:name>CreateDirs</maml:name>
           <maml:description>
             <maml:para>Gets or sets a value indicating whether to create directories if they do not exist.</maml:para>
           </maml:description>
-          <command:parameterValue required="false" variableLength="true">System.Nullable`1[System.Boolean]</command:parameterValue>
+          <command:parameterValue required="false" variableLength="true">System.Boolean</command:parameterValue>
         </command:parameter>
         <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="Named" aliases="none">
           <maml:name>DeleteOldFileOnStartup</maml:name>
           <maml:description>
             <maml:para>Gets or sets a value indicating whether to delete old log file on startup.</maml:para>
           </maml:description>
-          <command:parameterValue required="false" variableLength="true">System.Nullable`1[System.Boolean]</command:parameterValue>
+          <command:parameterValue required="false" variableLength="true">System.Boolean</command:parameterValue>
         </command:parameter>
         <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="Named" aliases="none">
           <maml:name>DiscardAll</maml:name>
           <maml:description>
             <maml:para>Gets or sets whether or not this target should just discard all data that its asked to write. Mostly used for when testing NLog Stack except final write.</maml:para>
           </maml:description>
-          <command:parameterValue required="false" variableLength="true">System.Nullable`1[System.Boolean]</command:parameterValue>
+          <command:parameterValue required="false" variableLength="true">System.Boolean</command:parameterValue>
         </command:parameter>
         <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="Named" aliases="none">
           <maml:name>EnableFileDelete</maml:name>
           <maml:description>
             <maml:para>Gets or sets a value indicating whether to enable log file(s) to be deleted.</maml:para>
           </maml:description>
-          <command:parameterValue required="false" variableLength="true">System.Nullable`1[System.Boolean]</command:parameterValue>
+          <command:parameterValue required="false" variableLength="true">System.Boolean</command:parameterValue>
         </command:parameter>
         <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="Named" aliases="none">
           <maml:name>Encoding</maml:name>
@@ -1920,7 +2008,7 @@ $logger.WithProperty('EventID', 42).Info('Hello World!')
           <maml:description>
             <maml:para>Gets or sets a value indicating whether to keep log file open instead of opening and closing it on each logging event.</maml:para>
           </maml:description>
-          <command:parameterValue required="false" variableLength="true">System.Nullable`1[System.Boolean]</command:parameterValue>
+          <command:parameterValue required="false" variableLength="true">System.Boolean</command:parameterValue>
         </command:parameter>
         <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="Named" aliases="none">
           <maml:name>Layout</maml:name>
@@ -1941,14 +2029,14 @@ $logger.WithProperty('EventID', 42).Info('Hello World!')
           <maml:description>
             <maml:para>Gets or sets the maximum days of archive files that should be kept. Zero or negative means disabled.</maml:para>
           </maml:description>
-          <command:parameterValue required="false" variableLength="true">System.Nullable`1[System.Int32]</command:parameterValue>
+          <command:parameterValue required="false" variableLength="true">System.Int32</command:parameterValue>
         </command:parameter>
         <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="Named" aliases="none">
           <maml:name>MaxArchiveFiles</maml:name>
           <maml:description>
             <maml:para>Gets or sets the maximum number of archive files that should be kept. Negative means disabled.</maml:para>
           </maml:description>
-          <command:parameterValue required="false" variableLength="true">System.Nullable`1[System.Int32]</command:parameterValue>
+          <command:parameterValue required="false" variableLength="true">System.Int32</command:parameterValue>
         </command:parameter>
         <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="Named" aliases="none">
           <maml:name>Name</maml:name>
@@ -1962,49 +2050,49 @@ $logger.WithProperty('EventID', 42).Info('Hello World!')
           <maml:description>
             <maml:para>Gets or sets the maximum number of files to be kept open.</maml:para>
           </maml:description>
-          <command:parameterValue required="false" variableLength="true">System.Nullable`1[System.Int32]</command:parameterValue>
+          <command:parameterValue required="false" variableLength="true">System.Int32</command:parameterValue>
         </command:parameter>
         <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="Named" aliases="none">
           <maml:name>OpenFileCacheTimeout</maml:name>
           <maml:description>
             <maml:para>Gets or sets the maximum number of seconds that files are kept open. Zero or negative means disabled.</maml:para>
           </maml:description>
-          <command:parameterValue required="false" variableLength="true">System.Nullable`1[System.Int32]</command:parameterValue>
+          <command:parameterValue required="false" variableLength="true">System.Int32</command:parameterValue>
         </command:parameter>
         <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="Named" aliases="none">
           <maml:name>OpenFileFlushTimeout</maml:name>
           <maml:description>
             <maml:para>Gets or sets the maximum number of seconds before open files are flushed. Zero or negative means disabled.</maml:para>
           </maml:description>
-          <command:parameterValue required="false" variableLength="true">System.Nullable`1[System.Int32]</command:parameterValue>
+          <command:parameterValue required="false" variableLength="true">System.Int32</command:parameterValue>
         </command:parameter>
         <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="Named" aliases="none">
           <maml:name>ReplaceFileContentsOnEachWrite</maml:name>
           <maml:description>
             <maml:para>Gets or sets a value indicating whether to replace file contents on each write instead of appending log message at the end.</maml:para>
           </maml:description>
-          <command:parameterValue required="false" variableLength="true">System.Nullable`1[System.Boolean]</command:parameterValue>
+          <command:parameterValue required="false" variableLength="true">System.Boolean</command:parameterValue>
         </command:parameter>
         <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="Named" aliases="none">
           <maml:name>WriteBom</maml:name>
           <maml:description>
             <maml:para>Gets or sets a value indicating whether to write BOM (byte order mark) in created files.</maml:para>
           </maml:description>
-          <command:parameterValue required="false" variableLength="true">System.Nullable`1[System.Boolean]</command:parameterValue>
+          <command:parameterValue required="false" variableLength="true">System.Boolean</command:parameterValue>
         </command:parameter>
         <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="Named" aliases="none">
           <maml:name>WriteFooterOnArchivingOnly</maml:name>
           <maml:description>
             <maml:para>Gets or sets a value indicating whether the footer should be written only when the file is archived.</maml:para>
           </maml:description>
-          <command:parameterValue required="false" variableLength="true">System.Nullable`1[System.Boolean]</command:parameterValue>
+          <command:parameterValue required="false" variableLength="true">System.Boolean</command:parameterValue>
         </command:parameter>
         <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="Named" aliases="none">
           <maml:name>WriteHeaderWhenInitialFileNotEmpty</maml:name>
           <maml:description>
             <maml:para>Gets or sets whether to write the Header on initial creation of file appender, even if the file is not empty. Default value is false, which means only write header when initial file is empty (Ex. ensures valid CSV files).</maml:para>
           </maml:description>
-          <command:parameterValue required="false" variableLength="true">System.Nullable`1[System.Boolean]</command:parameterValue>
+          <command:parameterValue required="false" variableLength="true">System.Boolean</command:parameterValue>
         </command:parameter>
       </command:syntaxItem>
     </command:syntax>
@@ -2014,14 +2102,14 @@ $logger.WithProperty('EventID', 42).Info('Hello World!')
         <maml:description>
           <maml:para>Gets or sets the size in bytes above which log files will be automatically archived. Zero or negative means disabled.</maml:para>
         </maml:description>
-        <command:parameterValue required="false" variableLength="true">System.Nullable`1[System.Int64]</command:parameterValue>
+        <command:parameterValue required="false" variableLength="true">System.Int64</command:parameterValue>
       </command:parameter>
       <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="Named" aliases="none">
         <maml:name>ArchiveEvery</maml:name>
         <maml:description>
           <maml:para>Gets or sets a value indicating whether to trigger archive operation based on time-period, by moving active-file to file-path specified by P:NLog.Targets.FileTarget.ArchiveFileName.</maml:para>
         </maml:description>
-        <command:parameterValue required="false" variableLength="true">System.Nullable`1[NLog.Targets.FileArchivePeriod]</command:parameterValue>
+        <command:parameterValue required="false" variableLength="true">NLog.Targets.FileArchivePeriod</command:parameterValue>
       </command:parameter>
       <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="Named" aliases="none">
         <maml:name>ArchiveFileName</maml:name>
@@ -2035,7 +2123,7 @@ $logger.WithProperty('EventID', 42).Info('Hello World!')
         <maml:description>
           <maml:para>Gets or sets a value indicating whether any existing log-file should be archived on startup.</maml:para>
         </maml:description>
-        <command:parameterValue required="false" variableLength="true">System.Nullable`1[System.Boolean]</command:parameterValue>
+        <command:parameterValue required="false" variableLength="true">System.Boolean</command:parameterValue>
       </command:parameter>
       <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="Named" aliases="none">
         <maml:name>ArchiveSuffixFormat</maml:name>
@@ -2049,42 +2137,42 @@ $logger.WithProperty('EventID', 42).Info('Hello World!')
         <maml:description>
           <maml:para>Gets or sets a value indicating whether to automatically flush the file buffers after each log message.</maml:para>
         </maml:description>
-        <command:parameterValue required="false" variableLength="true">System.Nullable`1[System.Boolean]</command:parameterValue>
+        <command:parameterValue required="false" variableLength="true">System.Boolean</command:parameterValue>
       </command:parameter>
       <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="Named" aliases="none">
         <maml:name>BufferSize</maml:name>
         <maml:description>
           <maml:para>Gets or sets the log file buffer size in bytes.</maml:para>
         </maml:description>
-        <command:parameterValue required="false" variableLength="true">System.Nullable`1[System.Int32]</command:parameterValue>
+        <command:parameterValue required="false" variableLength="true">System.Int32</command:parameterValue>
       </command:parameter>
       <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="Named" aliases="none">
         <maml:name>CreateDirs</maml:name>
         <maml:description>
           <maml:para>Gets or sets a value indicating whether to create directories if they do not exist.</maml:para>
         </maml:description>
-        <command:parameterValue required="false" variableLength="true">System.Nullable`1[System.Boolean]</command:parameterValue>
+        <command:parameterValue required="false" variableLength="true">System.Boolean</command:parameterValue>
       </command:parameter>
       <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="Named" aliases="none">
         <maml:name>DeleteOldFileOnStartup</maml:name>
         <maml:description>
           <maml:para>Gets or sets a value indicating whether to delete old log file on startup.</maml:para>
         </maml:description>
-        <command:parameterValue required="false" variableLength="true">System.Nullable`1[System.Boolean]</command:parameterValue>
+        <command:parameterValue required="false" variableLength="true">System.Boolean</command:parameterValue>
       </command:parameter>
       <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="Named" aliases="none">
         <maml:name>DiscardAll</maml:name>
         <maml:description>
           <maml:para>Gets or sets whether or not this target should just discard all data that its asked to write. Mostly used for when testing NLog Stack except final write.</maml:para>
         </maml:description>
-        <command:parameterValue required="false" variableLength="true">System.Nullable`1[System.Boolean]</command:parameterValue>
+        <command:parameterValue required="false" variableLength="true">System.Boolean</command:parameterValue>
       </command:parameter>
       <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="Named" aliases="none">
         <maml:name>EnableFileDelete</maml:name>
         <maml:description>
           <maml:para>Gets or sets a value indicating whether to enable log file(s) to be deleted.</maml:para>
         </maml:description>
-        <command:parameterValue required="false" variableLength="true">System.Nullable`1[System.Boolean]</command:parameterValue>
+        <command:parameterValue required="false" variableLength="true">System.Boolean</command:parameterValue>
       </command:parameter>
       <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="Named" aliases="none">
         <maml:name>Encoding</maml:name>
@@ -2119,7 +2207,7 @@ $logger.WithProperty('EventID', 42).Info('Hello World!')
         <maml:description>
           <maml:para>Gets or sets a value indicating whether to keep log file open instead of opening and closing it on each logging event.</maml:para>
         </maml:description>
-        <command:parameterValue required="false" variableLength="true">System.Nullable`1[System.Boolean]</command:parameterValue>
+        <command:parameterValue required="false" variableLength="true">System.Boolean</command:parameterValue>
       </command:parameter>
       <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="Named" aliases="none">
         <maml:name>Layout</maml:name>
@@ -2140,14 +2228,14 @@ $logger.WithProperty('EventID', 42).Info('Hello World!')
         <maml:description>
           <maml:para>Gets or sets the maximum days of archive files that should be kept. Zero or negative means disabled.</maml:para>
         </maml:description>
-        <command:parameterValue required="false" variableLength="true">System.Nullable`1[System.Int32]</command:parameterValue>
+        <command:parameterValue required="false" variableLength="true">System.Int32</command:parameterValue>
       </command:parameter>
       <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="Named" aliases="none">
         <maml:name>MaxArchiveFiles</maml:name>
         <maml:description>
           <maml:para>Gets or sets the maximum number of archive files that should be kept. Negative means disabled.</maml:para>
         </maml:description>
-        <command:parameterValue required="false" variableLength="true">System.Nullable`1[System.Int32]</command:parameterValue>
+        <command:parameterValue required="false" variableLength="true">System.Int32</command:parameterValue>
       </command:parameter>
       <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="Named" aliases="none">
         <maml:name>Name</maml:name>
@@ -2161,49 +2249,49 @@ $logger.WithProperty('EventID', 42).Info('Hello World!')
         <maml:description>
           <maml:para>Gets or sets the maximum number of files to be kept open.</maml:para>
         </maml:description>
-        <command:parameterValue required="false" variableLength="true">System.Nullable`1[System.Int32]</command:parameterValue>
+        <command:parameterValue required="false" variableLength="true">System.Int32</command:parameterValue>
       </command:parameter>
       <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="Named" aliases="none">
         <maml:name>OpenFileCacheTimeout</maml:name>
         <maml:description>
           <maml:para>Gets or sets the maximum number of seconds that files are kept open. Zero or negative means disabled.</maml:para>
         </maml:description>
-        <command:parameterValue required="false" variableLength="true">System.Nullable`1[System.Int32]</command:parameterValue>
+        <command:parameterValue required="false" variableLength="true">System.Int32</command:parameterValue>
       </command:parameter>
       <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="Named" aliases="none">
         <maml:name>OpenFileFlushTimeout</maml:name>
         <maml:description>
           <maml:para>Gets or sets the maximum number of seconds before open files are flushed. Zero or negative means disabled.</maml:para>
         </maml:description>
-        <command:parameterValue required="false" variableLength="true">System.Nullable`1[System.Int32]</command:parameterValue>
+        <command:parameterValue required="false" variableLength="true">System.Int32</command:parameterValue>
       </command:parameter>
       <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="Named" aliases="none">
         <maml:name>ReplaceFileContentsOnEachWrite</maml:name>
         <maml:description>
           <maml:para>Gets or sets a value indicating whether to replace file contents on each write instead of appending log message at the end.</maml:para>
         </maml:description>
-        <command:parameterValue required="false" variableLength="true">System.Nullable`1[System.Boolean]</command:parameterValue>
+        <command:parameterValue required="false" variableLength="true">System.Boolean</command:parameterValue>
       </command:parameter>
       <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="Named" aliases="none">
         <maml:name>WriteBom</maml:name>
         <maml:description>
           <maml:para>Gets or sets a value indicating whether to write BOM (byte order mark) in created files.</maml:para>
         </maml:description>
-        <command:parameterValue required="false" variableLength="true">System.Nullable`1[System.Boolean]</command:parameterValue>
+        <command:parameterValue required="false" variableLength="true">System.Boolean</command:parameterValue>
       </command:parameter>
       <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="Named" aliases="none">
         <maml:name>WriteFooterOnArchivingOnly</maml:name>
         <maml:description>
           <maml:para>Gets or sets a value indicating whether the footer should be written only when the file is archived.</maml:para>
         </maml:description>
-        <command:parameterValue required="false" variableLength="true">System.Nullable`1[System.Boolean]</command:parameterValue>
+        <command:parameterValue required="false" variableLength="true">System.Boolean</command:parameterValue>
       </command:parameter>
       <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="Named" aliases="none">
         <maml:name>WriteHeaderWhenInitialFileNotEmpty</maml:name>
         <maml:description>
           <maml:para>Gets or sets whether to write the Header on initial creation of file appender, even if the file is not empty. Default value is false, which means only write header when initial file is empty (Ex. ensures valid CSV files).</maml:para>
         </maml:description>
-        <command:parameterValue required="false" variableLength="true">System.Nullable`1[System.Boolean]</command:parameterValue>
+        <command:parameterValue required="false" variableLength="true">System.Boolean</command:parameterValue>
       </command:parameter>
     </command:parameters>
     <command:inputTypes>
@@ -2212,7 +2300,7 @@ $logger.WithProperty('EventID', 42).Info('Hello World!')
           <dev:name>System.Int64</dev:name>
         </dev:type>
         <maml:description>
-          <maml:para>You can pipe an **Int64** value to this cmdlet.</maml:para>
+          <maml:para>You can pipe objects with an ArchiveAboveSize property that specifies the size in bytes above which log files are archived.</maml:para>
         </maml:description>
       </command:inputType>
       <command:inputType>
@@ -2220,7 +2308,7 @@ $logger.WithProperty('EventID', 42).Info('Hello World!')
           <dev:name>NLog.Targets.FileArchivePeriod</dev:name>
         </dev:type>
         <maml:description>
-          <maml:para>You can pipe a **FileArchivePeriod** value to this cmdlet.</maml:para>
+          <maml:para>You can pipe objects with an ArchiveEvery property that specifies the archive period for moving the active file.</maml:para>
         </maml:description>
       </command:inputType>
       <command:inputType>
@@ -2228,7 +2316,7 @@ $logger.WithProperty('EventID', 42).Info('Hello World!')
           <dev:name>NLog.Layouts.Layout</dev:name>
         </dev:type>
         <maml:description>
-          <maml:para>You can pipe an **NLog.Layouts.Layout** object to this cmdlet.</maml:para>
+          <maml:para>You can pipe objects with an ArchiveFileName property that specifies the archive file name layout.</maml:para>
         </maml:description>
       </command:inputType>
       <command:inputType>
@@ -2236,7 +2324,7 @@ $logger.WithProperty('EventID', 42).Info('Hello World!')
           <dev:name>System.Boolean</dev:name>
         </dev:type>
         <maml:description>
-          <maml:para>You can pipe a Boolean value to this cmdlet.</maml:para>
+          <maml:para>You can pipe objects with an ArchiveOldFileOnStartup property that indicates whether existing log files are archived on startup.</maml:para>
         </maml:description>
       </command:inputType>
       <command:inputType>
@@ -2244,7 +2332,15 @@ $logger.WithProperty('EventID', 42).Info('Hello World!')
           <dev:name>System.String</dev:name>
         </dev:type>
         <maml:description>
-          <maml:para>You can pipe a string to this cmdlet.</maml:para>
+          <maml:para>You can pipe objects with an ArchiveSuffixFormat property that specifies the format string for archive sequence numbers.</maml:para>
+        </maml:description>
+      </command:inputType>
+      <command:inputType>
+        <dev:type>
+          <dev:name>System.Boolean</dev:name>
+        </dev:type>
+        <maml:description>
+          <maml:para>You can pipe objects with an AutoFlush property that indicates whether file buffers are flushed after each log message.</maml:para>
         </maml:description>
       </command:inputType>
       <command:inputType>
@@ -2252,7 +2348,39 @@ $logger.WithProperty('EventID', 42).Info('Hello World!')
           <dev:name>System.Int32</dev:name>
         </dev:type>
         <maml:description>
-          <maml:para>You can pipe an **Int32** value to this cmdlet.</maml:para>
+          <maml:para>You can pipe objects with a BufferSize property that specifies the log file buffer size in bytes.</maml:para>
+        </maml:description>
+      </command:inputType>
+      <command:inputType>
+        <dev:type>
+          <dev:name>System.Boolean</dev:name>
+        </dev:type>
+        <maml:description>
+          <maml:para>You can pipe objects with a CreateDirs property that indicates whether missing directories are created.</maml:para>
+        </maml:description>
+      </command:inputType>
+      <command:inputType>
+        <dev:type>
+          <dev:name>System.Boolean</dev:name>
+        </dev:type>
+        <maml:description>
+          <maml:para>You can pipe objects with a DeleteOldFileOnStartup property that indicates whether old log files are deleted on startup.</maml:para>
+        </maml:description>
+      </command:inputType>
+      <command:inputType>
+        <dev:type>
+          <dev:name>System.Boolean</dev:name>
+        </dev:type>
+        <maml:description>
+          <maml:para>You can pipe objects with a DiscardAll property that indicates whether the target discards all data it is asked to write.</maml:para>
+        </maml:description>
+      </command:inputType>
+      <command:inputType>
+        <dev:type>
+          <dev:name>System.Boolean</dev:name>
+        </dev:type>
+        <maml:description>
+          <maml:para>You can pipe objects with an EnableFileDelete property that indicates whether log files can be deleted.</maml:para>
         </maml:description>
       </command:inputType>
       <command:inputType>
@@ -2260,7 +2388,47 @@ $logger.WithProperty('EventID', 42).Info('Hello World!')
           <dev:name>System.Text.Encoding</dev:name>
         </dev:type>
         <maml:description>
-          <maml:para>You can pipe a **System.Text.Encoding** object to this cmdlet.</maml:para>
+          <maml:para>You can pipe objects with an Encoding property that specifies the file encoding.</maml:para>
+        </maml:description>
+      </command:inputType>
+      <command:inputType>
+        <dev:type>
+          <dev:name>NLog.Layouts.Layout</dev:name>
+        </dev:type>
+        <maml:description>
+          <maml:para>You can pipe objects with a FileName property that specifies the file name layout to write to.</maml:para>
+        </maml:description>
+      </command:inputType>
+      <command:inputType>
+        <dev:type>
+          <dev:name>NLog.Layouts.Layout</dev:name>
+        </dev:type>
+        <maml:description>
+          <maml:para>You can pipe objects with a Footer property that specifies the footer layout.</maml:para>
+        </maml:description>
+      </command:inputType>
+      <command:inputType>
+        <dev:type>
+          <dev:name>NLog.Layouts.Layout</dev:name>
+        </dev:type>
+        <maml:description>
+          <maml:para>You can pipe objects with a Header property that specifies the header layout.</maml:para>
+        </maml:description>
+      </command:inputType>
+      <command:inputType>
+        <dev:type>
+          <dev:name>System.Boolean</dev:name>
+        </dev:type>
+        <maml:description>
+          <maml:para>You can pipe objects with a KeepFileOpen property that indicates whether the log file stays open between logging events.</maml:para>
+        </maml:description>
+      </command:inputType>
+      <command:inputType>
+        <dev:type>
+          <dev:name>NLog.Layouts.Layout</dev:name>
+        </dev:type>
+        <maml:description>
+          <maml:para>You can pipe objects with a Layout property that specifies the log message layout.</maml:para>
         </maml:description>
       </command:inputType>
       <command:inputType>
@@ -2268,7 +2436,87 @@ $logger.WithProperty('EventID', 42).Info('Hello World!')
           <dev:name>NLog.Targets.LineEndingMode</dev:name>
         </dev:type>
         <maml:description>
-          <maml:para>You can pipe a **LineEndingMode** value to this cmdlet.</maml:para>
+          <maml:para>You can pipe objects with a LineEnding property that specifies the line ending mode.</maml:para>
+        </maml:description>
+      </command:inputType>
+      <command:inputType>
+        <dev:type>
+          <dev:name>System.Int32</dev:name>
+        </dev:type>
+        <maml:description>
+          <maml:para>You can pipe objects with a MaxArchiveDays property that specifies how many days of archive files to keep.</maml:para>
+        </maml:description>
+      </command:inputType>
+      <command:inputType>
+        <dev:type>
+          <dev:name>System.Int32</dev:name>
+        </dev:type>
+        <maml:description>
+          <maml:para>You can pipe objects with a MaxArchiveFiles property that specifies how many archive files to keep.</maml:para>
+        </maml:description>
+      </command:inputType>
+      <command:inputType>
+        <dev:type>
+          <dev:name>System.String</dev:name>
+        </dev:type>
+        <maml:description>
+          <maml:para>You can pipe objects with a Name property that specifies the target name.</maml:para>
+        </maml:description>
+      </command:inputType>
+      <command:inputType>
+        <dev:type>
+          <dev:name>System.Int32</dev:name>
+        </dev:type>
+        <maml:description>
+          <maml:para>You can pipe objects with an OpenFileCacheSize property that specifies how many files to keep open.</maml:para>
+        </maml:description>
+      </command:inputType>
+      <command:inputType>
+        <dev:type>
+          <dev:name>System.Int32</dev:name>
+        </dev:type>
+        <maml:description>
+          <maml:para>You can pipe objects with an OpenFileCacheTimeout property that specifies how many seconds files are kept open.</maml:para>
+        </maml:description>
+      </command:inputType>
+      <command:inputType>
+        <dev:type>
+          <dev:name>System.Int32</dev:name>
+        </dev:type>
+        <maml:description>
+          <maml:para>You can pipe objects with an OpenFileFlushTimeout property that specifies how many seconds pass before open files are flushed.</maml:para>
+        </maml:description>
+      </command:inputType>
+      <command:inputType>
+        <dev:type>
+          <dev:name>System.Boolean</dev:name>
+        </dev:type>
+        <maml:description>
+          <maml:para>You can pipe objects with a ReplaceFileContentsOnEachWrite property that indicates whether each write replaces the file contents.</maml:para>
+        </maml:description>
+      </command:inputType>
+      <command:inputType>
+        <dev:type>
+          <dev:name>System.Boolean</dev:name>
+        </dev:type>
+        <maml:description>
+          <maml:para>You can pipe objects with a WriteBom property that indicates whether to write a byte order mark in created files.</maml:para>
+        </maml:description>
+      </command:inputType>
+      <command:inputType>
+        <dev:type>
+          <dev:name>System.Boolean</dev:name>
+        </dev:type>
+        <maml:description>
+          <maml:para>You can pipe objects with a WriteFooterOnArchivingOnly property that indicates whether the footer is written only when the file is archived.</maml:para>
+        </maml:description>
+      </command:inputType>
+      <command:inputType>
+        <dev:type>
+          <dev:name>System.Boolean</dev:name>
+        </dev:type>
+        <maml:description>
+          <maml:para>You can pipe objects with a WriteHeaderWhenInitialFileNotEmpty property that indicates whether the header is written when the initial file is not empty.</maml:para>
         </maml:description>
       </command:inputType>
     </command:inputTypes>
@@ -2278,7 +2526,7 @@ $logger.WithProperty('EventID', 42).Info('Hello World!')
           <dev:name>NLog.Targets.FileTarget</dev:name>
         </dev:type>
         <maml:description>
-          <maml:para>This cmdlet returns an **NLog.Targets.FileTarget** object.</maml:para>
+          <maml:para>Returns a new file target.</maml:para>
         </maml:description>
       </command:returnValue>
     </command:returnValues>
@@ -2357,7 +2605,7 @@ $logger = Get-NLogLogger -Name MyLogger
           <dev:name>System.String</dev:name>
         </dev:type>
         <maml:description>
-          <maml:para>You can pipe the path to an XML configuration file to this cmdlet.</maml:para>
+          <maml:para>You can pipe the path to an XML configuration file.</maml:para>
         </maml:description>
       </command:inputType>
     </command:inputTypes>
@@ -2367,7 +2615,7 @@ $logger = Get-NLogLogger -Name MyLogger
           <dev:name>NLog.Config.LoggingConfiguration</dev:name>
         </dev:type>
         <maml:description>
-          <maml:para>This cmdlet returns an **NLog.Config.LoggingConfiguration** object.</maml:para>
+          <maml:para>Returns a new logging configuration.</maml:para>
         </maml:description>
       </command:returnValue>
     </command:returnValues>
@@ -2584,10 +2832,10 @@ $configuration = New-NLogLoggingConfiguration -Path 'x:\path\NLog.config'
     <command:inputTypes>
       <command:inputType>
         <dev:type>
-          <dev:name>NLog.Targets.Target</dev:name>
+          <dev:name>System.Management.Automation.SwitchParameter</dev:name>
         </dev:type>
         <maml:description>
-          <maml:para>You can pipe an **NLog.Targets.Target** object to this cmdlet.</maml:para>
+          <maml:para>You can pipe objects with a Final property that indicates whether rule processing stops when this rule matches.</maml:para>
         </maml:description>
       </command:inputType>
       <command:inputType>
@@ -2595,7 +2843,7 @@ $configuration = New-NLogLoggingConfiguration -Path 'x:\path\NLog.config'
           <dev:name>System.String</dev:name>
         </dev:type>
         <maml:description>
-          <maml:para>You can pipe a string to this cmdlet.</maml:para>
+          <maml:para>You can pipe the logger name pattern.</maml:para>
         </maml:description>
       </command:inputType>
       <command:inputType>
@@ -2603,15 +2851,31 @@ $configuration = New-NLogLoggingConfiguration -Path 'x:\path\NLog.config'
           <dev:name>NLog.LogLevel</dev:name>
         </dev:type>
         <maml:description>
-          <maml:para>You can pipe an **NLog.LogLevel** object to this cmdlet.</maml:para>
+          <maml:para>You can pipe the maximum log level needed to trigger the rule.</maml:para>
         </maml:description>
       </command:inputType>
       <command:inputType>
         <dev:type>
-          <dev:name>System.Management.Automation.SwitchParameter</dev:name>
+          <dev:name>NLog.LogLevel</dev:name>
         </dev:type>
         <maml:description>
-          <maml:para>You can pipe a **SwitchParameter** value to this cmdlet.</maml:para>
+          <maml:para>You can pipe the minimum log level needed to trigger the rule.</maml:para>
+        </maml:description>
+      </command:inputType>
+      <command:inputType>
+        <dev:type>
+          <dev:name>System.String</dev:name>
+        </dev:type>
+        <maml:description>
+          <maml:para>You can pipe the rule name.</maml:para>
+        </maml:description>
+      </command:inputType>
+      <command:inputType>
+        <dev:type>
+          <dev:name>NLog.Targets.Target</dev:name>
+        </dev:type>
+        <maml:description>
+          <maml:para>You can pipe the target to write to when the rule matches.</maml:para>
         </maml:description>
       </command:inputType>
     </command:inputTypes>
@@ -2621,7 +2885,7 @@ $configuration = New-NLogLoggingConfiguration -Path 'x:\path\NLog.config'
           <dev:name>NLog.Config.LoggingRule</dev:name>
         </dev:type>
         <maml:description>
-          <maml:para>This cmdlet returns an **NLog.Config.LoggingRule** object.</maml:para>
+          <maml:para>Returns a new logging rule.</maml:para>
         </maml:description>
       </command:returnValue>
     </command:returnValues>
@@ -2733,10 +2997,10 @@ Add-NLogLoggingRule -Configuration $configuration -Rule $rule
     <command:inputTypes>
       <command:inputType>
         <dev:type>
-          <dev:name>NLog.Config.LoggingRule</dev:name>
+          <dev:name>NLog.Config.LoggingConfiguration</dev:name>
         </dev:type>
         <maml:description>
-          <maml:para>You can pipe an **NLog.Config.LoggingRule** object to this cmdlet.</maml:para>
+          <maml:para>You can pipe the configuration to modify.</maml:para>
         </maml:description>
       </command:inputType>
       <command:inputType>
@@ -2744,22 +3008,22 @@ Add-NLogLoggingRule -Configuration $configuration -Rule $rule
           <dev:name>System.String</dev:name>
         </dev:type>
         <maml:description>
-          <maml:para>You can pipe the rule name to this cmdlet.</maml:para>
+          <maml:para>You can pipe the name of the rule to remove.</maml:para>
         </maml:description>
       </command:inputType>
       <command:inputType>
         <dev:type>
-          <dev:name>NLog.Config.LoggingConfiguration</dev:name>
+          <dev:name>NLog.Config.LoggingRule</dev:name>
         </dev:type>
         <maml:description>
-          <maml:para>You can pipe an **NLog.Config.LoggingConfiguration** object to this cmdlet.</maml:para>
+          <maml:para>You can pipe the rule to remove.</maml:para>
         </maml:description>
       </command:inputType>
     </command:inputTypes>
     <command:returnValues>
       <command:returnValue>
         <dev:type>
-          <dev:name>NLog.Config.LoggingConfiguration</dev:name>
+          <dev:name>None</dev:name>
         </dev:type>
         <maml:description>
           <maml:para>This cmdlet does not generate any output.</maml:para>
@@ -2896,10 +3160,10 @@ Remove-NLogLoggingRule -Configuration $configuration -Rule $rule
     <command:inputTypes>
       <command:inputType>
         <dev:type>
-          <dev:name>NLog.Targets.Target</dev:name>
+          <dev:name>NLog.Config.LoggingConfiguration</dev:name>
         </dev:type>
         <maml:description>
-          <maml:para>You can pipe an **NLog.Targets.Target** object to this cmdlet.</maml:para>
+          <maml:para>You can pipe the configuration to modify.</maml:para>
         </maml:description>
       </command:inputType>
       <command:inputType>
@@ -2907,15 +3171,15 @@ Remove-NLogLoggingRule -Configuration $configuration -Rule $rule
           <dev:name>System.String</dev:name>
         </dev:type>
         <maml:description>
-          <maml:para>You can pipe the target name to this cmdlet.</maml:para>
+          <maml:para>You can pipe the name of the target to remove.</maml:para>
         </maml:description>
       </command:inputType>
       <command:inputType>
         <dev:type>
-          <dev:name>NLog.Config.LoggingConfiguration</dev:name>
+          <dev:name>NLog.Targets.Target</dev:name>
         </dev:type>
         <maml:description>
-          <maml:para>You can pipe an **NLog.Config.LoggingConfiguration** object to this cmdlet.</maml:para>
+          <maml:para>You can pipe the target to remove.</maml:para>
         </maml:description>
       </command:inputType>
     </command:inputTypes>
@@ -2925,7 +3189,7 @@ Remove-NLogLoggingRule -Configuration $configuration -Rule $rule
           <dev:name>NLog.Config.LoggingConfiguration</dev:name>
         </dev:type>
         <maml:description>
-          <maml:para>When you use the **PassThru** parameter, this cmdlet returns the **NLog.Config.LoggingConfiguration** object. Otherwise, this cmdlet does not generate any output.</maml:para>
+          <maml:para>Returns the updated logging configuration when you use the **PassThru** parameter. Otherwise, this cmdlet does not generate any output.</maml:para>
         </maml:description>
       </command:returnValue>
     </command:returnValues>
@@ -2986,7 +3250,7 @@ Remove-NLogTarget -Configuration $configuration -Target $target
     <command:returnValues>
       <command:returnValue>
         <dev:type>
-          <dev:name>System.Object</dev:name>
+          <dev:name>None</dev:name>
         </dev:type>
         <maml:description>
           <maml:para>This cmdlet does not generate any output.</maml:para>

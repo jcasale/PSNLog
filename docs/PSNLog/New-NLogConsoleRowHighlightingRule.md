@@ -1,10 +1,10 @@
----
+﻿---
 document type: cmdlet
 external help file: PSNLog.dll-Help.xml
 HelpUri: ''
 Locale: en-US
 Module Name: PSNLog
-ms.date: 05-17-2026
+ms.date: 06-13-2026
 PlatyPS schema version: 2024-05-01
 title: New-NLogConsoleRowHighlightingRule
 ---
@@ -23,6 +23,11 @@ Creates a colored console row highlighting rule.
 New-NLogConsoleRowHighlightingRule [-BackgroundColor <ConsoleOutputColor>]
  [-Condition <ConditionExpression>] [-ForegroundColor <ConsoleOutputColor>] [<CommonParameters>]
 ```
+
+## ALIASES
+
+None.
+
 
 ## DESCRIPTION
 
@@ -49,7 +54,7 @@ This example creates a row highlighting rule that displays Fatal log entries wit
 Gets or sets the background color.
 
 ```yaml
-Type: System.Nullable`1[NLog.Targets.ConsoleOutputColor]
+Type: NLog.Targets.ConsoleOutputColor
 DefaultValue: ''
 SupportsWildcards: false
 Aliases: []
@@ -91,7 +96,7 @@ HelpMessage: ''
 Gets or sets the foreground color.
 
 ```yaml
-Type: System.Nullable`1[NLog.Targets.ConsoleOutputColor]
+Type: NLog.Targets.ConsoleOutputColor
 DefaultValue: ''
 SupportsWildcards: false
 Aliases: []
@@ -118,17 +123,21 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 
 ### NLog.Targets.ConsoleOutputColor
 
-You can pipe a **ConsoleOutputColor** value to this cmdlet.
+You can pipe objects with a BackgroundColor property that specifies the background color.
 
 ### NLog.Conditions.ConditionExpression
 
-You can pipe an **NLog.Conditions.ConditionExpression** object to this cmdlet.
+You can pipe objects with a Condition property that specifies the condition required to apply the configured colors.
+
+### NLog.Targets.ConsoleOutputColor
+
+You can pipe objects with a ForegroundColor property that specifies the foreground color.
 
 ## OUTPUTS
 
 ### NLog.Targets.ConsoleRowHighlightingRule
 
-This cmdlet returns an **NLog.Targets.ConsoleRowHighlightingRule** object.
+Returns a new console row highlighting rule.
 
 ## NOTES
 
