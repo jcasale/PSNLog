@@ -1,10 +1,10 @@
----
+﻿---
 document type: cmdlet
 external help file: PSNLog.dll-Help.xml
 HelpUri: ''
 Locale: en-US
 Module Name: PSNLog
-ms.date: 05-17-2026
+ms.date: 06-13-2026
 PlatyPS schema version: 2024-05-01
 title: Add-NLogLoggingConfiguration
 ---
@@ -23,6 +23,11 @@ Adds the specified configuration to the current logging configuration.
 Add-NLogLoggingConfiguration [-Configuration] <LoggingConfiguration> [-PassThru]
  [<CommonParameters>]
 ```
+
+## ALIASES
+
+None.
+
 
 ## DESCRIPTION
 
@@ -104,13 +109,13 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 
 ### NLog.Config.LoggingConfiguration
 
-You can pipe an **NLog.Config.LoggingConfiguration** object to this cmdlet.
+You can pipe the configuration to apply.
 
 ## OUTPUTS
 
 ### NLog.Config.LoggingConfiguration
 
-When you use the **PassThru** parameter, this cmdlet returns the **NLog.Config.LoggingConfiguration** object. Otherwise, this cmdlet does not generate any output.
+Returns the applied logging configuration when you use the **PassThru** parameter. Otherwise, this cmdlet does not generate any output.
 
 ## NOTES
 

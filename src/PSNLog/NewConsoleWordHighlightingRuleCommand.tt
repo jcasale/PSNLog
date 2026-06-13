@@ -24,10 +24,6 @@ public class NewConsoleWordHighlightingRuleCommand : PSCmdlet
         {
             Write("[]");
         }
-        else if (property.Type.IsValueType)
-        {
-            Write("?");
-        }
 
         WriteLine(" {0} {{ get; set; }}", property.Name);
         WriteLine(string.Empty);
@@ -40,31 +36,34 @@ public class NewConsoleWordHighlightingRuleCommand : PSCmdlet
 <#
         foreach (var property in properties)
         {
+            WriteLine("        if (MyInvocation.BoundParameters.ContainsKey(nameof({0})))", property.Name);
+            WriteLine("        {");
+
             if (property.IsCollection)
             {
-                WriteLine("        if ({0} is {{ Length: > 0 }})", property.Name);
-                WriteLine("        {");
-                WriteLine("            instance.{0} = [];", property.Name);
-                WriteLine("            foreach (var item in {0})", property.Name);
+                WriteLine("            if ({0} is {{ Length: > 0 }})", property.Name);
                 WriteLine("            {");
-                WriteLine("                instance.{0}.Add(item);", property.Name);
+
+                if (property.HasSetMethod)
+                {
+                    WriteLine("                instance.{0} = [.. {0}];", property.Name);
+                }
+                else
+                {
+                    WriteLine("                foreach (var item in {0})", property.Name);
+                    WriteLine("                {");
+                    WriteLine("                    instance.{0}.Add(item);", property.Name);
+                    WriteLine("                }");
+                }
+
                 WriteLine("            }");
-                WriteLine("        }");
-            }
-            else if (property.Type.IsValueType)
-            {
-                WriteLine("        if ({0}.HasValue)", property.Name);
-                WriteLine("        {");
-                WriteLine("            instance.{0} = {0}.Value;", property.Name);
-                WriteLine("        }");
             }
             else
             {
-                WriteLine("        if ({0} is not null)", property.Name);
-                WriteLine("        {");
                 WriteLine("            instance.{0} = {0};", property.Name);
-                WriteLine("        }");
             }
+
+            WriteLine("        }");
 
             WriteLine(string.Empty);
         }

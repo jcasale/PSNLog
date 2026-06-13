@@ -9,22 +9,22 @@ public class NewColoredConsoleTargetCommand : PSCmdlet
     [Parameter(
         ValueFromPipelineByPropertyName = true,
         HelpMessage = "Gets or sets a value indicating whether to auto-flush after M:System.Console.WriteLine.")]
-    public bool? AutoFlush { get; set; }
+    public bool AutoFlush { get; set; }
 
     [Parameter(
         ValueFromPipelineByPropertyName = true,
         HelpMessage = "Gets or sets a value indicating whether to auto-check if the console is available. - Disables console writing if Environment.UserInteractive = false (Windows Service) - Disables console writing if Console Standard Input is not available (Non-Console-App).")]
-    public bool? DetectConsoleAvailable { get; set; }
+    public bool DetectConsoleAvailable { get; set; }
 
     [Parameter(
         ValueFromPipelineByPropertyName = true,
         HelpMessage = "Gets or sets a value indicating whether to auto-check if the console has been redirected to file - Disables coloring logic when System.Console.IsOutputRedirected = true.")]
-    public bool? DetectOutputRedirected { get; set; }
+    public bool DetectOutputRedirected { get; set; }
 
     [Parameter(
         ValueFromPipelineByPropertyName = true,
         HelpMessage = "Enables output using ANSI Color Codes.")]
-    public bool? EnableAnsiOutput { get; set; }
+    public bool EnableAnsiOutput { get; set; }
 
     [Parameter(
         ValueFromPipelineByPropertyName = true,
@@ -69,7 +69,7 @@ public class NewColoredConsoleTargetCommand : PSCmdlet
     [Parameter(
         ValueFromPipelineByPropertyName = true,
         HelpMessage = "Gets or sets a value indicating whether to use default row highlighting rules.")]
-    public bool? UseDefaultRowHighlightingRules { get; set; }
+    public bool UseDefaultRowHighlightingRules { get; set; }
 
     [Parameter(
         ValueFromPipelineByPropertyName = true,
@@ -80,79 +80,85 @@ public class NewColoredConsoleTargetCommand : PSCmdlet
     {
         var instance = new NLog.Targets.ColoredConsoleTarget();
 
-        if (AutoFlush.HasValue)
+        if (MyInvocation.BoundParameters.ContainsKey(nameof(AutoFlush)))
         {
-            instance.AutoFlush = AutoFlush.Value;
+            instance.AutoFlush = AutoFlush;
         }
 
-        if (DetectConsoleAvailable.HasValue)
+        if (MyInvocation.BoundParameters.ContainsKey(nameof(DetectConsoleAvailable)))
         {
-            instance.DetectConsoleAvailable = DetectConsoleAvailable.Value;
+            instance.DetectConsoleAvailable = DetectConsoleAvailable;
         }
 
-        if (DetectOutputRedirected.HasValue)
+        if (MyInvocation.BoundParameters.ContainsKey(nameof(DetectOutputRedirected)))
         {
-            instance.DetectOutputRedirected = DetectOutputRedirected.Value;
+            instance.DetectOutputRedirected = DetectOutputRedirected;
         }
 
-        if (EnableAnsiOutput.HasValue)
+        if (MyInvocation.BoundParameters.ContainsKey(nameof(EnableAnsiOutput)))
         {
-            instance.EnableAnsiOutput = EnableAnsiOutput.Value;
+            instance.EnableAnsiOutput = EnableAnsiOutput;
         }
 
-        if (Encoding is not null)
+        if (MyInvocation.BoundParameters.ContainsKey(nameof(Encoding)))
         {
             instance.Encoding = Encoding;
         }
 
-        if (Footer is not null)
+        if (MyInvocation.BoundParameters.ContainsKey(nameof(Footer)))
         {
             instance.Footer = Footer;
         }
 
-        if (Header is not null)
+        if (MyInvocation.BoundParameters.ContainsKey(nameof(Header)))
         {
             instance.Header = Header;
         }
 
-        if (Layout is not null)
+        if (MyInvocation.BoundParameters.ContainsKey(nameof(Layout)))
         {
             instance.Layout = Layout;
         }
 
-        if (Name is not null)
+        if (MyInvocation.BoundParameters.ContainsKey(nameof(Name)))
         {
             instance.Name = Name;
         }
 
-        if (NoColor is not null)
+        if (MyInvocation.BoundParameters.ContainsKey(nameof(NoColor)))
         {
             instance.NoColor = NoColor;
         }
 
-        if (RowHighlightingRules is { Length: > 0 })
+        if (MyInvocation.BoundParameters.ContainsKey(nameof(RowHighlightingRules)))
         {
-            foreach (var item in RowHighlightingRules)
+            if (RowHighlightingRules is { Length: > 0 })
             {
-                instance.RowHighlightingRules.Add(item);
+                foreach (var item in RowHighlightingRules)
+                {
+                    instance.RowHighlightingRules.Add(item);
+                }
             }
         }
 
-        if (StdErr is not null)
+        if (MyInvocation.BoundParameters.ContainsKey(nameof(StdErr)))
         {
             instance.StdErr = StdErr;
         }
 
-        if (UseDefaultRowHighlightingRules.HasValue)
+        if (MyInvocation.BoundParameters.ContainsKey(nameof(UseDefaultRowHighlightingRules)))
         {
-            instance.UseDefaultRowHighlightingRules = UseDefaultRowHighlightingRules.Value;
+            instance.UseDefaultRowHighlightingRules = UseDefaultRowHighlightingRules;
         }
 
-        if (WordHighlightingRules is { Length: > 0 })
+        if (MyInvocation.BoundParameters.ContainsKey(nameof(WordHighlightingRules)))
         {
-            foreach (var item in WordHighlightingRules)
+            if (WordHighlightingRules is { Length: > 0 })
             {
-                instance.WordHighlightingRules.Add(item);
+                foreach (var item in WordHighlightingRules)
+                {
+                    instance.WordHighlightingRules.Add(item);
+                }
             }
         }
 

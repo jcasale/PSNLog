@@ -1,10 +1,10 @@
----
+﻿---
 document type: cmdlet
 external help file: PSNLog.dll-Help.xml
 HelpUri: ''
 Locale: en-US
 Module Name: PSNLog
-ms.date: 05-17-2026
+ms.date: 06-13-2026
 PlatyPS schema version: 2024-05-01
 title: Add-NLogLoggingRule
 ---
@@ -23,6 +23,11 @@ Adds the specified logging rule to the specified configuration.
 Add-NLogLoggingRule [-Rule] <LoggingRule> [-Configuration] <LoggingConfiguration> [-PassThru]
  [<CommonParameters>]
 ```
+
+## ALIASES
+
+None.
+
 
 ## DESCRIPTION
 
@@ -121,19 +126,19 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 
 ## INPUTS
 
-### NLog.Config.LoggingRule
-
-You can pipe an **NLog.Config.LoggingRule** object to this cmdlet.
-
 ### NLog.Config.LoggingConfiguration
 
-You can pipe an **NLog.Config.LoggingConfiguration** object to this cmdlet.
+You can pipe the configuration to update.
+
+### NLog.Config.LoggingRule
+
+You can pipe the rule to add.
 
 ## OUTPUTS
 
 ### NLog.Config.LoggingConfiguration
 
-When you use the **PassThru** parameter, this cmdlet returns the **NLog.Config.LoggingConfiguration** object. Otherwise, this cmdlet does not generate any output.
+Returns the updated logging configuration when you use the **PassThru** parameter. Otherwise, this cmdlet does not generate any output.
 
 ## NOTES
 

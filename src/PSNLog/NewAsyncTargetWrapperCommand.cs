@@ -9,17 +9,17 @@ public class NewAsyncTargetWrapperCommand : PSCmdlet
     [Parameter(
         ValueFromPipelineByPropertyName = true,
         HelpMessage = "Gets or sets the number of log events that should be processed in a batch by the lazy writer thread.")]
-    public int? BatchSize { get; set; }
+    public int BatchSize { get; set; }
 
     [Parameter(
         ValueFromPipelineByPropertyName = true,
         HelpMessage = "Gets or sets whether to use the locking queue, instead of a lock-free concurrent queue.")]
-    public bool? ForceLockingQueue { get; set; }
+    public bool ForceLockingQueue { get; set; }
 
     [Parameter(
         ValueFromPipelineByPropertyName = true,
         HelpMessage = "Gets or sets the number of batches of P:NLog.Targets.Wrappers.AsyncTargetWrapper.BatchSize to write before yielding into P:NLog.Targets.Wrappers.AsyncTargetWrapper.TimeToSleepBetweenBatches.")]
-    public int? FullBatchSizeWriteLimit { get; set; }
+    public int FullBatchSizeWriteLimit { get; set; }
 
     [Parameter(
         ValueFromPipelineByPropertyName = true,
@@ -29,17 +29,17 @@ public class NewAsyncTargetWrapperCommand : PSCmdlet
     [Parameter(
         ValueFromPipelineByPropertyName = true,
         HelpMessage = "Gets or sets the action to be taken when the lazy writer thread request queue count exceeds the set limit.")]
-    public NLog.Targets.Wrappers.AsyncTargetWrapperOverflowAction? OverflowAction { get; set; }
+    public NLog.Targets.Wrappers.AsyncTargetWrapperOverflowAction OverflowAction { get; set; }
 
     [Parameter(
         ValueFromPipelineByPropertyName = true,
         HelpMessage = "Gets or sets the limit on the number of requests in the lazy writer thread request queue.")]
-    public int? QueueLimit { get; set; }
+    public int QueueLimit { get; set; }
 
     [Parameter(
         ValueFromPipelineByPropertyName = true,
         HelpMessage = "Gets or sets the time in milliseconds to sleep between batches. (1 or less means trigger on new activity).")]
-    public int? TimeToSleepBetweenBatches { get; set; }
+    public int TimeToSleepBetweenBatches { get; set; }
 
     [Parameter(
         ValueFromPipelineByPropertyName = true,
@@ -50,42 +50,42 @@ public class NewAsyncTargetWrapperCommand : PSCmdlet
     {
         var instance = new NLog.Targets.Wrappers.AsyncTargetWrapper();
 
-        if (BatchSize.HasValue)
+        if (MyInvocation.BoundParameters.ContainsKey(nameof(BatchSize)))
         {
-            instance.BatchSize = BatchSize.Value;
+            instance.BatchSize = BatchSize;
         }
 
-        if (ForceLockingQueue.HasValue)
+        if (MyInvocation.BoundParameters.ContainsKey(nameof(ForceLockingQueue)))
         {
-            instance.ForceLockingQueue = ForceLockingQueue.Value;
+            instance.ForceLockingQueue = ForceLockingQueue;
         }
 
-        if (FullBatchSizeWriteLimit.HasValue)
+        if (MyInvocation.BoundParameters.ContainsKey(nameof(FullBatchSizeWriteLimit)))
         {
-            instance.FullBatchSizeWriteLimit = FullBatchSizeWriteLimit.Value;
+            instance.FullBatchSizeWriteLimit = FullBatchSizeWriteLimit;
         }
 
-        if (Name is not null)
+        if (MyInvocation.BoundParameters.ContainsKey(nameof(Name)))
         {
             instance.Name = Name;
         }
 
-        if (OverflowAction.HasValue)
+        if (MyInvocation.BoundParameters.ContainsKey(nameof(OverflowAction)))
         {
-            instance.OverflowAction = OverflowAction.Value;
+            instance.OverflowAction = OverflowAction;
         }
 
-        if (QueueLimit.HasValue)
+        if (MyInvocation.BoundParameters.ContainsKey(nameof(QueueLimit)))
         {
-            instance.QueueLimit = QueueLimit.Value;
+            instance.QueueLimit = QueueLimit;
         }
 
-        if (TimeToSleepBetweenBatches.HasValue)
+        if (MyInvocation.BoundParameters.ContainsKey(nameof(TimeToSleepBetweenBatches)))
         {
-            instance.TimeToSleepBetweenBatches = TimeToSleepBetweenBatches.Value;
+            instance.TimeToSleepBetweenBatches = TimeToSleepBetweenBatches;
         }
 
-        if (WrappedTarget is not null)
+        if (MyInvocation.BoundParameters.ContainsKey(nameof(WrappedTarget)))
         {
             instance.WrappedTarget = WrappedTarget;
         }

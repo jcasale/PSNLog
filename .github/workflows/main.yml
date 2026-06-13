@@ -98,13 +98,6 @@ jobs:
       - name: Validate installer
         run: wix.exe msi validate -sice ICE61 ps-nlog.msi
 
-      - name: Upload doc artifacts
-        uses: actions/upload-artifact@v7
-        with:
-          name: docs
-          path: ./docs/
-          if-no-files-found: error
-
       - name: Upload msi artifacts
         uses: actions/upload-artifact@v7
         with:

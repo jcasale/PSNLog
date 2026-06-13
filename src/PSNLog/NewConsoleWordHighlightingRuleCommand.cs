@@ -9,7 +9,7 @@ public class NewConsoleWordHighlightingRuleCommand : PSCmdlet
     [Parameter(
         ValueFromPipelineByPropertyName = true,
         HelpMessage = "Gets or sets the background color.")]
-    public NLog.Targets.ConsoleOutputColor? BackgroundColor { get; set; }
+    public NLog.Targets.ConsoleOutputColor BackgroundColor { get; set; }
 
     [Parameter(
         ValueFromPipelineByPropertyName = true,
@@ -19,12 +19,12 @@ public class NewConsoleWordHighlightingRuleCommand : PSCmdlet
     [Parameter(
         ValueFromPipelineByPropertyName = true,
         HelpMessage = "Gets or sets the foreground color.")]
-    public NLog.Targets.ConsoleOutputColor? ForegroundColor { get; set; }
+    public NLog.Targets.ConsoleOutputColor ForegroundColor { get; set; }
 
     [Parameter(
         ValueFromPipelineByPropertyName = true,
         HelpMessage = "Gets or sets a value indicating whether to ignore case when comparing texts.")]
-    public bool? IgnoreCase { get; set; }
+    public bool IgnoreCase { get; set; }
 
     [Parameter(
         ValueFromPipelineByPropertyName = true,
@@ -34,7 +34,7 @@ public class NewConsoleWordHighlightingRuleCommand : PSCmdlet
     [Parameter(
         ValueFromPipelineByPropertyName = true,
         HelpMessage = "Gets or sets a value indicating whether to match whole words only.")]
-    public bool? WholeWords { get; set; }
+    public bool WholeWords { get; set; }
 
     [Parameter(
         ValueFromPipelineByPropertyName = true,
@@ -45,42 +45,41 @@ public class NewConsoleWordHighlightingRuleCommand : PSCmdlet
     {
         var instance = new NLog.Targets.ConsoleWordHighlightingRule();
 
-        if (BackgroundColor.HasValue)
+        if (MyInvocation.BoundParameters.ContainsKey(nameof(BackgroundColor)))
         {
-            instance.BackgroundColor = BackgroundColor.Value;
+            instance.BackgroundColor = BackgroundColor;
         }
 
-        if (Condition is not null)
+        if (MyInvocation.BoundParameters.ContainsKey(nameof(Condition)))
         {
             instance.Condition = Condition;
         }
 
-        if (ForegroundColor.HasValue)
+        if (MyInvocation.BoundParameters.ContainsKey(nameof(ForegroundColor)))
         {
-            instance.ForegroundColor = ForegroundColor.Value;
+            instance.ForegroundColor = ForegroundColor;
         }
 
-        if (IgnoreCase.HasValue)
+        if (MyInvocation.BoundParameters.ContainsKey(nameof(IgnoreCase)))
         {
-            instance.IgnoreCase = IgnoreCase.Value;
+            instance.IgnoreCase = IgnoreCase;
         }
 
-        if (Text is not null)
+        if (MyInvocation.BoundParameters.ContainsKey(nameof(Text)))
         {
             instance.Text = Text;
         }
 
-        if (WholeWords.HasValue)
+        if (MyInvocation.BoundParameters.ContainsKey(nameof(WholeWords)))
         {
-            instance.WholeWords = WholeWords.Value;
+            instance.WholeWords = WholeWords;
         }
 
-        if (Words is { Length: > 0 })
+        if (MyInvocation.BoundParameters.ContainsKey(nameof(Words)))
         {
-            instance.Words = [];
-            foreach (var item in Words)
+            if (Words is { Length: > 0 })
             {
-                instance.Words.Add(item);
+                instance.Words = [.. Words];
             }
         }
 

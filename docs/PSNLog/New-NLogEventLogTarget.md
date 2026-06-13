@@ -1,10 +1,10 @@
----
+﻿---
 document type: cmdlet
 external help file: PSNLog.dll-Help.xml
 HelpUri: ''
 Locale: en-US
 Module Name: PSNLog
-ms.date: 05-17-2026
+ms.date: 06-13-2026
 PlatyPS schema version: 2024-05-01
 title: New-NLogEventLogTarget
 ---
@@ -25,6 +25,11 @@ New-NLogEventLogTarget [-Category <Layout`1[short]>] [-EntryType <Layout`1[Event
  [-MaxKilobytes <Layout`1[long]>] [-MaxMessageLength <Layout`1[int]>] [-Name <string>]
  [-OnOverflow <EventLogTargetOverflowAction>] [-Source <Layout>] [<CommonParameters>]
 ```
+
+## ALIASES
+
+None.
+
 
 ## DESCRIPTION
 
@@ -246,7 +251,7 @@ HelpMessage: ''
 Gets or sets the action to take if the message is larger than the P:NLog.Targets.EventLogTarget.MaxMessageLength option.
 
 ```yaml
-Type: System.Nullable`1[NLog.Targets.EventLogTargetOverflowAction]
+Type: NLog.Targets.EventLogTargetOverflowAction
 DefaultValue: ''
 SupportsWildcards: false
 Aliases: []
@@ -292,55 +297,55 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 
 ## INPUTS
 
-### NLog.Layouts.Layout`1[[System.Int16
+### NLog.Layouts.Layout`1[System.Int16]
 
-You can pipe a typed **NLog.Layouts.Layout** object to this cmdlet.
+You can pipe objects with a Category property that specifies the layout that renders the event category.
 
-### NLog.Layouts.Layout`1[[System.Diagnostics.EventLogEntryType
+### NLog.Layouts.Layout`1[System.Diagnostics.EventLogEntryType]
 
-You can pipe a typed **NLog.Layouts.Layout** object to this cmdlet.
+You can pipe objects with an EntryType property that specifies the event log entry type when it can be converted.
 
-### NLog.Layouts.Layout`1[[System.Int32
+### NLog.Layouts.Layout`1[System.Int32]
 
-You can pipe a typed **NLog.Layouts.Layout** object to this cmdlet.
+You can pipe objects with an EventId property that specifies the layout that renders the event ID.
 
 ### NLog.Layouts.Layout
 
-You can pipe an **NLog.Layouts.Layout** object to this cmdlet.
+You can pipe objects with a Layout property that specifies the log message layout.
 
-### NLog.Layouts.Layout`1[[System.Int64
+### NLog.Layouts.Layout
 
-You can pipe a typed **NLog.Layouts.Layout** object to this cmdlet.
+You can pipe objects with a Log property that specifies the Event Log name to write to.
+
+### NLog.Layouts.Layout
+
+You can pipe objects with a MachineName property that specifies where the Event Log service is running.
+
+### NLog.Layouts.Layout`1[System.Int64]
+
+You can pipe objects with a MaxKilobytes property that specifies the maximum Event Log size in kilobytes.
+
+### NLog.Layouts.Layout`1[System.Int32]
+
+You can pipe objects with a MaxMessageLength property that specifies the message length limit for Event Log writes.
 
 ### System.String
 
-You can pipe a string to this cmdlet.
+You can pipe objects with a Name property that specifies the target name.
 
 ### NLog.Targets.EventLogTargetOverflowAction
 
-You can pipe an **EventLogTargetOverflowAction** value to this cmdlet.
+You can pipe objects with an OnOverflow property that specifies the action to take when a message exceeds the maximum length.
 
-### NLog.Layouts.Layout`1[[System.Int16, System.Private.CoreLib, Version=11.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]
+### NLog.Layouts.Layout
 
-You can pipe a typed **NLog.Layouts.Layout** object to this cmdlet.
-
-### NLog.Layouts.Layout`1[[System.Diagnostics.EventLogEntryType, System.Diagnostics.EventLog, Version=11.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51]]
-
-You can pipe a typed **NLog.Layouts.Layout** object to this cmdlet.
-
-### NLog.Layouts.Layout`1[[System.Int32, System.Private.CoreLib, Version=11.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]
-
-You can pipe a typed **NLog.Layouts.Layout** object to this cmdlet.
-
-### NLog.Layouts.Layout`1[[System.Int64, System.Private.CoreLib, Version=11.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]
-
-You can pipe a typed **NLog.Layouts.Layout** object to this cmdlet.
+You can pipe objects with a Source property that specifies the event source value.
 
 ## OUTPUTS
 
 ### NLog.Targets.EventLogTarget
 
-This cmdlet returns an **NLog.Targets.EventLogTarget** object.
+Returns a new Event Log target.
 
 ## NOTES
 

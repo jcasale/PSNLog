@@ -54,7 +54,7 @@ public class NewEventLogTargetCommand : PSCmdlet
     [Parameter(
         ValueFromPipelineByPropertyName = true,
         HelpMessage = "Gets or sets the action to take if the message is larger than the P:NLog.Targets.EventLogTarget.MaxMessageLength option.")]
-    public NLog.Targets.EventLogTargetOverflowAction? OnOverflow { get; set; }
+    public NLog.Targets.EventLogTargetOverflowAction OnOverflow { get; set; }
 
     [Parameter(
         ValueFromPipelineByPropertyName = true,
@@ -65,57 +65,57 @@ public class NewEventLogTargetCommand : PSCmdlet
     {
         var instance = new NLog.Targets.EventLogTarget();
 
-        if (Category is not null)
+        if (MyInvocation.BoundParameters.ContainsKey(nameof(Category)))
         {
             instance.Category = Category;
         }
 
-        if (EntryType is not null)
+        if (MyInvocation.BoundParameters.ContainsKey(nameof(EntryType)))
         {
             instance.EntryType = EntryType;
         }
 
-        if (EventId is not null)
+        if (MyInvocation.BoundParameters.ContainsKey(nameof(EventId)))
         {
             instance.EventId = EventId;
         }
 
-        if (Layout is not null)
+        if (MyInvocation.BoundParameters.ContainsKey(nameof(Layout)))
         {
             instance.Layout = Layout;
         }
 
-        if (Log is not null)
+        if (MyInvocation.BoundParameters.ContainsKey(nameof(Log)))
         {
             instance.Log = Log;
         }
 
-        if (MachineName is not null)
+        if (MyInvocation.BoundParameters.ContainsKey(nameof(MachineName)))
         {
             instance.MachineName = MachineName;
         }
 
-        if (MaxKilobytes is not null)
+        if (MyInvocation.BoundParameters.ContainsKey(nameof(MaxKilobytes)))
         {
             instance.MaxKilobytes = MaxKilobytes;
         }
 
-        if (MaxMessageLength is not null)
+        if (MyInvocation.BoundParameters.ContainsKey(nameof(MaxMessageLength)))
         {
             instance.MaxMessageLength = MaxMessageLength;
         }
 
-        if (Name is not null)
+        if (MyInvocation.BoundParameters.ContainsKey(nameof(Name)))
         {
             instance.Name = Name;
         }
 
-        if (OnOverflow.HasValue)
+        if (MyInvocation.BoundParameters.ContainsKey(nameof(OnOverflow)))
         {
-            instance.OnOverflow = OnOverflow.Value;
+            instance.OnOverflow = OnOverflow;
         }
 
-        if (Source is not null)
+        if (MyInvocation.BoundParameters.ContainsKey(nameof(Source)))
         {
             instance.Source = Source;
         }

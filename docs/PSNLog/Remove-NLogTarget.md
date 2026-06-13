@@ -1,10 +1,10 @@
----
+﻿---
 document type: cmdlet
 external help file: PSNLog.dll-Help.xml
 HelpUri: ''
 Locale: en-US
 Module Name: PSNLog
-ms.date: 05-17-2026
+ms.date: 06-13-2026
 PlatyPS schema version: 2024-05-01
 title: Remove-NLogTarget
 ---
@@ -30,6 +30,11 @@ Remove-NLogTarget [-Target] <Target> [-Configuration] <LoggingConfiguration> [-P
 Remove-NLogTarget [-Name] <string> [-Configuration] <LoggingConfiguration> [-PassThru]
  [<CommonParameters>]
 ```
+
+## ALIASES
+
+None.
+
 
 ## DESCRIPTION
 
@@ -149,23 +154,23 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 
 ## INPUTS
 
-### NLog.Targets.Target
+### NLog.Config.LoggingConfiguration
 
-You can pipe an **NLog.Targets.Target** object to this cmdlet.
+You can pipe the configuration to modify.
 
 ### System.String
 
-You can pipe the target name to this cmdlet.
+You can pipe the name of the target to remove.
 
-### NLog.Config.LoggingConfiguration
+### NLog.Targets.Target
 
-You can pipe an **NLog.Config.LoggingConfiguration** object to this cmdlet.
+You can pipe the target to remove.
 
 ## OUTPUTS
 
 ### NLog.Config.LoggingConfiguration
 
-When you use the **PassThru** parameter, this cmdlet returns the **NLog.Config.LoggingConfiguration** object. Otherwise, this cmdlet does not generate any output.
+Returns the updated logging configuration when you use the **PassThru** parameter. Otherwise, this cmdlet does not generate any output.
 
 ## NOTES
 

@@ -1,10 +1,10 @@
----
+﻿---
 document type: cmdlet
 external help file: PSNLog.dll-Help.xml
 HelpUri: ''
 Locale: en-US
 Module Name: PSNLog
-ms.date: 05-17-2026
+ms.date: 06-13-2026
 PlatyPS schema version: 2024-05-01
 title: New-NLogLoggingRule
 ---
@@ -37,6 +37,11 @@ New-NLogLoggingRule [-Target] <Target> [-LoggerNamePattern] <string> [-MinLevel]
 New-NLogLoggingRule [-Target] <Target> [-LoggerNamePattern] <string> [-MinLevel] <LogLevel>
  [-MaxLevel] <LogLevel> [-Name] <string> [-Final] [<CommonParameters>]
 ```
+
+## ALIASES
+
+None.
+
 
 ## DESCRIPTION
 
@@ -239,27 +244,35 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 
 ## INPUTS
 
-### NLog.Targets.Target
+### System.Management.Automation.SwitchParameter
 
-You can pipe an **NLog.Targets.Target** object to this cmdlet.
+You can pipe objects with a Final property that indicates whether rule processing stops when this rule matches.
 
 ### System.String
 
-You can pipe a string to this cmdlet.
+You can pipe the logger name pattern.
 
 ### NLog.LogLevel
 
-You can pipe an **NLog.LogLevel** object to this cmdlet.
+You can pipe the maximum log level needed to trigger the rule.
 
-### System.Management.Automation.SwitchParameter
+### NLog.LogLevel
 
-You can pipe a **SwitchParameter** value to this cmdlet.
+You can pipe the minimum log level needed to trigger the rule.
+
+### System.String
+
+You can pipe the rule name.
+
+### NLog.Targets.Target
+
+You can pipe the target to write to when the rule matches.
 
 ## OUTPUTS
 
 ### NLog.Config.LoggingRule
 
-This cmdlet returns an **NLog.Config.LoggingRule** object.
+Returns a new logging rule.
 
 ## NOTES
 

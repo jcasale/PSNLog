@@ -1,10 +1,10 @@
----
+﻿---
 document type: cmdlet
 external help file: PSNLog.dll-Help.xml
 HelpUri: ''
 Locale: en-US
 Module Name: PSNLog
-ms.date: 05-17-2026
+ms.date: 06-13-2026
 PlatyPS schema version: 2024-05-01
 title: Remove-NLogLoggingRule
 ---
@@ -29,6 +29,11 @@ Remove-NLogLoggingRule [-Rule] <LoggingRule> [-Configuration] <LoggingConfigurat
 ```
 Remove-NLogLoggingRule [-Name] <string> [-Configuration] <LoggingConfiguration> [<CommonParameters>]
 ```
+
+## ALIASES
+
+None.
+
 
 ## DESCRIPTION
 
@@ -127,21 +132,21 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 
 ## INPUTS
 
-### NLog.Config.LoggingRule
+### NLog.Config.LoggingConfiguration
 
-You can pipe an **NLog.Config.LoggingRule** object to this cmdlet.
+You can pipe the configuration to modify.
 
 ### System.String
 
-You can pipe the rule name to this cmdlet.
+You can pipe the name of the rule to remove.
 
-### NLog.Config.LoggingConfiguration
+### NLog.Config.LoggingRule
 
-You can pipe an **NLog.Config.LoggingConfiguration** object to this cmdlet.
+You can pipe the rule to remove.
 
 ## OUTPUTS
 
-### NLog.Config.LoggingConfiguration
+### None
 
 This cmdlet does not generate any output.
 

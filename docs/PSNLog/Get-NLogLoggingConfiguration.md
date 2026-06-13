@@ -1,10 +1,10 @@
----
+﻿---
 document type: cmdlet
 external help file: PSNLog.dll-Help.xml
 HelpUri: ''
 Locale: en-US
 Module Name: PSNLog
-ms.date: 05-17-2026
+ms.date: 06-13-2026
 PlatyPS schema version: 2024-05-01
 title: Get-NLogLoggingConfiguration
 ---
@@ -22,6 +22,11 @@ Gets the current logging configuration.
 ```
 Get-NLogLoggingConfiguration [<CommonParameters>]
 ```
+
+## ALIASES
+
+None.
+
 
 ## DESCRIPTION
 
@@ -54,7 +59,7 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 
 ### NLog.Config.LoggingConfiguration
 
-This cmdlet returns the **NLog.Config.LoggingConfiguration** object from the static `NLog.LogManager.Configuration` property.
+Returns the current logging configuration from `NLog.LogManager.Configuration`.
 
 ## NOTES
 
