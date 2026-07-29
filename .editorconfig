@@ -101,6 +101,7 @@ dotnet_diagnostic.IDE0058.severity = none
 
 dotnet_diagnostic.CA1822.severity = none
 
+MA.report_generated_code = false
 dotnet_diagnostic.MA0003.severity = none
 dotnet_diagnostic.MA0007.severity = none
 dotnet_diagnostic.MA0038.severity = none
