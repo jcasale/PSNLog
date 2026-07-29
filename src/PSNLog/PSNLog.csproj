@@ -3,7 +3,7 @@
   <PropertyGroup>
     <TargetFramework>net462</TargetFramework>
     <RuntimeIdentifier>win-x64</RuntimeIdentifier>
-    <LangVersion>preview</LangVersion>
+    <LangVersion>14.0</LangVersion>
     <AnalysisLevel>preview-All</AnalysisLevel>
   </PropertyGroup>
 
