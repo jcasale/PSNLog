@@ -16,7 +16,7 @@
     </PackageReference>
   </ItemGroup>
 
-  <Target Name="SetVersionFromGit" BeforeTargets="BeforeBuild" Condition="'$(GitTag)' == ''">
+  <Target Name="SetVersionFromGit" BeforeTargets="BeforeBuild;AssignTargetPaths" Condition="'$(GitTag)' == ''">
     <Exec Command="git.exe describe --tags --abbrev=0" WorkingDirectory="$(MSBuildProjectDirectory)" ConsoleToMSBuild="true" StandardOutputImportance="Low">
       <Output TaskParameter="ConsoleOutput" PropertyName="GitTag" />
     </Exec>

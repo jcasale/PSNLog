@@ -184,14 +184,7 @@
     <ModuleManifestName>PSNLog.psd1</ModuleManifestName>
   </PropertyGroup>
 
-  <ItemGroup>
-    <Content Update="$(NameModuleManifest)">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      <CopyToPublishDirectory>Always</CopyToPublishDirectory>
-    </Content>
-  </ItemGroup>
-
-  <Target Name="CreateModuleManifest" AfterTargets="SetVersionFromGit" BeforeTargets="BeforeBuild">
+  <Target Name="CreateModuleManifest" AfterTargets="SetVersionFromGit" BeforeTargets="BeforeBuild;AssignTargetPaths">
     <PropertyGroup>
       <ModuleManifestContent>
 @{
@@ -236,7 +229,7 @@
     <WriteLinesToFile File="$(ModuleManifestName)" Overwrite="true" Lines="$(ModuleManifestContent)" />
   </Target>
 
-  <Target Name="IncludeModuleManifest" AfterTargets="CreateModuleManifest" BeforeTargets="BeforeBuild">
+  <Target Name="IncludeModuleManifest" AfterTargets="CreateModuleManifest" BeforeTargets="BeforeBuild;AssignTargetPaths">
     <ItemGroup>
       <None Include="$(ModuleManifestName)" CopyToOutputDirectory="Always" />
     </ItemGroup>
