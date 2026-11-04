@@ -9,6 +9,10 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.PowerShell.5.1.ReferenceAssemblies" PrivateAssets="All" />
+    <PackageReference Include="MinVer">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
     <PackageReference Include="NLog" />
   </ItemGroup>
 
@@ -184,7 +188,7 @@
     <ModuleManifestName>PSNLog.psd1</ModuleManifestName>
   </PropertyGroup>
 
-  <Target Name="CreateModuleManifest" AfterTargets="SetVersionFromGit" BeforeTargets="BeforeBuild;AssignTargetPaths">
+  <Target Name="CreateModuleManifest" DependsOnTargets="CustomizeVersion" BeforeTargets="BeforeBuild;AssignTargetPaths">
     <PropertyGroup>
       <ModuleManifestContent>
 @{

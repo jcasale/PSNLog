@@ -26,49 +26,49 @@ jobs:
 
       - name: Setup wix
         run: |
-          dotnet tool install wix --version 7.0.0 --global
+          dotnet tool install wix --version 7.0.1 --global
           wix eula accept wix7
-          wix extension add WixToolset.UI.wixext/7.0.0
+          wix extension add WixToolset.UI.wixext/7.0.1
 
       - name: Generate version properties
         id: version
         run: |
-          $pattern = '^(?<major>0|[1-9]\d*)\.(?<minor>0|[1-9]\d*)\.(?<patch>0|[1-9]\d*)(?:-(?<prerelease>(?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*)(?:\.(?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*))*))?(?:\+(?<buildmetadata>[0-9a-zA-Z-]+(?:\.[0-9a-zA-Z-]+)*))?$'
-          $tag = git.exe describe --tags --abbrev=0
-          $regex = [Text.RegularExpressions.Regex]::Match($tag, $pattern)
-          if (!$regex.Success)
+          cd .\src
+          $path = '.\PSNLog\PSNLog.csproj'
+          dotnet build $path -tl:off -p:MinVerVerbosity=detailed
+          $version = dotnet msbuild $path -target:MinVer -getProperty:Version
+          $assemblyVersion = dotnet msbuild $path -target:MinVer -getProperty:AssemblyVersion
+          $minVerMajor = dotnet msbuild $path -target:MinVer -getProperty:MinVerMajor
+          $minVerMinor = dotnet msbuild $path -target:MinVer -getProperty:MinVerMinor
+          $minVerPatch = dotnet msbuild $path -target:MinVer -getProperty:MinVerPatch
+          $moduleVersion = '{0}.{1}.{2}' -f $minVerMajor, $minVerMinor, $minVerPatch
+
+          if ([string]::IsNullOrWhiteSpace($version))
           {
-              throw 'Failed to parse tag.'
+              throw 'Failed to parse the Version property.'
           }
 
-          $buildmetadata = 0
-          if (![string]::IsNullOrWhiteSpace($regex.Groups['buildmetadata'].Value))
+          if ([string]::IsNullOrWhiteSpace($minVerMajor))
           {
-              try
-              {
-                  $buildmetadata = [int]$regex.Groups['buildmetadata'].Value
-              }
-              catch
-              {
-                  throw 'Failed to parse the build metadata.'
-              }
+              throw 'Failed to parse the build MinVerMajor property.'
           }
 
-          $module = '{0}.{1}.{2}' -f $regex.Groups['major'].Value, $regex.Groups['minor'].Value, $regex.Groups['patch'].Value
-          $msi = '{0}.{1}' -f $module, $buildmetadata
-          $major = $regex.Groups['major'].Value
-          $minor = $regex.Groups['minor'].Value
-          $patch = $regex.Groups['patch'].Value
-          $prerelease = $regex.Groups['prerelease'].Value
+          if ([string]::IsNullOrWhiteSpace($minVerMinor))
+          {
+              throw 'Failed to parse the build MinVerMinor property.'
+          }
 
-          'tag={0}' -f $tag |Tee-Object -FilePath $env:GITHUB_OUTPUT -Append
-          'module={0}' -f $module |Tee-Object -FilePath $env:GITHUB_OUTPUT -Append
-          'msi={0}' -f $msi |Tee-Object -FilePath $env:GITHUB_OUTPUT -Append
-          'major={0}' -f $major |Tee-Object -FilePath $env:GITHUB_OUTPUT -Append
-          'minor={0}' -f $minor |Tee-Object -FilePath $env:GITHUB_OUTPUT -Append
-          'patch={0}' -f $patch |Tee-Object -FilePath $env:GITHUB_OUTPUT -Append
-          'prerelease={0}' -f $prerelease |Tee-Object -FilePath $env:GITHUB_OUTPUT -Append
-          'buildmetadata={0}' -f $buildmetadata |Tee-Object -FilePath $env:GITHUB_OUTPUT -Append
+          if ([string]::IsNullOrWhiteSpace($minVerPatch))
+          {
+              throw 'Failed to parse the build MinVerPatch property.'
+          }
+
+          'version={0}' -f $version |Tee-Object -FilePath $env:GITHUB_OUTPUT -Append
+          'assemblyVersion={0}' -f $assemblyVersion |Tee-Object -FilePath $env:GITHUB_OUTPUT -Append
+          'major={0}' -f $minVerMajor |Tee-Object -FilePath $env:GITHUB_OUTPUT -Append
+          'minor={0}' -f $minVerMinor |Tee-Object -FilePath $env:GITHUB_OUTPUT -Append
+          'patch={0}' -f $minVerPatch |Tee-Object -FilePath $env:GITHUB_OUTPUT -Append
+          'moduleVersion={0}' -f $moduleVersion |Tee-Object -FilePath $env:GITHUB_OUTPUT -Append
 
       - name: Run tests
         run: |
@@ -89,9 +89,9 @@ jobs:
             -src src\Product.wxs `
             -d ProductSource="$(Resolve-Path ./publish)" `
             -d HelpSource="$(Resolve-Path ./maml/PSNLog)" `
-            -d ProductVersion="${{ steps.version.outputs.msi }}" `
-            -d ProductTag="${{ steps.version.outputs.tag }}" `
-            -d ModuleVersion="${{ steps.version.outputs.module }}" `
+            -d ProductVersion="${{ steps.version.outputs.assemblyVersion }}" `
+            -d ProductTag="${{ steps.version.outputs.version }}" `
+            -d ModuleVersion="${{ steps.version.outputs.moduleVersion }}" `
             -ext WixToolset.UI.wixext `
             -out ps-nlog.msi
 
@@ -127,6 +127,6 @@ jobs:
 
       - name: Publish release
         if: github.ref_type == 'tag'
-        run: gh.exe release create ${{ steps.version.outputs.tag }} --title ${{ steps.version.outputs.tag }} --notes 'PowerShell NLog logging module.' ps-nlog.msi
+        run: gh.exe release create ${{ steps.version.outputs.version }} --title ${{ steps.version.outputs.version }} --notes 'PowerShell NLog logging module.' ps-nlog.msi
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
