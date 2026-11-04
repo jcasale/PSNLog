@@ -7,6 +7,7 @@
   <ItemGroup>
     <PackageVersion Include="Meziantou.Analyzer" Version="3.0.299" />
     <PackageVersion Include="Microsoft.PowerShell.5.1.ReferenceAssemblies" Version="1.0.0" />
+    <PackageVersion Include="MinVer" Version="8.1.0-alpha.1" />
     <PackageVersion Include="NLog" Version="6.2.1" />
     <PackageVersion Include="StyleCop.Analyzers.Unstable" Version="1.2.0.556" />
   </ItemGroup>
