@@ -5,7 +5,7 @@
     <NoWarn>$(NoWarn);NU1507</NoWarn>
   </PropertyGroup>
   <ItemGroup>
-    <PackageVersion Include="Meziantou.Analyzer" Version="3.0.320" />
+    <PackageVersion Include="Meziantou.Analyzer" Version="3.0.339" />
     <PackageVersion Include="Microsoft.PowerShell.5.1.ReferenceAssemblies" Version="1.0.0" />
     <PackageVersion Include="MinVer" Version="8.1.0-alpha.1" />
     <PackageVersion Include="NLog" Version="6.2.2" />
