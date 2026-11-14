@@ -33,42 +33,69 @@ jobs:
       - name: Generate version properties
         id: version
         run: |
+          Set-StrictMode -Version Latest
           cd .\src
           $path = '.\PSNLog\PSNLog.csproj'
           dotnet build $path -tl:off -p:MinVerVerbosity=detailed
-          $version = dotnet msbuild $path -target:MinVer -getProperty:Version
-          $assemblyVersion = dotnet msbuild $path -target:MinVer -getProperty:AssemblyVersion
-          $minVerMajor = dotnet msbuild $path -target:MinVer -getProperty:MinVerMajor
-          $minVerMinor = dotnet msbuild $path -target:MinVer -getProperty:MinVerMinor
-          $minVerPatch = dotnet msbuild $path -target:MinVer -getProperty:MinVerPatch
-          $moduleVersion = '{0}.{1}.{2}' -f $minVerMajor, $minVerMinor, $minVerPatch
 
-          if ([string]::IsNullOrWhiteSpace($version))
+          $properties = dotnet msbuild $path -target:MinVer -getProperty:MinVerVersion,MinVerMajor,MinVerMinor,MinVerPatch,MinVerBuildMetadata |
+            ConvertFrom-Json |
+            Select-Object -ExpandProperty Properties
+
+          if ([string]::IsNullOrWhiteSpace($properties.MinVerVersion))
           {
-              throw 'Failed to parse the Version property.'
+              throw 'Failed to parse the MinVerVersion property.'
           }
 
-          if ([string]::IsNullOrWhiteSpace($minVerMajor))
+          if ([string]::IsNullOrWhiteSpace($properties.MinVerMajor))
           {
-              throw 'Failed to parse the build MinVerMajor property.'
+              throw 'Failed to parse the MinVerMajor property.'
           }
 
-          if ([string]::IsNullOrWhiteSpace($minVerMinor))
+          if ([string]::IsNullOrWhiteSpace($properties.MinVerMinor))
           {
-              throw 'Failed to parse the build MinVerMinor property.'
+              throw 'Failed to parse the MinVerMinor property.'
           }
 
-          if ([string]::IsNullOrWhiteSpace($minVerPatch))
+          if ([string]::IsNullOrWhiteSpace($properties.MinVerPatch))
           {
-              throw 'Failed to parse the build MinVerPatch property.'
+              throw 'Failed to parse the MinVerPatch property.'
           }
 
-          'version={0}' -f $version |Tee-Object -FilePath $env:GITHUB_OUTPUT -Append
-          'assemblyVersion={0}' -f $assemblyVersion |Tee-Object -FilePath $env:GITHUB_OUTPUT -Append
-          'major={0}' -f $minVerMajor |Tee-Object -FilePath $env:GITHUB_OUTPUT -Append
-          'minor={0}' -f $minVerMinor |Tee-Object -FilePath $env:GITHUB_OUTPUT -Append
-          'patch={0}' -f $minVerPatch |Tee-Object -FilePath $env:GITHUB_OUTPUT -Append
-          'moduleVersion={0}' -f $moduleVersion |Tee-Object -FilePath $env:GITHUB_OUTPUT -Append
+          $revision = 0
+          if (![string]::IsNullOrWhiteSpace($properties.MinVerBuildMetadata))
+          {
+            $style = [System.Globalization.NumberStyles]::None
+            $provider = [System.Globalization.CultureInfo]::InvariantCulture
+            try
+            {
+              $revision = [int]::Parse($properties.MinVerBuildMetadata, $style, $provider)
+            }
+            catch
+            {
+              throw
+            }
+          }
+
+          $productVersion = '{0}.{1}.{2}.{3}' -f $properties.MinVerMajor, $properties.MinVerMinor, $properties.MinVerPatch, $revision
+          if ($revision -eq 0)
+          {
+              $moduleVersion = '{0}.{1}.{2}' -f $properties.MinVerMajor, $properties.MinVerMinor, $properties.MinVerPatch
+          }
+          else
+          {
+              $moduleVersion = $productVersion
+          }
+
+          @(
+              ('version={0}' -f $properties.MinVerVersion)
+              ('major={0}' -f $properties.MinVerMajor)
+              ('minor={0}' -f $properties.MinVerMinor)
+              ('patch={0}' -f $properties.MinVerPatch)
+              ('metadata={0}' -f $properties.MinVerBuildMetadata)
+              ('productVersion={0}' -f $productVersion)
+              ('moduleVersion={0}' -f $moduleVersion)
+          ) |Tee-Object -FilePath $env:GITHUB_OUTPUT -Append
 
       - name: Run tests
         run: |
@@ -89,7 +116,7 @@ jobs:
             -src src\Product.wxs `
             -d ProductSource="$(Resolve-Path ./publish)" `
             -d HelpSource="$(Resolve-Path ./maml/PSNLog)" `
-            -d ProductVersion="${{ steps.version.outputs.assemblyVersion }}" `
+            -d ProductVersion="${{ steps.version.outputs.productVersion }}" `
             -d ProductTag="${{ steps.version.outputs.version }}" `
             -d ModuleVersion="${{ steps.version.outputs.moduleVersion }}" `
             -ext WixToolset.UI.wixext `
