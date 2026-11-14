@@ -184,6 +184,29 @@
     </None>
   </ItemGroup>
 
+  <Target Name="CustomizeVersion" DependsOnTargets="MinVer" AfterTargets="MinVer">
+    <Error
+      Condition="'$(MinVerBuildMetadata)' != '' and !$([System.Text.RegularExpressions.Regex]::IsMatch('$(MinVerBuildMetadata)', '^(0|[1-9][0-9]*)$'))"
+      Text="Build metadata must be a nonnegative numeric revision without leading zeros." />
+
+    <PropertyGroup>
+      <_Revision>0</_Revision>
+      <_Revision Condition="'$(MinVerBuildMetadata)' != ''">$(MinVerBuildMetadata)</_Revision>
+    </PropertyGroup>
+
+    <Error
+      Condition="$(_Revision) &gt; 65534"
+      Text="Build metadata revision must not exceed 65534." />
+
+    <PropertyGroup>
+      <Version>$(MinVerVersion)</Version>
+      <AssemblyVersion>$(MinVerMajor).$(MinVerMinor).$(MinVerPatch).$(_Revision)</AssemblyVersion>
+      <FileVersion>$(AssemblyVersion)</FileVersion>
+      <ModuleVersion>$(MinVerMajor).$(MinVerMinor).$(MinVerPatch)</ModuleVersion>
+      <ModuleVersion Condition="'$(_Revision)' != '0'">$(AssemblyVersion)</ModuleVersion>
+    </PropertyGroup>
+  </Target>
+
   <PropertyGroup>
     <ModuleManifestName>PSNLog.psd1</ModuleManifestName>
   </PropertyGroup>
