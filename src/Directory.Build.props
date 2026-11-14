@@ -15,22 +15,4 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
   </ItemGroup>
-
-  <Target Name="CustomizeVersion" DependsOnTargets="MinVer" AfterTargets="MinVer">
-    <Error
-      Condition="'$(MinVerBuildMetadata)' != '' and !$([System.Text.RegularExpressions.Regex]::IsMatch('$(MinVerBuildMetadata)', '^(0|[1-9][0-9]*)$'))"
-      Text="Final-release build metadata must be a numeric revision." />
-
-    <PropertyGroup>
-      <Version>$(MinVerVersion)</Version>
-
-      <_Revision>0</_Revision>
-      <_Revision Condition="$([System.Text.RegularExpressions.Regex]::IsMatch('$(MinVerBuildMetadata)', '^(0|[1-9][0-9]*)$'))">$(MinVerBuildMetadata)</_Revision>
-
-      <AssemblyVersion>$(MinVerMajor).$(MinVerMinor).$(MinVerPatch).$(_Revision)</AssemblyVersion>
-      <FileVersion>$(AssemblyVersion)</FileVersion>
-      <ModuleVersion>$(MinVerMajor).$(MinVerMinor).$(MinVerPatch)</ModuleVersion>
-    </PropertyGroup>
-  </Target>
-
 </Project>
